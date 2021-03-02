@@ -1,0 +1,15 @@
+{
+  "background_color": "darkblue",
+  "description": "سامانه املاک گلشهری",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "./images/whitebglogo.jpg",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "name": "سامانه املاک گلشهری",
+  "short_name": "گلشهری",
+  "start_url": "https://golshahri.ir"
+}

@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models\User;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
+use App\Models\Advertise\Advertise;
+
+class User extends Authenticatable
+{
+    use HasFactory, Notifiable;
+
+    protected $guarded = [];
+    protected $guard_name = 'web';
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+    
+    public function advertises(){
+        return $this->hasMany(Advertise::class);
+    }
+}
