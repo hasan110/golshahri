@@ -14,6 +14,7 @@ use Morilog\Jalali\Jalalian;
 use App\Notifications\NewAdvertiseCreated;
 use Illuminate\Support\Facades\File;
 use App\Models\AppModels\Setting;
+use App\Models\AppModels\View;
 
 class UserAdvertiseController extends Controller
 {
@@ -29,6 +30,25 @@ class UserAdvertiseController extends Controller
                 $item['image'] = Setting::find(1)->advertise_default_image;
             }
         }
+
+        if($request->has('auth_token')){
+            $user = User::where('auth_token',$request->auth_token)->first();
+            if($user){
+                $user_id = $user->id;
+            }
+        }else{
+            $user_id = null;
+        }
+
+        $ipAddress = $request->ip();
+
+        View::create([
+            'user_id'=>$user_id,
+            'user_ip'=>$ipAddress,
+            'type'=>'home',
+            'advertise_id'=>null,
+        ]);
+
         return response()->json($advertises,200);
     }
     public function advertiseCreate(Request $request)
@@ -164,6 +184,26 @@ class UserAdvertiseController extends Controller
         $advertise['images_count'] = $advertise->images->count();
         $advertise['default_image'] = Setting::find(1)->advertise_default_image;
         $images = $advertise->images;
+
+        
+        if($request->has('auth_token')){
+            $user = User::where('auth_token',$request->auth_token)->first();
+            if($user){
+                $user_id = $user->id;
+            }
+        }else{
+            $user_id = null;
+        }
+
+        $ipAddress = $request->ip();
+
+        View::create([
+            'user_id'=>$user_id,
+            'user_ip'=>$ipAddress,
+            'type'=>'advertise',
+            'advertise_id'=>$advertise->id,
+        ]);
+
         return response()->json($advertise,200);
     }
     public function advertiseEdit(Request $request)
