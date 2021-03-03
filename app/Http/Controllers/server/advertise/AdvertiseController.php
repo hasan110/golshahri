@@ -26,6 +26,7 @@ class AdvertiseController extends Controller
         foreach($advertises as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%Y/%m/%d- H:i');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%Y/%m/%d- H:i');
+            $item['view_count'] = $item->views->count();
         }
         return response()->json($advertises,200);
     }

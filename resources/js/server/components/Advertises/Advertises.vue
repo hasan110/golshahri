@@ -42,6 +42,7 @@
                       <th>عنوان</th>
                       <th>آدرس</th>
                       <th>ثبت کننده</th>
+                      <th>بازدید</th>
                       <th>وضعیت</th>
                       <th>تاریخ ثبت</th>
                       <th>تاریخ ویرایش</th>
@@ -69,6 +70,7 @@
                         </template>
                         <template v-else>نا مشخص</template>
                       </td>
+                      <td>{{ advertise.view_count }}</td>
                       <td>
                         <span @click="changeAdvertiseStatus(advertise.id)" v-if="advertise.confirmed" class="tag tag-success">فعال</span>
                         <span @click="changeAdvertiseStatus(advertise.id)" v-else class="tag tag-info">غیر فعال</span>

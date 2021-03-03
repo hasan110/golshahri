@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Advertise\AdvertisePicture;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
+use App\Models\AppModels\View;
 
 class Advertise extends Model
 {
@@ -21,5 +22,8 @@ class Advertise extends Model
     }
     public function admin(){
         return $this->belongsTo(Admin::class);
+    }
+    public function views(){
+        return $this->hasMany(View::class);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Advertise\Advertise;
+use App\Models\AppModels\View;
 
 class User extends Authenticatable
 {
@@ -26,5 +27,8 @@ class User extends Authenticatable
     
     public function advertises(){
         return $this->hasMany(Advertise::class);
+    }
+    public function views(){
+        return $this->hasMany(View::class);
     }
 }
