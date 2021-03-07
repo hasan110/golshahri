@@ -218,6 +218,41 @@ pre.custom{
   padding-right:10px;
   font-size:14px;
 }
+.social-media{
+  position:relative;
+  height:auto;
+  width:100%;
+}
+.social-media .item{
+  position:relative;
+  height:50px;
+}
+.social-media .item img{
+  position:absolute;
+  height:100%;
+  width: auto;
+  left: 0;
+}
+.social-media{
+  width:100%;
+  height: auto;
+}
+.social-media img{
+  width:30px;
+  height:30px;
+}
+  .social-btn {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 /* &&&&&&&&&&&&&&&&&&& */
 /* navbar */
 /* &&&&&&&&&&&&&&&&&&& */

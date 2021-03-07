@@ -3278,97 +3278,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home",
   data: function data() {
     return {
-      advertises: [],
-      loading: true,
-      current_page: 1,
-      last_page: 1,
-      setting: {},
-      search_key: ''
+      setting: {}
     };
   },
   methods: {
-    getAdvertises: function getAdvertises(page) {
+    getSettings: function getSettings() {
       var _this = this;
 
-      _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("advertises/list?page=".concat(page)).then(function (res) {
-        _this.advertises = _this.advertises.concat(res.data.data);
-        _this.last_page = res.data.last_page;
-        _this.loading = false;
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    getSettings: function getSettings() {
-      var _this2 = this;
-
       _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("getSettings").then(function (res) {
-        _this2.setting = res.data;
+        _this.setting = res.data;
       })["catch"](function (err) {
         console.log(err);
       });
-    },
-    searchAdvertise: function searchAdvertise() {
-      var _this3 = this;
-
-      var key = this.search_key;
-
-      if (key === '') {
-        this.advertises = [];
-        this.getAdvertises(1);
-      } else {
-        _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('advertises/search', {
-          key: key
-        }).then(function (res) {
-          _this3.advertises = res.data;
-          _this3.last_page = 1;
-          _this3.current_page = 1;
-        })["catch"](function (err) {
-          console.log(err);
-        });
-      }
     }
   },
-  watch: {
-    current_page: function current_page(page) {
-      this.getAdvertises(page);
-    }
-  },
+  watch: {},
   beforeMount: function beforeMount() {
-    this.getAdvertises(this.current_page);
     this.getSettings();
-  },
-  created: function created() {
-    var _this4 = this;
-
-    window.onscroll = function () {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        if (_this4.current_page < _this4.last_page) {
-          _this4.current_page++;
-        }
-      }
-    };
   }
 });
 
@@ -9005,181 +8936,55 @@ var render = function() {
       "div",
       { staticClass: "container", staticStyle: { "margin-top": "50px" } },
       [
+        _vm._m(0),
+        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-8 py-0" }, [
-            _c("div", { staticClass: "operations" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.search_key,
-                    expression: "search_key"
-                  }
-                ],
-                staticClass: "search-item",
-                attrs: { type: "text", placeholder: "جستجو..." },
-                domProps: { value: _vm.search_key },
-                on: {
-                  input: [
-                    function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.search_key = $event.target.value
-                    },
-                    _vm.searchAdvertise
-                  ]
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-4 pt-1" }, [
-            _c("div", { staticStyle: { float: "left" } }, [
-              _c("a", { attrs: { href: _vm.setting.instagram_address } }, [
-                _c("img", {
-                  attrs: {
-                    width: "30px",
-                    height: "30px",
-                    src: _vm.ImageUrl + _vm.setting.instagram_image,
-                    alt: ""
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: _vm.setting.telegram_address } }, [
-                _c("img", {
-                  attrs: {
-                    width: "30px",
-                    height: "30px",
-                    src: _vm.ImageUrl + _vm.setting.telegram_image,
-                    alt: ""
-                  }
-                })
-              ])
-            ])
-          ])
+          _c("div", {
+            staticClass: "col-12 ",
+            domProps: { innerHTML: _vm._s(_vm.setting.about_us_text) }
+          })
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "row p-2" },
-          _vm._l(_vm.advertises, function(advertise, key) {
-            return _c(
-              "div",
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "social-media" }, [
+            _c(
+              "button",
               {
-                key: key,
-                staticClass:
-                  "advertise-wrapper p-0 col-lg-4 col-md-6 col-sm-6 col-xs-12"
+                staticClass: "social-btn button4",
+                staticStyle: {
+                  float: "left",
+                  "background-color": "#e7e7e7",
+                  color: "black",
+                  "margin-left": "13px"
+                }
               },
               [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "advertise-link",
-                    attrs: {
-                      to: {
-                        name: "Advertise",
-                        params: { advertise_id: advertise.id }
-                      }
-                    }
-                  },
-                  [
-                    _c(
-                      "div",
-                      { staticClass: "card advertise-card" },
-                      [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-6" }, [
-                            _c(
-                              "h6",
-                              {
-                                staticClass: "advertise-title mt-1 ml-1 nowrap"
-                              },
-                              [_vm._v(_vm._s(advertise.title))]
-                            ),
-                            _vm._v(" "),
-                            _c("small", { staticClass: "m-2 small nowrap" }, [
-                              _vm._v("محدوده " + _vm._s(advertise.street))
-                            ]),
-                            _vm._v(" "),
-                            advertise.area
-                              ? _c("small", { staticClass: "m-2 small" }, [
-                                  _vm._v(
-                                    "متراژ : " + _vm._s(advertise.area) + " متر"
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            advertise.type == "فروش"
-                              ? _c(
-                                  "p",
-                                  { staticClass: "m-2 badge badge-success" },
-                                  [
-                                    _vm._v(
-                                      _vm._s(advertise.type) +
-                                        " " +
-                                        _vm._s(advertise.status)
-                                    )
-                                  ]
-                                )
-                              : _c(
-                                  "p",
-                                  { staticClass: "m-2 badge badge-danger" },
-                                  [
-                                    _vm._v(
-                                      _vm._s(advertise.type) +
-                                        " " +
-                                        _vm._s(advertise.status)
-                                    )
-                                  ]
-                                )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-6 pr-0 pt-0" }, [
-                            _c("div", { staticClass: "card-image-wrapper" }, [
-                              _c("img", {
-                                staticClass: "card-image",
-                                attrs: {
-                                  src: _vm.ImageUrl + advertise.image,
-                                  alt: ""
-                                }
-                              })
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "btn btn-legendary btn-sm details-btn",
-                            attrs: {
-                              to: {
-                                name: "Advertise",
-                                params: { advertise_id: advertise.id }
-                              }
-                            }
-                          },
-                          [_vm._v("اطلاعات بیشتر...")]
-                        )
-                      ],
-                      1
-                    )
-                  ]
-                )
-              ],
-              1
+                _c("img", {
+                  attrs: { src: _vm.ImageUrl + _vm.setting.instagram_image }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "social-btn button4",
+                staticStyle: {
+                  float: "left",
+                  "background-color": "#e7e7e7",
+                  color: "black"
+                }
+              },
+              [
+                _c("img", {
+                  attrs: { src: _vm.ImageUrl + _vm.setting.telegram_image }
+                })
+              ]
             )
-          }),
-          0
-        )
+          ])
+        ])
       ]
-    ),
-    _vm._v(" "),
-    _vm.loading
-      ? _c("div", { staticClass: "appLoading" }, [_vm._m(0)])
-      : _vm._e()
+    )
   ])
 }
 var staticRenderFns = [
@@ -9187,11 +8992,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "circles-wrapper" }, [
-      _c("div"),
-      _c("div"),
-      _c("div"),
-      _c("div")
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6 col-sm-12 pb-0" }, [
+        _c("div", { staticClass: "card text-white bg-primary mb-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h3", { staticClass: "text-center" }, [_vm._v("آگهی های مسکن")])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6 col-sm-12 pb-0" }, [
+        _c("div", { staticClass: "card text-white bg-danger mb-3" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h3", { staticClass: "text-center" }, [
+              _vm._v("معرفی کسب و کارها")
+            ])
+          ])
+        ])
+      ])
     ])
   }
 ]
@@ -81557,7 +81375,7 @@ var opts = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\RayanZeytoon\Desktop\golshahri\resources\js\client\app.js */"./resources/js/client/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\golshahri\resources\js\client\app.js */"./resources/js/client/app.js");
 
 
 /***/ })
