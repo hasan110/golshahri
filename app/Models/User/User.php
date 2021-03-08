@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Advertise\Advertise;
 use App\Models\AppModels\View;
+use App\Models\Business\Business;
 
 class User extends Authenticatable
 {
@@ -30,5 +31,8 @@ class User extends Authenticatable
     }
     public function views(){
         return $this->hasMany(View::class);
+    }
+    public function businesses(){
+        return $this->hasMany(Business::class);
     }
 }
