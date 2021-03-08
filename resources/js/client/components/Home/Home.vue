@@ -1,62 +1,45 @@
 <template>
     <div class="">
         <div class="container" style="margin-top:50px">
-            <!-- <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li class="nav-item nav-item-block">
-                <a class="nav-link nav-pill active" id="buyandsell-tab" data-toggle="pill" href="#buyandsell" role="tab" aria-controls="buyandsell" aria-selected="true">خرید و فروش</a>
-            </li>
-            <li class="nav-item nav-item-block">
-                <a class="nav-link nav-pill" id="mortgageandrent-tab" data-toggle="pill" href="#mortgageandrent" role="tab" aria-controls="mortgageandrent" aria-selected="false">رهن و اجاره</a>
-            </li>
-            </ul> -->
-            <!-- <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="buyandsell" role="tabpanel" aria-labelledby="buyandsell-tab"> -->
-                    <div class="row">
-                        <div class="col-8 py-0">
-                            <div class="operations">
-                                <input v-model="search_key" @input="searchAdvertise" type="text" class="search-item" placeholder="جستجو...">
-                            </div>
-                        </div>
-                        <div class="col-4 pt-1">
-                            <div style="float:left;">
-                                <a :href="setting.instagram_address"><img width="30px" height="30px" :src="ImageUrl+setting.instagram_image" alt=""></a>
-                                <a :href="setting.telegram_address"><img width="30px" height="30px" :src="ImageUrl+setting.telegram_image" alt=""></a>
-                            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12 pb-0">
+                    <div class="card text-white bg-primary mb-3" style="">
+                        <!-- <div class="card-header"></div> -->
+                        <div class="card-body"><h3 class="text-center">آگهی های مسکن</h3>
+                            <!-- <p class="card-text">
+                                شما می توانید آگهی های مسکن را در این قسمت درج کنید و یا از بین آگهی ها مورد دلخواه خود را پیدا کنید
+                                    آگهی ها شامل موارد: خرید ، فروش ، رهن و اجاره منزل و... می باشد.
+                            </p> -->
                         </div>
                     </div>
-
-                    <div class="row p-2">
-                        <div v-for="(advertise , key) in advertises" :key="key" class="advertise-wrapper p-0 col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                          <router-link :to="{name:'Advertise' , params:{advertise_id:advertise.id}}" class="advertise-link">
-                            <div class="card advertise-card">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6 class="advertise-title mt-1 ml-1 nowrap">{{ advertise.title }}</h6>
-                                    <small class="m-2 small nowrap">محدوده {{ advertise.street }}</small>
-                                    <small v-if="advertise.area" class="m-2 small">متراژ : {{ advertise.area }} متر</small>
-                                    <p v-if="advertise.type == 'فروش'" class="m-2 badge badge-success">{{ advertise.type }} {{ advertise.status }}</p>
-                                    <p v-else class="m-2 badge badge-danger">{{ advertise.type }} {{ advertise.status }}</p>
-                                </div>
-                                <div class="col-6 pr-0 pt-0">
-                                    <div class="card-image-wrapper">
-                                        <img class="card-image"  :src="ImageUrl+advertise.image" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                            <router-link :to="{name:'Advertise' , params:{advertise_id:advertise.id}}" class="btn btn-legendary btn-sm details-btn">اطلاعات بیشتر...</router-link>
-                            </div>
-                          </router-link>
-                        </div>
-                    </div>
-                <!-- </div>
-                <div class="tab-pane fade" id="mortgageandrent" role="tabpanel" aria-labelledby="mortgageandrent-tab">
-                    Ad pariatur nostrud pariatur exercitation ipsum ipsum culpa mollit commodo mollit ex. Aute sunt incididunt amet commodo est sint nisi deserunt pariatur do. Aliquip ex eiusmod voluptate exercitation cillum id incididunt elit sunt. Qui minim sit magna Lorem id et dolore velit Lorem amet exercitation duis deserunt. Anim id labore elit adipisicing ut in id occaecat pariatur ut ullamco ea tempor duis.
                 </div>
-            </div> -->
-        </div>
-        <div v-if="loading" class="appLoading">
-            <div class="circles-wrapper">
-                <div></div><div></div><div></div><div></div>
+                <div class="col-md-6 col-sm-12 pb-0">
+                    <div class="card text-white bg-danger mb-3" style="">
+                        <!-- <div class="card-header"></div> -->
+                        <div class="card-body"><h3 class="text-center">معرفی کسب و کارها</h3>
+                            <!-- <p class="card-text">
+                                چنانچه کسب وکاری دارید که احتیاج به معرفی و شناخت کاربران دارد در این قسمت میتوانید آن را معرفی کنید.
+                                درحال حاضر این امکان برای گلشهر مقدور می باشد.
+                    </p> -->
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-12 " v-html="setting.about_us_text"></div>
+            </div>
+            <div class="row">
+                <div class="social-media">
+                    <button class="social-btn button4" 
+                        style="float:left;background-color: #e7e7e7; color: black; margin-left:13px;">
+                        <img :src="ImageUrl+setting.instagram_image">
+                    </button>
+                    <button class="social-btn button4" 
+                        style="float:left;background-color: #e7e7e7; color: black;">
+                        <img :src="ImageUrl+setting.telegram_image">
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -67,26 +50,10 @@ export default {
     name:"Home",
     data(){
         return {
-            advertises : [],
-            loading : true,
-            current_page:1,
-            last_page:1,
-            setting:{},   
-            search_key: ''
+            setting:{},
         }
     },
     methods:{
-        getAdvertises(page){
-            Axios.get(`advertises/list?page=${page}`)
-            .then(res => {
-                this.advertises = this.advertises.concat(res.data.data)
-                this.last_page = res.data.last_page;
-                this.loading = false;
-            })
-            .catch(err => {
-                console.log(err)
-            });
-        },
         getSettings(){
             Axios.get(`getSettings`)
             .then(res => {
@@ -95,43 +62,13 @@ export default {
             .catch(err => {
                 console.log(err)
             });
-        },
-        searchAdvertise(){
-            const key = this.search_key
-            if(key === ''){
-                this.advertises = [];
-                this.getAdvertises(1);
-            }else{
-                Axios.post('advertises/search' , {key})
-                .then(res => {
-                    this.advertises = res.data;
-                    this.last_page = 1;
-                    this.current_page = 1;
-                })
-                .catch(err => {
-                    console.log(err)
-                });
-            }
-        },
+        }
     },
     watch:{
-        current_page: function (page) {
-        this.getAdvertises(page);
-        }
     },
     beforeMount(){
-        this.getAdvertises(this.current_page);
         this.getSettings();
     },
-    created(){
-        window.onscroll = () => {
-            if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-                if(this.current_page < this.last_page){
-                    this.current_page++;
-                }
-            }
-        }
-    }
 }
 </script>
 <style scoped>
