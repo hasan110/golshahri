@@ -5,7 +5,6 @@
         <div class="logo"><img :src="ImageUrl+logo_image" alt=""></div>
       </router-link>
       <ul class="navbar-items">
-        <li class="nav-item"><router-link class="nav-link" :to="{name:'Home'}">خانه</router-link></li>
         <li class="nav-item dropdown">
           <button class="nav-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               کاربری <i class="fa fa-sort-down"></i>
