@@ -250,7 +250,7 @@ class AdvertiseController extends Controller
         foreach($request->array as $id){
             $advertise = Advertise::find($id);
             if(!is_null($advertise->images)){
-                File::deleteDirectory(public_path()."/uploads/advertises/".$advertise->id);
+                File::deleteDirectory(public_path('uploads/advertises/'.$advertise->id));
                 foreach($advertise->images as $image){
                     $image->delete();
                 }
