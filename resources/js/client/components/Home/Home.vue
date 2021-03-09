@@ -31,18 +31,20 @@
                 
             </div>
             <div class="row">
+                <div class="col-6 pb-0">
+                    <router-link class="btn btn-legendary btn-record" :to="{name:'CreateAdvertise'}">ثبت آگهی مسکن 
+                    </router-link>
+                </div>
+                <div class="col-6 pb-0">
+                    <router-link class="btn btn-legendary btn-record"  style="float:left;" :to="{name:'CreateBusiness'}">ثبت آگهی کسب و کار 
+                    </router-link>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-12" style="font-size:12px;" v-html="setting.about_us_text"></div>
             </div>
             <div class="row">
-                <div class="social-media">
-                    <button class="social-btn button4" 
-                        style="margin-left:13px;">
-                        <img :src="ImageUrl+setting.instagram_image">
-                    </button>
-                    <button class="social-btn button4">
-                        <img :src="ImageUrl+setting.telegram_image">
-                    </button>
-                </div>
             </div>
         </div>
     </div>

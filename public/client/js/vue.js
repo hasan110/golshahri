@@ -2190,10 +2190,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home",
@@ -4155,6 +4151,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home",
@@ -4373,14 +4371,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'NavBar',
   data: function data() {
     return {
-      logoutdialog: false,
-      logo_image: ''
+      setting: {},
+      logoutdialog: false
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(['authenticated', 'userData'])),
@@ -4395,7 +4398,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("getSettings").then(function (res) {
-        _this.logo_image = res.data.logo_image;
+        _this.setting = res.data;
       })["catch"](function (err) {
         console.log(err);
       });
@@ -7148,31 +7151,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-4 pt-1" }, [
-            _c("div", { staticStyle: { float: "left" } }, [
-              _c("a", { attrs: { href: _vm.setting.instagram_address } }, [
-                _c("img", {
-                  attrs: {
-                    width: "30px",
-                    height: "30px",
-                    src: _vm.ImageUrl + _vm.setting.instagram_image,
-                    alt: ""
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: _vm.setting.telegram_address } }, [
-                _c("img", {
-                  attrs: {
-                    width: "30px",
-                    height: "30px",
-                    src: _vm.ImageUrl + _vm.setting.telegram_image,
-                    alt: ""
-                  }
-                })
-              ])
-            ])
-          ])
+          _c("div", { staticClass: "col-4 pt-1" })
         ]),
         _vm._v(" "),
         _c(
@@ -11406,6 +11385,41 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-6 pb-0" },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-legendary btn-record",
+                  attrs: { to: { name: "CreateAdvertise" } }
+                },
+                [_vm._v("ثبت آگهی مسکن \n                ")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-6 pb-0" },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-legendary btn-record",
+                  staticStyle: { float: "left" },
+                  attrs: { to: { name: "CreateBusiness" } }
+                },
+                [_vm._v("ثبت آگهی کسب و کار \n                ")]
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
           _c("div", {
             staticClass: "col-12",
             staticStyle: { "font-size": "12px" },
@@ -11413,28 +11427,7 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "social-media" }, [
-            _c(
-              "button",
-              {
-                staticClass: "social-btn button4",
-                staticStyle: { "margin-left": "13px" }
-              },
-              [
-                _c("img", {
-                  attrs: { src: _vm.ImageUrl + _vm.setting.instagram_image }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c("button", { staticClass: "social-btn button4" }, [
-              _c("img", {
-                attrs: { src: _vm.ImageUrl + _vm.setting.telegram_image }
-              })
-            ])
-          ])
-        ])
+        _c("div", { staticClass: "row" })
       ]
     )
   ])
@@ -11619,7 +11612,7 @@ var render = function() {
             [
               _c("div", { staticClass: "logo" }, [
                 _c("img", {
-                  attrs: { src: _vm.ImageUrl + _vm.logo_image, alt: "" }
+                  attrs: { src: _vm.ImageUrl + _vm.setting.logo_image, alt: "" }
                 })
               ])
             ]
@@ -11685,19 +11678,35 @@ var render = function() {
                 ],
                 1
               )
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item nav-left-btn" })
+            ])
           ]),
           _vm._v(" "),
-          _c(
-            "router-link",
-            {
-              staticClass: "btn btn-legendary advertise-btn",
-              attrs: { title: "ثبت آگهی", to: { name: "CreateAdvertise" } }
-            },
-            [_vm._v("ثبت آگهی")]
-          )
+          _c("div", { staticClass: "social-media" }, [
+            _c("button", { staticClass: "social-btn button4" }, [
+              _c("img", {
+                attrs: {
+                  height: "30px",
+                  src: _vm.ImageUrl + _vm.setting.instagram_image
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "social-btn button4",
+                staticStyle: { "margin-left": "10px" }
+              },
+              [
+                _c("img", {
+                  attrs: {
+                    height: "30px",
+                    src: _vm.ImageUrl + _vm.setting.telegram_image
+                  }
+                })
+              ]
+            )
+          ])
         ],
         1
       ),

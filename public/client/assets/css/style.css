@@ -218,11 +218,6 @@ pre.custom{
   padding-right:10px;
   font-size:14px;
 }
-.social-media{
-  position:relative;
-  height:auto;
-  width:100%;
-}
 .social-media .item{
   position:relative;
   height:50px;
@@ -234,23 +229,22 @@ pre.custom{
   left: 0;
 }
 .social-media{
-  width:100%;
   height: auto;
+  display: inline-block;
+  position: absolute;
+  left: 0;
 }
 .social-media img{
   width:30px;
   height:30px;
 }
-  .social-btn {
-    border: none;
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    background-color: #e7e7e7; color: black;
-    float: left;
+.social-btn {
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 /* &&&&&&&&&&&&&&&&&&& */
 /* navbar */
@@ -534,6 +528,9 @@ select{
   }
 }
 @media only screen and (max-width : 442px){
+  .btn-record{
+    font-size:12px !important;
+  }
   .form-container{
     width: 80%;
   }

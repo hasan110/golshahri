@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar">
       <router-link class="navbar-brand" :to="{name:'Home'}">
-        <div class="logo"><img :src="ImageUrl+logo_image" alt=""></div>
+        <div class="logo"><img :src="ImageUrl+setting.logo_image" alt=""></div>
       </router-link>
       <ul class="navbar-items">
         <li class="nav-item dropdown">
@@ -17,10 +17,15 @@
             <button v-if="authenticated" class="btn btn-danger btn-sm btn-block" @click="logoutdialog = true">خروج</button>
           </div>
         </li>
-        <li class="nav-item nav-left-btn">
-        </li>
       </ul>
-      <router-link title="ثبت آگهی" class="btn btn-legendary advertise-btn" :to="{name:'CreateAdvertise'}">ثبت آگهی</router-link>
+      <div class="social-media">
+        <button class="social-btn button4">
+            <img height="30px" :src="ImageUrl+setting.instagram_image">
+        </button>
+        <button style="margin-left:10px;" class="social-btn button4">
+            <img height="30px" :src="ImageUrl+setting.telegram_image">
+        </button>
+      </div>
     </nav>
 
     <v-dialog v-model="logoutdialog" max-width="340">
@@ -57,8 +62,8 @@ export default {
   name:'NavBar',
   data(){
     return {
-      logoutdialog:false,
-      logo_image:''
+      setting:{},
+      logoutdialog:false
     }
   },
   computed:{
@@ -81,7 +86,7 @@ export default {
     getSettings(){
       Axios.get(`getSettings`)
       .then(res => {
-          this.logo_image = res.data.logo_image;
+        this.setting = res.data;
       })
       .catch(err => {
           console.log(err)

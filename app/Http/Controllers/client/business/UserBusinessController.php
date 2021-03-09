@@ -57,8 +57,7 @@ class UserBusinessController extends Controller
         $validation = $this->getValidationFactory()->make($request->all(), [
             'auth_token' => ['required'],
             'title' => ['required'],
-            'description' => ['required'],
-            'icon' => ['required','image']
+            'description' => ['required']
         ]);
     
         if ($validation->fails()) {
@@ -79,15 +78,6 @@ class UserBusinessController extends Controller
             'instagram_id'=>$request->instagram_id,
             'telegram_id'=>$request->telegram_id,
             'confirmed'=>1,
-        ]);
-
-        $icon = $request->icon;
-        $icon_name = 'ICON'.'-'.time().'.'.$icon->getClientOriginalExtension();
-        $icon->move('uploads/businesses/'.$business->id,$icon_name);
-        $icon_link = 'businesses/'.$business->id.'/'.$icon_name;
-
-        $business->update([
-            'icon'=>$icon_link,
         ]);
 
         if($request->hasFile('images')){

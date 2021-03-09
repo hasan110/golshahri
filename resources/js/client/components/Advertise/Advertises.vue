@@ -8,10 +8,6 @@
                     </div>
                 </div>
                 <div class="col-4 pt-1">
-                    <div style="float:left;">
-                        <a :href="setting.instagram_address"><img width="30px" height="30px" :src="ImageUrl+setting.instagram_image" alt=""></a>
-                        <a :href="setting.telegram_address"><img width="30px" height="30px" :src="ImageUrl+setting.telegram_image" alt=""></a>
-                    </div>
                 </div>
             </div>
 
