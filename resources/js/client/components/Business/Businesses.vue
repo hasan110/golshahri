@@ -7,11 +7,8 @@
                         <input v-model="search_key" @input="searchBusiness" type="text" class="search-item" placeholder="جستجو...">
                     </div>
                 </div>
-                <div class="col-4 pt-1">
-                    <div style="float:left;">
-                        <a :href="setting.instagram_address"><img width="30px" height="30px" :src="ImageUrl+setting.instagram_image" alt=""></a>
-                        <a :href="setting.telegram_address"><img width="30px" height="30px" :src="ImageUrl+setting.telegram_image" alt=""></a>
-                    </div>
+                <div class="col-4 py-1">
+                    <router-link to="/CreateBusiness" class="btn btn-legendary btn-sm float-left"> ثبت آگهی</router-link>
                 </div>
             </div>
 
@@ -21,7 +18,13 @@
                     <div class="card advertise-card">
                         <div class="row">
                             <div class="col-6">
-                                <h6 class="advertise-title mt-1 ml-1 nowrap">{{ business.title }}</h6>
+                                <h6  style="font-size:14px" class="advertise-title mt-1 ml-1">{{ business.title }}</h6>
+                                <hr>
+                                <small class="m-2 small nowrap" style="font-size:12px"><i class="fa fa-eye" style="color:#444"></i> بازدید {{ business.view_count }} نفر</small>
+                                <small class="m-2 small nowrap" style="font-size:12px"><i class="fa fa-hourglass-end" style="color:#444"></i>
+                                <template v-if="business.days_ago">{{ business.days_ago }} روز قبل</template>
+                                <template v-else>لحظاتی پیش</template>
+                                </small>
                             </div>
                             <div class="col-6 pr-0 pt-0">
                                 <div class="card-image-wrapper">
@@ -101,8 +104,8 @@ export default {
         }
     },
     beforeMount(){
-        this.getBusinesses(this.current_page);
         this.getSettings();
+        this.getBusinesses(this.current_page);
     },
     created(){
         window.onscroll = () => {

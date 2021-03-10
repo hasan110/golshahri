@@ -159,5 +159,7 @@ Route::prefix('/businesses')->group(function(){
     Route::get('/business/{id}' , [UserBusinessController::class , 'businessData'])->name('user.businessData');
     Route::post('/edit' , [UserBusinessController::class , 'businessEdit'])->name('user.businessEdit');
     Route::post('/search' , [UserBusinessController::class , 'businessSearch'])->name('user.businessSearch');
+    Route::post('/vote' , [UserBusinessController::class , 'businessVote'])->name('user.businessVote');
+    Route::post('/comment' , [UserBusinessController::class , 'businessComment'])->name('user.businessComment');
 });
 Route::get('/{path}' , [HomeController::class , 'index'])->where('path' , '.*');

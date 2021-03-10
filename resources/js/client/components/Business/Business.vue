@@ -2,7 +2,7 @@
     <div class="">
         <div class="container" style="margin-top:50px;margin-bottom:50px;">
             <div class="row">
-                <div v-if="business.images_count" class="col-md-6 col-sm-12 cleavager">
+                <div v-if="business.images_count" class="col-md-6 col-sm-12 cleavager  pb-0">
                     <div class="row">
                         <div class="imagebox col-12">
                             <img @click="galleryImage = true" :src="mainBusinessImage" alt="">
@@ -14,31 +14,74 @@
                         </div>
                     </div>       
                 </div>
-                <div v-else class="col-md-6 col-sm-12 cleavager">
+                <div v-else class="col-md-6 col-sm-12 cleavager  pb-0">
                     <div class="row">
-                        <div class="imagebox col-12">
+                        <div class="imagebox col-12 pb-0">
                             <img :src="ImageUrl+business.default_image" alt="">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 cleavager mt-3">
+                <div class="col-md-6 col-sm-12 cleavager mt-1">
                     <div class="row ml-1">
-                        <h3>{{ business.title }}</h3>
+                        <h4>{{ business.title }}</h4>
                     </div>
                     <div class="row ml-1">
                         <small>شماره آگهی : {{ business.id }}</small>
                     </div>
                     
-                    <hr class="custom-color">  
+                    <hr class="custom-color  my-2">  
                     <div class="row medium-lh ml-1 mt-0">
-                        <div class="col-12 ml-0 pl-0">
-                            <p class="medium-text">توضیحات تکمیلی </p>
-                        </div>
                         <hr>
-                        <div class="col-12 ml-0 pl-0">
+                        <div class="col-12 ml-0 pl-0 py-0">
                             <pre class="medium-text custom">
                                 <bdi> {{ business.description }} </bdi>
                             </pre>
+                        </div>
+                    </div>
+                    <hr class="custom-color my-2">  
+                    <div class="row ml-1 mt-0">
+                        <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-phone item-icon"></i></div>
+                        <div class="col-11 ml-0 pl-0 pr-2" style="padding-top: 20px;">
+                            <a style="color:#212529" :href="'tel:'+business.contact_number" class="medium-text">{{ business.contact_number }}</a>
+                        </div>
+                    </div>
+                    <hr class="custom-color my-2">  
+                    <div class="row ml-1 mt-0">
+                        <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-paper-plane item-icon"></i></div>
+                        <div class="col-11 ml-0 pl-0 pr-2" style="padding-top: 20px;">
+                            <a style="color:#212529" :href="'https://t.me/'+business.telegram_id" class="medium-text">{{ business.telegram_id }}@</a>
+                        </div>
+                    </div>
+                    <hr class="custom-color my-2">  
+                    <div class="row ml-1 mt-0">
+                        <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-instagram item-icon"></i></div>
+                        <div class="col-11 ml-0 pl-0 pr-2" style="padding-top: 20px;">
+                            <a style="color:#212529" :href="'https://instagram.com/'+business.instagram_id" class="medium-text">{{ business.instagram_id }}@</a>
+                        </div>
+                    </div>
+
+                    <div class="row ml-1">
+                        <div class="col-6">
+                            <h3 @click="vote('like')" class="vote-icon like">
+                                <i class="fa fa-thumbs-o-up liked"></i>
+                                <small>کارش خوبه</small>
+                            </h3>
+                        </div>
+                        <div class="col-6">
+                            <h3 @click="vote('dislike')" class="vote-icon dislike">
+                                <small>خوب نیست</small>
+                                <i class="fa fa-thumbs-o-down disliked"></i>
+                            </h3>
+                        </div>
+                    </div>
+                    
+                    <div class="row ml-1">
+                        <div class="col-12">
+                            <div style="font-size:12px; color:rgb(134, 126, 126); ;line-height:1.4"><i class="fa fa-heart"></i> میزان رضایت مندی کاربران: {{business.percent}}%</div>
+                            <div  style="font-size:12px; color:rgb(134, 126, 126); ;line-height:1.4"><i class="fa fa-users"></i> میزان مشارکت: {{business.all_votes}} نفر</div>
+                        </div>
+                        <div class="col-12 pt-0">
+                            <progress min="0" max="100" :value="business.percent" style="width:100%"></progress>
                         </div>
                     </div>
                 </div>
@@ -57,6 +100,30 @@
                 <div></div><div></div><div></div><div></div>
             </div>
         </div>
+
+        <v-dialog
+        v-model="dialog"
+        max-width="290"
+        >
+        <v-card>
+            <v-card-title class="headline">
+            {{msgText}}
+            </v-card-title>
+
+            <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+                color="green darken-1"
+                text
+                @click="dialog = false"
+            >
+                فهمیدم 
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
+        
     </div>
 </template>
 <script>
@@ -75,7 +142,9 @@ export default {
             loading:true,
             mainBusinessImage:'',
             index:0,
-            galleryImage:false
+            galleryImage:false,
+            dialog:false,
+            msgText:'',
         }
     },
     methods :{
@@ -100,6 +169,28 @@ export default {
         },
         previewImage(){
             galleryImage = true
+        },
+        vote(type){
+            const data = {
+                'type' : type,
+                'business_id' : this.$route.params.business_id,
+            };
+            Axios.post('businesses/vote',data)
+            .then(res => {
+                console.log(res)
+                if(res.data.message){
+                    this.msgText = res.data.message
+                    this.dialog = true
+                }
+                this.getBusinessData(this.$route.params.business_id)
+            })
+            .catch(err => {
+                console.log(err)
+                if(err.response.data.message){
+                    this.msgText = err.response.data.message
+                    this.dialog = true
+                }
+            });
         }
     },
     beforeMount(){

@@ -2190,6 +2190,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home",
@@ -3427,6 +3428,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3442,7 +3510,9 @@ __webpack_require__.r(__webpack_exports__);
       loading: true,
       mainBusinessImage: '',
       index: 0,
-      galleryImage: false
+      galleryImage: false,
+      dialog: false,
+      msgText: ''
     };
   },
   methods: {
@@ -3470,6 +3540,31 @@ __webpack_require__.r(__webpack_exports__);
     },
     previewImage: function previewImage() {
       galleryImage = true;
+    },
+    vote: function vote(type) {
+      var _this2 = this;
+
+      var data = {
+        'type': type,
+        'business_id': this.$route.params.business_id
+      };
+      _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('businesses/vote', data).then(function (res) {
+        console.log(res);
+
+        if (res.data.message) {
+          _this2.msgText = res.data.message;
+          _this2.dialog = true;
+        }
+
+        _this2.getBusinessData(_this2.$route.params.business_id);
+      })["catch"](function (err) {
+        console.log(err);
+
+        if (err.response.data.message) {
+          _this2.msgText = err.response.data.message;
+          _this2.dialog = true;
+        }
+      });
     }
   },
   beforeMount: function beforeMount() {
@@ -3496,6 +3591,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Services/httpRequest/axios */ "./resources/js/client/Services/httpRequest/axios.js");
+//
+//
+//
 //
 //
 //
@@ -3601,8 +3699,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   beforeMount: function beforeMount() {
-    this.getBusinesses(this.current_page);
     this.getSettings();
+    this.getBusinesses(this.current_page);
   },
   created: function created() {
     var _this4 = this;
@@ -7151,7 +7249,21 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-4 pt-1" })
+          _c(
+            "div",
+            { staticClass: "col-4 py-1" },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-legendary btn-sm float-left",
+                  attrs: { to: "/CreateAdvertise" }
+                },
+                [_vm._v(" ثبت آگهی ")]
+              )
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _c(
@@ -10113,75 +10225,84 @@ var render = function() {
         [
           _c("div", { staticClass: "row" }, [
             _vm.business.images_count
-              ? _c("div", { staticClass: "col-md-6 col-sm-12 cleavager" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "imagebox col-12" }, [
-                      _c("img", {
-                        attrs: { src: _vm.mainBusinessImage, alt: "" },
-                        on: {
-                          click: function($event) {
-                            _vm.galleryImage = true
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "row mt-2 px-3" },
-                    _vm._l(_vm.business.images, function(image, key) {
-                      return _c(
-                        "div",
-                        { key: key, staticClass: "img-icon pl-0 pr-0" },
-                        [
-                          _c("img", {
-                            attrs: { src: _vm.ImageUrl + image.link, alt: "" },
-                            on: {
-                              click: function($event) {
-                                return _vm.showImage(
-                                  _vm.ImageUrl + image.link,
-                                  key
-                                )
-                              }
+              ? _c(
+                  "div",
+                  { staticClass: "col-md-6 col-sm-12 cleavager  pb-0" },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "imagebox col-12" }, [
+                        _c("img", {
+                          attrs: { src: _vm.mainBusinessImage, alt: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.galleryImage = true
                             }
-                          })
-                        ]
-                      )
-                    }),
-                    0
-                  )
-                ])
-              : _c("div", { staticClass: "col-md-6 col-sm-12 cleavager" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "imagebox col-12" }, [
-                      _c("img", {
-                        attrs: {
-                          src: _vm.ImageUrl + _vm.business.default_image,
-                          alt: ""
-                        }
-                      })
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "row mt-2 px-3" },
+                      _vm._l(_vm.business.images, function(image, key) {
+                        return _c(
+                          "div",
+                          { key: key, staticClass: "img-icon pl-0 pr-0" },
+                          [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.ImageUrl + image.link,
+                                alt: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showImage(
+                                    _vm.ImageUrl + image.link,
+                                    key
+                                  )
+                                }
+                              }
+                            })
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ]
+                )
+              : _c(
+                  "div",
+                  { staticClass: "col-md-6 col-sm-12 cleavager  pb-0" },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "imagebox col-12 pb-0" }, [
+                        _c("img", {
+                          attrs: {
+                            src: _vm.ImageUrl + _vm.business.default_image,
+                            alt: ""
+                          }
+                        })
+                      ])
                     ])
-                  ])
-                ]),
+                  ]
+                ),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-6 col-sm-12 cleavager mt-3" }, [
+            _c("div", { staticClass: "col-md-6 col-sm-12 cleavager mt-1" }, [
               _c("div", { staticClass: "row ml-1" }, [
-                _c("h3", [_vm._v(_vm._s(_vm.business.title))])
+                _c("h4", [_vm._v(_vm._s(_vm.business.title))])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "row ml-1" }, [
                 _c("small", [_vm._v("شماره آگهی : " + _vm._s(_vm.business.id))])
               ]),
               _vm._v(" "),
-              _c("hr", { staticClass: "custom-color" }),
+              _c("hr", { staticClass: "custom-color  my-2" }),
               _vm._v(" "),
               _c("div", { staticClass: "row medium-lh ml-1 mt-0" }, [
-                _vm._m(0),
-                _vm._v(" "),
                 _c("hr"),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-12 ml-0 pl-0" }, [
+                _c("div", { staticClass: "col-12 ml-0 pl-0 py-0" }, [
                   _c("pre", { staticClass: "medium-text custom" }, [
                     _vm._v("                            "),
                     _c("bdi", [
@@ -10189,6 +10310,176 @@ var render = function() {
                     ]),
                     _vm._v("\n                        ")
                   ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row ml-1 mt-0" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-11 ml-0 pl-0 pr-2",
+                    staticStyle: { "padding-top": "20px" }
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "medium-text",
+                        staticStyle: { color: "#212529" },
+                        attrs: { href: "tel:" + _vm.business.contact_number }
+                      },
+                      [_vm._v(_vm._s(_vm.business.contact_number))]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row ml-1 mt-0" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-11 ml-0 pl-0 pr-2",
+                    staticStyle: { "padding-top": "20px" }
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "medium-text",
+                        staticStyle: { color: "#212529" },
+                        attrs: {
+                          href: "https://t.me/" + _vm.business.telegram_id
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.business.telegram_id) + "@")]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row ml-1 mt-0" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-11 ml-0 pl-0 pr-2",
+                    staticStyle: { "padding-top": "20px" }
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "medium-text",
+                        staticStyle: { color: "#212529" },
+                        attrs: {
+                          href:
+                            "https://instagram.com/" + _vm.business.instagram_id
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.business.instagram_id) + "@")]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row ml-1" }, [
+                _c("div", { staticClass: "col-6" }, [
+                  _c(
+                    "h3",
+                    {
+                      staticClass: "vote-icon like",
+                      on: {
+                        click: function($event) {
+                          return _vm.vote("like")
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-thumbs-o-up liked" }),
+                      _vm._v(" "),
+                      _c("small", [_vm._v("کارش خوبه")])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-6" }, [
+                  _c(
+                    "h3",
+                    {
+                      staticClass: "vote-icon dislike",
+                      on: {
+                        click: function($event) {
+                          return _vm.vote("dislike")
+                        }
+                      }
+                    },
+                    [
+                      _c("small", [_vm._v("خوب نیست")]),
+                      _vm._v(" "),
+                      _c("i", { staticClass: "fa fa-thumbs-o-down disliked" })
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row ml-1" }, [
+                _c("div", { staticClass: "col-12" }, [
+                  _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        "font-size": "12px",
+                        color: "rgb(134, 126, 126)",
+                        "line-height": "1.4"
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-heart" }),
+                      _vm._v(
+                        " میزان رضایت مندی کاربران: " +
+                          _vm._s(_vm.business.percent) +
+                          "%"
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        "font-size": "12px",
+                        color: "rgb(134, 126, 126)",
+                        "line-height": "1.4"
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-users" }),
+                      _vm._v(
+                        " میزان مشارکت: " +
+                          _vm._s(_vm.business.all_votes) +
+                          " نفر"
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-12 pt-0" }, [
+                  _c("progress", {
+                    staticStyle: { width: "100%" },
+                    attrs: { min: "0", max: "100" },
+                    domProps: { value: _vm.business.percent }
+                  })
                 ])
               ])
             ])
@@ -10239,8 +10530,55 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.loading
-        ? _c("div", { staticClass: "appLoading" }, [_vm._m(1)])
-        : _vm._e()
+        ? _c("div", { staticClass: "appLoading" }, [_vm._m(3)])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "290" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v("\n        " + _vm._s(_vm.msgText) + "\n        ")
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "green darken-1", text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n            فهمیدم \n        ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -10250,8 +10588,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 ml-0 pl-0" }, [
-      _c("p", { staticClass: "medium-text" }, [_vm._v("توضیحات تکمیلی ")])
+    return _c("div", { staticClass: "col-1 ml-0 pl-0 text-center" }, [
+      _c("i", { staticClass: "fa fa-phone item-icon" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-1 ml-0 pl-0 text-center" }, [
+      _c("i", { staticClass: "fa fa-paper-plane item-icon" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-1 ml-0 pl-0 text-center" }, [
+      _c("i", { staticClass: "fa fa-instagram item-icon" })
     ])
   },
   function() {
@@ -10322,31 +10676,21 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-4 pt-1" }, [
-            _c("div", { staticStyle: { float: "left" } }, [
-              _c("a", { attrs: { href: _vm.setting.instagram_address } }, [
-                _c("img", {
-                  attrs: {
-                    width: "30px",
-                    height: "30px",
-                    src: _vm.ImageUrl + _vm.setting.instagram_image,
-                    alt: ""
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: _vm.setting.telegram_address } }, [
-                _c("img", {
-                  attrs: {
-                    width: "30px",
-                    height: "30px",
-                    src: _vm.ImageUrl + _vm.setting.telegram_image,
-                    alt: ""
-                  }
-                })
-              ])
-            ])
-          ])
+          _c(
+            "div",
+            { staticClass: "col-4 py-1" },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-legendary btn-sm float-left",
+                  attrs: { to: "/CreateBusiness" }
+                },
+                [_vm._v(" ثبت آگهی")]
+              )
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _c(
@@ -10378,8 +10722,55 @@ var render = function() {
                         _c("div", { staticClass: "col-6" }, [
                           _c(
                             "h6",
-                            { staticClass: "advertise-title mt-1 ml-1 nowrap" },
+                            {
+                              staticClass: "advertise-title mt-1 ml-1",
+                              staticStyle: { "font-size": "14px" }
+                            },
                             [_vm._v(_vm._s(business.title))]
+                          ),
+                          _vm._v(" "),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c(
+                            "small",
+                            {
+                              staticClass: "m-2 small nowrap",
+                              staticStyle: { "font-size": "12px" }
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-eye",
+                                staticStyle: { color: "#444" }
+                              }),
+                              _vm._v(
+                                " بازدید " +
+                                  _vm._s(business.view_count) +
+                                  " نفر"
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "small",
+                            {
+                              staticClass: "m-2 small nowrap",
+                              staticStyle: { "font-size": "12px" }
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-hourglass-end",
+                                staticStyle: { color: "#444" }
+                              }),
+                              _vm._v(" "),
+                              business.days_ago
+                                ? [
+                                    _vm._v(
+                                      _vm._s(business.days_ago) + " روز قبل"
+                                    )
+                                  ]
+                                : [_vm._v("لحظاتی پیش")]
+                            ],
+                            2
                           )
                         ]),
                         _vm._v(" "),

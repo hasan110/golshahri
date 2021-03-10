@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Business\Business;
 use App\Models\Business\BusinessPicture;
+use App\Models\Business\BusinessComment;
+use App\Models\Business\Vote;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
 use Illuminate\Support\Facades\Notification;
 use Auth;
+use Carbon\Carbon;
 use Morilog\Jalali\Jalalian;
 use App\Notifications\NewAdvertiseCreated;
 use Illuminate\Support\Facades\File;
@@ -21,6 +24,7 @@ class UserBusinessController extends Controller
     public function businessList(Request $request)
     {
         $businesses = Business::latest()->whereConfirmed(1)->paginate(30);
+        $now = Carbon::now();
         foreach($businesses as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
@@ -29,6 +33,8 @@ class UserBusinessController extends Controller
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;
             }
+            $item['view_count'] = $item->views->count();
+            $item['days_ago'] = $now->diffInDays($item->created_at);
         }
 
         if($request->has('auth_token')){
@@ -117,6 +123,17 @@ class UserBusinessController extends Controller
         $business['default_image'] = Setting::find(1)->advertise_default_image;
         $images = $business->images;
 
+        $like_count = Vote::where('business_id', $request->id)->where('type' , 'like')->count();
+        $dislike_count = Vote::where('business_id', $request->id)->where('type' , 'dislike')->count();
+        $sum_like = $like_count + $dislike_count;
+        if($sum_like){
+            $number = 100 / $sum_like;
+        }else{
+            $number = 0;
+        }
+        $percent = $like_count * $number;
+        $business['percent'] = floor($percent);
+        $business['all_votes'] = Vote::where('business_id', $request->id)->count();
         
         if($request->has('auth_token')){
             $user = User::where('auth_token',$request->auth_token)->first();
@@ -232,5 +249,98 @@ class UserBusinessController extends Controller
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
         }
         return response()->json($businesses,200);
+    }
+    public function businessVote(Request $request)
+    {
+        $request->validate([
+            'business_id'=>['required'],
+            'type'=>['required'],
+        ]);
+
+        $ipAddress = $request->ip();
+        
+        if($request->has('auth_token')){
+            $user = User::where('auth_token',$request->auth_token)->first();
+            if($user){
+                $user_id = $user->id;
+            }else{
+                $user_id = null;
+            }
+        }else{
+            $user_id = null;
+        }
+
+        if($user_id){
+            $vote_count = Vote::where('business_id' , $request->business_id)->where('type' , $request->type)->where('user_id' , $user_id)->count();
+            if($vote_count == 0 ){
+                $vote = Vote::create([
+                    'user_id' => $user_id,
+                    'business_id' => $request->business_id,
+                    'user_ip' => $ipAddress,
+                    'type' => $request->type,
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'رای شما قبلا ثبت شده!',
+                ],400);
+            }
+        }else{
+            $vote_count = Vote::where('business_id' , $request->business_id)->where('type' , $request->type)->where('user_ip' , $ipAddress)->count();
+            if($vote_count == 0 ){
+                $vote = Vote::create([
+                    'user_id' => $user_id,
+                    'business_id' => $request->business_id,
+                    'user_ip' => $ipAddress,
+                    'type' => $request->type,
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'رای شما قبلا ثبت شده!',
+                ],400);
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'رای شما ثبت شد!',
+            'vote' => $vote,
+        ],200);
+    }
+    public function businessComment(Request $request)
+    {
+        $request->validate([
+            'business_id'=>['required'],
+            'comment'=>['required'],
+        ]);
+
+        $ipAddress = $request->ip();
+
+        if($request->has('auth_token')){
+            $user = User::where('auth_token',$request->auth_token)->first();
+            if($user){
+                $user_id = $user->id;
+            }else{
+                $user_id = null;
+            }
+        }else{
+            $user_id = null;
+        }
+
+        $businessComment = businessComment::create([
+            'user_id' => $user_id,
+            'business_id' =>  $request->business_id,
+            'user_ip' => $ipAddress,
+            'status' => 1,
+            'comment' => $request->comment
+        ]);
+
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'نظر شما ثبت شد!',
+            'businessComment' => $businessComment,
+        ],200);
     }
 }
