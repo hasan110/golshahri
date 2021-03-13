@@ -218,11 +218,6 @@ pre.custom{
   padding-right:10px;
   font-size:14px;
 }
-.social-media{
-  position:relative;
-  height:auto;
-  width:100%;
-}
 .social-media .item{
   position:relative;
   height:50px;
@@ -234,24 +229,22 @@ pre.custom{
   left: 0;
 }
 .social-media{
-  width:100%;
   height: auto;
+  display: inline-block;
+  position: absolute;
+  left: 0;
 }
 .social-media img{
   width:30px;
   height:30px;
 }
-  .social-btn {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+.social-btn {
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 /* &&&&&&&&&&&&&&&&&&& */
 /* navbar */
@@ -320,6 +313,34 @@ pre.custom{
     color: white;
     display: inline-block;
   }
+
+/* &&&&&&&&&&&&&&&&&&& */
+/* votes styles */
+/* &&&&&&&&&&&&&&&&&&& */
+.vote-icon{
+  cursor: pointer;
+}
+.vote-icon small{
+  font-size: small !important;
+}
+.vote-icon.like{
+  color:rgb(124, 136, 124);
+}
+.vote-icon.dislike{
+  color: rgb(124, 136, 124);
+  text-align: left;
+}
+.vote-icon .liked:hover{
+  color:rgb(107, 245, 107);
+}
+.vote-icon .disliked:hover{
+  color:rgb(243, 106, 82);
+}
+
+
+
+
+
 
 /* &&&&&&&&&&&&&&&&&&& */
 /* animation loading */
@@ -535,6 +556,9 @@ select{
   }
 }
 @media only screen and (max-width : 442px){
+  .btn-record{
+    font-size:12px !important;
+  }
   .form-container{
     width: 80%;
   }

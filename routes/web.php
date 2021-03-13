@@ -14,10 +14,12 @@ use App\Http\Controllers\server\role\PermissionController;
 use App\Http\Controllers\server\user\AdminController;
 use App\Http\Controllers\server\user\UserController;
 use App\Http\Controllers\server\advertise\AdvertiseController;
+use App\Http\Controllers\server\business\BusinessController;
 
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\client\auth\AuthenticateController;
 use App\Http\Controllers\client\advertise\UserAdvertiseController;
+use App\Http\Controllers\client\business\UserBusinessController;
 
 // ARTISAN ROUTES
 Route::get('/clear-cache' , function(){
@@ -85,6 +87,17 @@ Route::prefix('/admin-area')->group(function(){
             Route::post('/search' , [AdvertiseController::class , 'advertiseSearch'])->name('advertiseSearch');
         });
 
+        // Businesses Routes
+        Route::prefix('/businesses')->group(function(){
+            Route::get('/list' , [BusinessController::class , 'businessList'])->name('businessList');
+            Route::post('/create' , [BusinessController::class , 'businessCreate'])->name('businessCreate');
+            Route::get('/business/{id}' , [BusinessController::class , 'businessData'])->name('businessData');
+            Route::post('/edit' , [BusinessController::class , 'businessEdit'])->name('businessEdit');
+            Route::post('/delete' , [BusinessController::class , 'businessDelete'])->name('businessDelete');
+            Route::post('/changeStatus' , [BusinessController::class , 'businessChangeStatus'])->name('businessChangeStatus');
+            Route::post('/search' , [BusinessController::class , 'businessSearch'])->name('businessSearch');
+        });
+
         Route::prefix('/settings')->group(function(){
             Route::get('/setting' , [SettingController::class , 'settingData'])->name('settingData');
             Route::post('/edit' , [SettingController::class , 'settingEdit'])->name('settingEdit');
@@ -126,6 +139,7 @@ Route::post('/register' , [AuthenticateController::class , 'register'])->name('u
 Route::post('/getUserData' , [AuthenticateController::class , 'getUserData'])->name('user.getUserData');
 
 Route::get('/getUserAdvertises' , [UserAdvertiseController::class , 'getUserAdvertises'])->name('user.getUserAdvertises');
+Route::get('/getUserBusinesses' , [UserBusinessController::class , 'getUserBusinesses'])->name('user.getUserBusinesses');
 
 Route::get('/getSettings' , [HomeController::class , 'getSettings'])->name('user.getSettings');
 
@@ -137,5 +151,15 @@ Route::prefix('/advertises')->group(function(){
     Route::post('/delete' , [UserAdvertiseController::class , 'advertiseDelete'])->name('user.advertiseDelete');
     Route::post('/changeStatus' , [UserAdvertiseController::class , 'advertiseChangeStatus'])->name('user.advertiseChangeStatus');
     Route::post('/search' , [UserAdvertiseController::class , 'advertiseSearch'])->name('user.advertiseSearch');
+});
+
+Route::prefix('/businesses')->group(function(){
+    Route::get('/list' , [UserBusinessController::class , 'businessList'])->name('user.businessList');
+    Route::post('/create' , [UserBusinessController::class , 'businessCreate'])->name('user.businessCreate');
+    Route::get('/business/{id}' , [UserBusinessController::class , 'businessData'])->name('user.businessData');
+    Route::post('/edit' , [UserBusinessController::class , 'businessEdit'])->name('user.businessEdit');
+    Route::post('/search' , [UserBusinessController::class , 'businessSearch'])->name('user.businessSearch');
+    Route::post('/vote' , [UserBusinessController::class , 'businessVote'])->name('user.businessVote');
+    Route::post('/comment' , [UserBusinessController::class , 'businessComment'])->name('user.businessComment');
 });
 Route::get('/{path}' , [HomeController::class , 'index'])->where('path' , '.*');

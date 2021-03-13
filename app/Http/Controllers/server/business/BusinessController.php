@@ -13,7 +13,7 @@ use Morilog\Jalali\Jalalian;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\File;
 
-class AdvertiseController extends Controller
+class BusinessController extends Controller
 {
     public function businessList(Request $request)
     {
@@ -52,7 +52,7 @@ class AdvertiseController extends Controller
         ]);
 
         $icon = $request->icon;
-        $icon_name = 'ICON' . '-' .time(). '.' . $image->getClientOriginalExtension();
+        $icon_name = 'ICON' . '-' .time(). '.' . $icon->getClientOriginalExtension();
         $icon->move('uploads/businesses/'.$business->id,$icon_name);
         $icon_link = 'businesses/'.$business->id.'/'.$icon_name;
 
@@ -83,7 +83,7 @@ class AdvertiseController extends Controller
     public function businessData(Request $request)
     {
         $business = Business::find($request->id);
-        $business['new_icon'] = [];
+        $business['new_icon'] = null;
         $business['new_images'] = [];
         $business['image_delete'] = [];
         $images = $business->images;

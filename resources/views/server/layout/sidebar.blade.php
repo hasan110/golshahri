@@ -10,6 +10,11 @@
               <router-link class="nav-link" :to="{name:'Advertises'}"><i class="icon-docs"></i>لیست آگهی ها</router-link>
           </li>
           @endif
+          @if (auth()->user()->can('menu_business'))
+          <li class="nav-item">
+              <router-link class="nav-link" :to="{name:'Businesses'}"><i class="icon-docs"></i>لیست کسب و کارها</router-link>
+          </li>
+          @endif
           @if (auth()->user()->can('menu_admin'))
           <li class="nav-item">
               <router-link class="nav-link" :to="{name:'Admins'}"><i class="icon-user"></i>مدیران</router-link>

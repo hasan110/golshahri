@@ -10,6 +10,8 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Models\Advertise\Advertise;
 use App\Models\AppModels\View;
 use App\Models\Business\Business;
+use App\Models\Business\BusinessComment;
+use App\Models\Business\Vote;
 
 class User extends Authenticatable
 {
@@ -34,5 +36,11 @@ class User extends Authenticatable
     }
     public function businesses(){
         return $this->hasMany(Business::class);
+    }
+    public function business_comments(){
+        return $this->hasMany(BusinessComment::class);
+    }
+    public function votes(){
+        return $this->hasMany(Vote::class);
     }
 }

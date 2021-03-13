@@ -19,6 +19,7 @@ class CreateViewsTable extends Migration
             $table->string('user_ip')->nullable();
             $table->string('type');
             $table->integer('advertise_id')->nullable();
+            $table->integer('business_id')->nullable();
             $table->timestamps();
         });
     }

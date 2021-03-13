@@ -3,43 +3,48 @@
         <div class="container" style="margin-top:50px">
             <div class="row">
                 <div class="col-md-6 col-sm-12 pb-0">
-                    <div class="card text-white bg-primary mb-3" style="">
-                        <!-- <div class="card-header"></div> -->
-                        <div class="card-body"><h3 class="text-center">آگهی های مسکن</h3>
-                            <!-- <p class="card-text">
-                                شما می توانید آگهی های مسکن را در این قسمت درج کنید و یا از بین آگهی ها مورد دلخواه خود را پیدا کنید
-                                    آگهی ها شامل موارد: خرید ، فروش ، رهن و اجاره منزل و... می باشد.
-                            </p> -->
+                    <router-link :to="{name:'Advertises'}">
+                        <div class="card text-white bg-primary mb-3" style="">
+                            <!-- <div class="card-header"></div> -->
+                            <div class="card-body"><h5 class="text-center">آگهی های مسکن</h5>
+                                <!-- <p class="card-text">
+                                    شما می توانید آگهی های مسکن را در این قسمت درج کنید و یا از بین آگهی ها مورد دلخواه خود را پیدا کنید
+                                        آگهی ها شامل موارد: خرید ، فروش ، رهن و اجاره منزل و... می باشد.
+                                </p> -->
+                            </div>
                         </div>
-                    </div>
+                    </router-link>
                 </div>
                 <div class="col-md-6 col-sm-12 pb-0">
-                    <div class="card text-white bg-danger mb-3" style="">
-                        <!-- <div class="card-header"></div> -->
-                        <div class="card-body"><h3 class="text-center">معرفی کسب و کارها</h3>
-                            <!-- <p class="card-text">
-                                چنانچه کسب وکاری دارید که احتیاج به معرفی و شناخت کاربران دارد در این قسمت میتوانید آن را معرفی کنید.
-                                درحال حاضر این امکان برای گلشهر مقدور می باشد.
-                    </p> -->
+                    <router-link :to="{name:'Businesses'}">
+                        <div class="card text-white bg-danger mb-3" style="">
+                            <!-- <div class="card-header"></div> -->
+                            <div class="card-body"><h5 class="text-center">معرفی کسب و کارها</h5>
+                                <!-- <p class="card-text">
+                                    چنانچه کسب وکاری دارید که احتیاج به معرفی و شناخت کاربران دارد در این قسمت میتوانید آن را معرفی کنید.
+                                    درحال حاضر این امکان برای گلشهر مقدور می باشد.
+                        </p> -->
+                            </div>
                         </div>
-                    </div>
+                    </router-link>
                 </div>
                 
             </div>
             <div class="row">
-                <div class="col-12 " v-html="setting.about_us_text"></div>
+                <div class="col-6 pb-0">
+                    <router-link class="btn btn-legendary btn-record" :to="{name:'CreateAdvertise'}">ثبت آگهی مسکن 
+                    </router-link>
+                </div>
+                <div class="col-6 pb-0">
+                    <router-link class="btn btn-legendary btn-record"  style="float:left;" :to="{name:'CreateBusiness'}">ثبت آگهی کسب و کار 
+                    </router-link>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12" style="font-size:12px;" v-html="setting.about_us_text"></div>
             </div>
             <div class="row">
-                <div class="social-media">
-                    <button class="social-btn button4" 
-                        style="float:left;background-color: #e7e7e7; color: black; margin-left:13px;">
-                        <img :src="ImageUrl+setting.instagram_image">
-                    </button>
-                    <button class="social-btn button4" 
-                        style="float:left;background-color: #e7e7e7; color: black;">
-                        <img :src="ImageUrl+setting.telegram_image">
-                    </button>
-                </div>
             </div>
         </div>
     </div>

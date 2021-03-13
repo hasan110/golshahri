@@ -7,11 +7,8 @@
                         <input v-model="search_key" @input="searchAdvertise" type="text" class="search-item" placeholder="جستجو...">
                     </div>
                 </div>
-                <div class="col-4 pt-1">
-                    <div style="float:left;">
-                        <a :href="setting.instagram_address"><img width="30px" height="30px" :src="ImageUrl+setting.instagram_image" alt=""></a>
-                        <a :href="setting.telegram_address"><img width="30px" height="30px" :src="ImageUrl+setting.telegram_image" alt=""></a>
-                    </div>
+                <div class="col-4 py-1">
+                    <router-link to="/CreateAdvertise" class="btn btn-legendary btn-sm float-left"> ثبت آگهی </router-link>
                 </div>
             </div>
 
