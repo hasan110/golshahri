@@ -89,6 +89,10 @@
             <br><br>
         </div>
 
+        <div class="call-btn">
+            <router-link to="/CreateBusiness"> ثبت آگهی <i class="fa fa-plus"></i></router-link>
+        </div>
+
         <image-gallery v-if="business.images_count" @closePreview="galleryImage = false" v-show="galleryImage" :index="index" :images="business.images" :imagesCount="business.images_count" :baseUrl="ImageUrl"></image-gallery>
 
         <v-snackbar color="red" :timeout="4000" v-model="errorSnackbar">

@@ -8,6 +8,7 @@ use App\Models\Advertise\AdvertisePicture;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
 use App\Models\AppModels\View;
+use App\Models\Category\Category;
 
 class Advertise extends Model
 {
@@ -25,5 +26,8 @@ class Advertise extends Model
     }
     public function views(){
         return $this->hasMany(View::class);
+    }
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 }

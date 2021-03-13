@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app>
-      <keep-alive include="Home">
+      <keep-alive :include="['Businesses', 'Advertises']">
         <router-view></router-view>
       </keep-alive>
     </v-app>

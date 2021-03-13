@@ -15,6 +15,7 @@ use App\Http\Controllers\server\user\AdminController;
 use App\Http\Controllers\server\user\UserController;
 use App\Http\Controllers\server\advertise\AdvertiseController;
 use App\Http\Controllers\server\business\BusinessController;
+use App\Http\Controllers\server\category\CategoryController;
 
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\client\auth\AuthenticateController;
@@ -96,6 +97,16 @@ Route::prefix('/admin-area')->group(function(){
             Route::post('/delete' , [BusinessController::class , 'businessDelete'])->name('businessDelete');
             Route::post('/changeStatus' , [BusinessController::class , 'businessChangeStatus'])->name('businessChangeStatus');
             Route::post('/search' , [BusinessController::class , 'businessSearch'])->name('businessSearch');
+            Route::get('/categories' , [BusinessController::class , 'businessCategories'])->name('businessCategories');
+        });
+
+        // Categories Routes
+        Route::prefix('/categories')->group(function(){
+            Route::get('/list' , [CategoryController::class , 'categoryList'])->name('categoryList');
+            Route::post('/create' , [CategoryController::class , 'categoryCreate'])->name('categoryCreate');
+            Route::get('/category/{id}' , [CategoryController::class , 'categoryData'])->name('categoryData');
+            Route::post('/edit' , [CategoryController::class , 'categoryEdit'])->name('categoryEdit');
+            Route::post('/delete' , [CategoryController::class , 'categoryDelete'])->name('categoryDelete');
         });
 
         Route::prefix('/settings')->group(function(){
@@ -161,5 +172,6 @@ Route::prefix('/businesses')->group(function(){
     Route::post('/search' , [UserBusinessController::class , 'businessSearch'])->name('user.businessSearch');
     Route::post('/vote' , [UserBusinessController::class , 'businessVote'])->name('user.businessVote');
     Route::post('/comment' , [UserBusinessController::class , 'businessComment'])->name('user.businessComment');
+    Route::get('/categories' , [UserBusinessController::class , 'businessCategories'])->name('user.businessCategories');
 });
 Route::get('/{path}' , [HomeController::class , 'index'])->where('path' , '.*');

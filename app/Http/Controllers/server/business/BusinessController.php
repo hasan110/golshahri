@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Business\Business;
 use App\Models\Business\BusinessPicture;
+use App\Models\Category\Category;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
 use Auth;
@@ -30,7 +31,7 @@ class BusinessController extends Controller
     {
         $validation = $this->getValidationFactory()->make($request->all(), [
             'title' => ['required'],
-            'icon' => ['required' , 'image'],
+            'category_id' => ['required'],
             'description' => ['required']
         ]);
     
@@ -43,21 +44,12 @@ class BusinessController extends Controller
 
         $business = Business::create([
             'title'=>$request->title,
+            'category_id'=>$request->category_id,
             'description'=>$request->description,
-            'icon'=>'',
             'contact_number'=>$request->contact_number ? $request->contact_number : '',
             'instagram_id'=>$request->instagram_id ? $request->instagram_id : '',
             'telegram_id'=>$request->telegram_id ? $request->telegram_id : '',
             'confirmed'=>1,
-        ]);
-
-        $icon = $request->icon;
-        $icon_name = 'ICON' . '-' .time(). '.' . $icon->getClientOriginalExtension();
-        $icon->move('uploads/businesses/'.$business->id,$icon_name);
-        $icon_link = 'businesses/'.$business->id.'/'.$icon_name;
-
-        $business->update([
-            'icon'=> $icon_link,
         ]);
 
         if($request->hasFile('images')){
@@ -83,7 +75,6 @@ class BusinessController extends Controller
     public function businessData(Request $request)
     {
         $business = Business::find($request->id);
-        $business['new_icon'] = null;
         $business['new_images'] = [];
         $business['image_delete'] = [];
         $images = $business->images;
@@ -94,25 +85,16 @@ class BusinessController extends Controller
         $request->validate([
             'id' => ['required'],
             'title' => ['required'],
+            'category_id' => ['required'],
             'description' => ['required'],
         ]);
 
         $business = Business::find($request->id);
-        
-        if($request->hasFile('new_icon')){
-            $new_icon = $request->new_icon;
-            $new_icon_name = 'ICON'.'-'.time().'.'.$new_icon->getClientOriginalExtension();
-            $new_icon->move('uploads/businesses/'.$business->id,$new_icon_name);
-            $new_icon_link = 'businesses/'.$business->id.'/'.$new_icon_name;
-            File::delete(public_path().'/uploads/'.$business->icon);
-        }else{
-            $new_icon_link = $business->icon;
-        }
 
         $business->update([
             'title'=>$request->title,
             'description'=>$request->description,
-            'icon'=>$new_icon_link,
+            'category_id'=>$request->category_id,
             'contact_number'=>$request->contact_number ? $request->contact_number : $business->contact_number,
             'instagram_id'=>$request->instagram_id ? $request->instagram_id : $business->instagram_id,
             'telegram_id'=>$request->telegram_id ? $request->telegram_id : $business->telegram_id,
@@ -188,5 +170,10 @@ class BusinessController extends Controller
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%Y/%m/%d- H:i');
         }
         return response()->json($businesses,200);
+    }
+    public function businessCategories(Request $request)
+    {
+        $categories = Category::latest()->where('type' , 'business')->get();
+        return response()->json($categories,200);
     }
 }

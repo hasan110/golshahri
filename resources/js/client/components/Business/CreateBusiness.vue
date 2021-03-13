@@ -29,6 +29,15 @@
                             <input v-model="formData.instagram_id" type="text" id="instagram_id" class="form-control">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="category_id">دسته بندی *</label>
+                            <select v-model="formData.category_id" id="category_id" class="form-control">
+                            <option value="">دسته بندی آگهی خود را انتخاب کنید</option>
+                            <option v-for="(category , key) in categories" :key="key" :value="category.id">{{category.title}}</option>
+                            </select>
+                        </div>
+                    </div>
                     
                     <div class="row">
                         <div class="col-12">
@@ -93,12 +102,14 @@ export default {
         return{
             formData:{
                 title:'',
+                category_id:'',
                 contact_number:'',
                 instagram_id:'',
                 telegram_id:'',
                 description:'',
                 images:[],
             },
+            categories:{},
             errorSnackbar:false,
             errorMessage:'',
             loading:false,
@@ -114,6 +125,16 @@ export default {
                 this.errorSnackbar = true;
                 return;
             }
+            if(this.formData.images.length == 0){
+                this.errorMessage = 'تصویر آگهی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
+                this.errorSnackbar = true;
+                return;
+            }
+            if(this.formData.category_id === ''){
+                this.errorMessage = 'انتخاب دسته بندی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
+                this.errorSnackbar = true;
+                return;
+            }
             if(this.formData.description === ''){
                 this.errorMessage = 'توضیحات آگهی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
                 this.errorSnackbar = true;
@@ -124,6 +145,7 @@ export default {
             const auth_token = localStorage.getItem('auth_token');
             const data = new FormData();
             data.append('auth_token', auth_token);
+            data.append('category_id', this.formData.category_id);
             data.append('title', this.formData.title);
             data.append('contact_number', this.formData.contact_number);
             data.append('instagram_id', this.formData.instagram_id);
@@ -154,6 +176,15 @@ export default {
             if(!isNumeric.test(value)){
                 e.target.value = ''
             }
+        },
+        getCategories(){
+            Axios.get('businesses/categories')
+            .then(res => {
+                this.categories = res.data;
+            })
+            .catch(err => {
+                console.log(err)
+            });
         }
     },
     beforeMount(){
@@ -161,6 +192,7 @@ export default {
             this.setRedirectRoute('/CreateBusiness');
             this.$router.push('/Login');
         }
+        this.getCategories();
     }
 }
 </script>

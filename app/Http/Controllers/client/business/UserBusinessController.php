@@ -8,6 +8,7 @@ use App\Models\Business\Business;
 use App\Models\Business\BusinessPicture;
 use App\Models\Business\BusinessComment;
 use App\Models\Business\Vote;
+use App\Models\Category\Category;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
 use Illuminate\Support\Facades\Notification;
@@ -23,7 +24,7 @@ class UserBusinessController extends Controller
 {
     public function businessList(Request $request)
     {
-        $businesses = Business::latest()->whereConfirmed(1)->paginate(30);
+        $businesses = Business::latest()->whereConfirmed(1)->with('category')->paginate(30);
         $now = Carbon::now();
         foreach($businesses as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
@@ -238,7 +239,7 @@ class UserBusinessController extends Controller
     public function businessSearch(Request $request)
     {
         $key = $request->key;
-        $businesses = Business::latest()->whereConfirmed(1)
+        $businesses = Business::latest()->whereConfirmed(1)->with('category')
         ->where(function ($query) use ($key) {
             $query->where('title','LIKE', '%'.$key.'%')
             ->orWhere('description' , 'LIKE', '%'.$key.'%');
@@ -271,7 +272,7 @@ class UserBusinessController extends Controller
         }
 
         if($user_id){
-            $vote_count = Vote::where('business_id' , $request->business_id)->where('type' , $request->type)->where('user_id' , $user_id)->count();
+            $vote_count = Vote::where('business_id' , $request->business_id)->where('user_id' , $user_id)->count();
             if($vote_count == 0 ){
                 $vote = Vote::create([
                     'user_id' => $user_id,
@@ -286,7 +287,7 @@ class UserBusinessController extends Controller
                 ],400);
             }
         }else{
-            $vote_count = Vote::where('business_id' , $request->business_id)->where('type' , $request->type)->where('user_ip' , $ipAddress)->count();
+            $vote_count = Vote::where('business_id' , $request->business_id)->where('user_ip' , $ipAddress)->count();
             if($vote_count == 0 ){
                 $vote = Vote::create([
                     'user_id' => $user_id,
@@ -342,5 +343,10 @@ class UserBusinessController extends Controller
             'message' => 'نظر شما ثبت شد!',
             'businessComment' => $businessComment,
         ],200);
+    }
+    public function businessCategories(Request $request)
+    {
+        $categories = Category::latest()->where('type' , 'business')->get();
+        return response()->json($categories,200);
     }
 }

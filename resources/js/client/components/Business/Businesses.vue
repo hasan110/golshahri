@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <router-link :to="{name:'Business' , params:{business_id:business.id}}" class="btn btn-legendary btn-sm details-btn">اطلاعات بیشتر...</router-link> -->
+                        <span class="btn btn-success btn-sm details-btn">{{business.category.title}}</span>
                     </div>
                     </router-link>
                 </div>

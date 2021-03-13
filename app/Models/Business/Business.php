@@ -10,6 +10,7 @@ use App\Models\Business\Vote;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
 use App\Models\AppModels\View;
+use App\Models\Category\Category;
 
 class Business extends Model
 {
@@ -31,5 +32,8 @@ class Business extends Model
     }
     public function votes(){
         return $this->hasMany(Vote::class);
+    }
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 }

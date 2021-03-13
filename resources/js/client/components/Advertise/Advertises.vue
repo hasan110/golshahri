@@ -16,21 +16,21 @@
                 <div v-for="(advertise , key) in advertises" :key="key" class="advertise-wrapper p-0 col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <router-link :to="{name:'Advertise' , params:{advertise_id:advertise.id}}" class="advertise-link">
                     <div class="card advertise-card">
-                    <div class="row">
-                        <div class="col-6">
-                            <h6 class="advertise-title mt-1 ml-1 nowrap">{{ advertise.title }}</h6>
-                            <small class="m-2 small nowrap">محدوده {{ advertise.street }}</small>
-                            <small v-if="advertise.area" class="m-2 small">متراژ : {{ advertise.area }} متر</small>
-                            <p v-if="advertise.type == 'فروش'" class="m-2 badge badge-success">{{ advertise.type }} {{ advertise.status }}</p>
-                            <p v-else class="m-2 badge badge-danger">{{ advertise.type }} {{ advertise.status }}</p>
-                        </div>
-                        <div class="col-6 pr-0 pt-0">
-                            <div class="card-image-wrapper">
-                                <img class="card-image"  :src="ImageUrl+advertise.image" alt="">
+                        <div class="row">
+                            <div class="col-6">
+                                <h6 class="advertise-title mt-1 ml-1 nowrap">{{ advertise.title }}</h6>
+                                <small class="m-2 small nowrap">محدوده {{ advertise.street }}</small>
+                                <small v-if="advertise.area" class="m-2 small">متراژ : {{ advertise.area }} متر</small>
+                                <p v-if="advertise.type == 'فروش'" class="m-2 badge badge-success">{{ advertise.type }} {{ advertise.status }}</p>
+                                <p v-else class="m-2 badge badge-danger">{{ advertise.type }} {{ advertise.status }}</p>
+                            </div>
+                            <div class="col-6 pr-0 pt-0">
+                                <div class="card-image-wrapper">
+                                    <img class="card-image"  :src="ImageUrl+advertise.image" alt="">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <router-link :to="{name:'Advertise' , params:{advertise_id:advertise.id}}" class="btn btn-legendary btn-sm details-btn">اطلاعات بیشتر...</router-link>
+                        <router-link :to="{name:'Advertise' , params:{advertise_id:advertise.id}}" class="btn btn-legendary btn-sm details-btn">اطلاعات بیشتر...</router-link>
                     </div>
                     </router-link>
                 </div>
@@ -46,7 +46,7 @@
 <script>
 import Axios from '../../Services/httpRequest/axios';
 export default {
-    name:"Home",
+    name:"Advertises",
     data(){
         return {
             advertises : [],

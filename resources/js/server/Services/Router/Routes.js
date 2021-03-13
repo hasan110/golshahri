@@ -14,6 +14,8 @@ import Advertises from '../../components/Advertises/Advertises.vue';
 
 import Businesses from '../../components/Businesses/Businesses.vue';
 
+import Categories from '../../components/Categories/Categories.vue';
+
 const allUrl = [
     {
         path: '/admin-area/Panel',
@@ -31,6 +33,8 @@ const allUrl = [
             { path: 'Advertises', name: 'Advertises', component: Advertises },
 
             { path: 'Businesses', name: 'Businesses', component: Businesses },
+
+            { path: 'Categories', name: 'Categories', component: Categories },
             
             { path: 'SlideShows', name: 'SlideShows', component: SlideShows },
             { path: 'Setting', name: 'Setting', component: Setting },
