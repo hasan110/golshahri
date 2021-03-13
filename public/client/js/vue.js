@@ -10313,85 +10313,100 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm.business.contact_number
+                ? _c("hr", { staticClass: "custom-color my-2" })
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "row ml-1 mt-0" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "col-11 ml-0 pl-0 pr-2",
-                    staticStyle: { "padding-top": "20px" }
-                  },
-                  [
+              _vm.business.contact_number
+                ? _c("div", { staticClass: "row ml-1 mt-0" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
                     _c(
-                      "a",
+                      "div",
                       {
-                        staticClass: "medium-text",
-                        staticStyle: { color: "#212529" },
-                        attrs: { href: "tel:" + _vm.business.contact_number }
+                        staticClass: "col-11 ml-0 pl-0 pr-2",
+                        staticStyle: { "padding-top": "20px" }
                       },
-                      [_vm._v(_vm._s(_vm.business.contact_number))]
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "medium-text",
+                            staticStyle: { color: "#212529" },
+                            attrs: {
+                              href: "tel:" + _vm.business.contact_number
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.business.contact_number))]
+                        )
+                      ]
                     )
-                  ]
-                )
-              ]),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm.business.telegram_id
+                ? _c("hr", { staticClass: "custom-color my-2" })
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "row ml-1 mt-0" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "col-11 ml-0 pl-0 pr-2",
-                    staticStyle: { "padding-top": "20px" }
-                  },
-                  [
+              _vm.business.telegram_id
+                ? _c("div", { staticClass: "row ml-1 mt-0" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
                     _c(
-                      "a",
+                      "div",
                       {
-                        staticClass: "medium-text",
-                        staticStyle: { color: "#212529" },
-                        attrs: {
-                          href: "https://t.me/" + _vm.business.telegram_id
-                        }
+                        staticClass: "col-11 ml-0 pl-0 pr-2",
+                        staticStyle: { "padding-top": "20px" }
                       },
-                      [_vm._v(_vm._s(_vm.business.telegram_id) + "@")]
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "medium-text",
+                            staticStyle: { color: "#212529" },
+                            attrs: {
+                              href: "https://t.me/" + _vm.business.telegram_id
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.business.telegram_id) + "@")]
+                        )
+                      ]
                     )
-                  ]
-                )
-              ]),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm.business.instagram_id
+                ? _c("hr", { staticClass: "custom-color my-2" })
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "row ml-1 mt-0" }, [
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "col-11 ml-0 pl-0 pr-2",
-                    staticStyle: { "padding-top": "20px" }
-                  },
-                  [
+              _vm.business.instagram_id
+                ? _c("div", { staticClass: "row ml-1 mt-0" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
                     _c(
-                      "a",
+                      "div",
                       {
-                        staticClass: "medium-text",
-                        staticStyle: { color: "#212529" },
-                        attrs: {
-                          href:
-                            "https://instagram.com/" + _vm.business.instagram_id
-                        }
+                        staticClass: "col-11 ml-0 pl-0 pr-2",
+                        staticStyle: { "padding-top": "20px" }
                       },
-                      [_vm._v(_vm._s(_vm.business.instagram_id) + "@")]
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "medium-text",
+                            staticStyle: { color: "#212529" },
+                            attrs: {
+                              href:
+                                "https://instagram.com/" +
+                                _vm.business.instagram_id
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.business.instagram_id) + "@")]
+                        )
+                      ]
                     )
-                  ]
-                )
-              ]),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "row ml-1" }, [
                 _c("div", { staticClass: "col-6" }, [
@@ -10899,7 +10914,7 @@ var render = function() {
                       ],
                       staticClass: "form-control ",
                       attrs: {
-                        type: "text",
+                        type: "number",
                         id: "contact_number",
                         placeholder: ""
                       },
