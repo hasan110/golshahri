@@ -84675,7 +84675,7 @@ var opts = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\golshahri\resources\js\client\app.js */"./resources/js/client/app.js");
+module.exports = __webpack_require__(/*! C:\Users\RayanZeytoon\Desktop\golshahri\resources\js\client\app.js */"./resources/js/client/app.js");
 
 
 /***/ })
