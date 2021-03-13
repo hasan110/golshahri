@@ -78,6 +78,7 @@ class UserBusinessController extends Controller
         $business = Business::create([
             'user_id'=>$user->id,
             'title'=>$request->title,
+            'icon'=>'',
             'description'=>$request->description,
             'contact_number'=>$request->contact_number,
             'instagram_id'=>$request->instagram_id,
@@ -116,6 +117,7 @@ class UserBusinessController extends Controller
             return response()->json(['status'=>404],404);
         }
         $business['new_images'] = [];
+        $business['new_icon'] = null;
         $business['image_delete'] = [];
         $business['images_count'] = $business->images->count();
         $business['default_image'] = Setting::find(1)->advertise_default_image;
@@ -163,9 +165,20 @@ class UserBusinessController extends Controller
         ]);
 
         $business = Business::find($request->id);
+        
+        if($request->hasFile('new_icon')){
+            $new_icon = $request->new_icon;
+            $new_icon_name = 'ICON'.'-'.time().'.'.$new_icon->getClientOriginalExtension();
+            $new_icon->move('uploads/businesses/'.$business->id,$new_icon_name);
+            $new_icon_link = 'businesses/'.$business->id.'/'.$new_icon_name;
+            File::delete(public_path().'/uploads/'.$business->icon);
+        }else{
+            $new_icon_link = $business->icon;
+        }
 
         $business->update([
             'title'=>$request->title,
+            'icon'=>$new_icon_link,
             'contact_number'=>$request->contact_number,
             'instagram_id'=>$request->instagram_id,
             'telegram_id'=>$request->telegram_id,
@@ -258,7 +271,7 @@ class UserBusinessController extends Controller
         }
 
         if($user_id){
-            $vote_count = Vote::where('business_id' , $request->business_id)->where('user_id' , $user_id)->count();
+            $vote_count = Vote::where('business_id' , $request->business_id)->where('type' , $request->type)->where('user_id' , $user_id)->count();
             if($vote_count == 0 ){
                 $vote = Vote::create([
                     'user_id' => $user_id,
@@ -273,7 +286,7 @@ class UserBusinessController extends Controller
                 ],400);
             }
         }else{
-            $vote_count = Vote::where('business_id' , $request->business_id)->where('user_ip' , $ipAddress)->count();
+            $vote_count = Vote::where('business_id' , $request->business_id)->where('type' , $request->type)->where('user_ip' , $ipAddress)->count();
             if($vote_count == 0 ){
                 $vote = Vote::create([
                     'user_id' => $user_id,

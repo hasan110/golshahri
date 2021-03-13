@@ -38,22 +38,22 @@
                             </pre>
                         </div>
                     </div>
-                    <hr v-if="business.contact_number" class="custom-color my-2">  
-                    <div v-if="business.contact_number" class="row ml-1 mt-0">
+                    <hr class="custom-color my-2">  
+                    <div class="row ml-1 mt-0">
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-phone item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0 pr-2" style="padding-top: 20px;">
                             <a style="color:#212529" :href="'tel:'+business.contact_number" class="medium-text">{{ business.contact_number }}</a>
                         </div>
                     </div>
-                    <hr v-if="business.telegram_id" class="custom-color my-2">  
-                    <div v-if="business.telegram_id" class="row ml-1 mt-0">
+                    <hr class="custom-color my-2">  
+                    <div class="row ml-1 mt-0">
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-paper-plane item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0 pr-2" style="padding-top: 20px;">
                             <a style="color:#212529" :href="'https://t.me/'+business.telegram_id" class="medium-text">{{ business.telegram_id }}@</a>
                         </div>
                     </div>
-                    <hr v-if="business.instagram_id" class="custom-color my-2">  
-                    <div v-if="business.instagram_id" class="row ml-1 mt-0">
+                    <hr class="custom-color my-2">  
+                    <div class="row ml-1 mt-0">
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-instagram item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0 pr-2" style="padding-top: 20px;">
                             <a style="color:#212529" :href="'https://instagram.com/'+business.instagram_id" class="medium-text">{{ business.instagram_id }}@</a>
