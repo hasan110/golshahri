@@ -13,7 +13,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="contact_number"> شماره تماس </label>
-                            <input v-model="formData.contact_number" @input="InsertJustNumber" type="text" id="contact_number" class="form-control " placeholder="">
+                            <input v-model="formData.contact_number" @input="InsertJustNumber" type="number" id="contact_number" class="form-control " placeholder="">
                         </div>
                     </div>
                     <div class="row">

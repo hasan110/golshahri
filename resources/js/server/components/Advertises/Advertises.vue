@@ -251,7 +251,7 @@
       <div>
         <div class="card m-b-0">
           <div class="card-header">
-              ویرایش <strong>مقاله</strong> با شناسه <b>{{editFormData.id}}</b>
+              ویرایش <strong>آگهی</strong> با شناسه <b>{{editFormData.id}}</b>
           </div>
           <div class="card-block">
             <div class="row">

@@ -44,7 +44,7 @@
                       <th>بازدید</th>
                       <th>وضعیت</th>
                       <th>تاریخ ثبت</th>
-                      <th>آیکون</th>
+                      <th>تصویر</th>
                     </tr>
                   </thead>
                   <div class="loading" v-show="!loaded">
@@ -71,8 +71,8 @@
                       </td>
                       <td>{{ business.shamsi_created_at }}</td>
                       <td>
-                        <template v-if="business.icon">
-                          <img class="icon" :src="ImageUrl+business.icon" alt="">
+                        <template v-if="business.images.length">
+                          <img class="icon" :src="ImageUrl+business.images[0].link" alt="">
                         </template>
                         <template v-else>ندارد</template>
                       </td>
@@ -112,24 +112,6 @@
               <div class="form-group col-md-6">
                 <label for="instagram_id">آدرس اینستاگرامی</label>
                 <input v-model="formData.instagram_id" type="text" id="instagram_id" class="form-control" placeholder="آدرس اینستاگرام را وارد کنید">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <v-file-input
-                  v-model="formData.icon"
-                  color="grey darken-3"
-                  label="انتخاب آیکون(اجباری)"
-                  outlined
-                  dense
-                  :show-size="1000"
-                >
-                  <template v-slot:selection="{ text }">
-                    <v-chip color="grey darken-3" dark label small >
-                      {{ text }}
-                    </v-chip>
-                  </template>
-                </v-file-input>
               </div>
             </div>
             <div class="row">
@@ -198,24 +180,6 @@
             <div class="row">
               <div class="col-12">
                 <v-file-input
-                  v-model="editFormData.new_icon"
-                  color="grey darken-3"
-                  label="انتخاب آیکون"
-                  outlined
-                  dense
-                  :show-size="1000"
-                >
-                  <template v-slot:selection="{ text }">
-                    <v-chip color="grey darken-3" dark label small >
-                      {{ text }}
-                    </v-chip>
-                  </template>
-                </v-file-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <v-file-input
                   v-model="editFormData.new_images"
                   color="grey darken-3"
                   counter
@@ -231,6 +195,17 @@
                     </v-chip>
                   </template>
                 </v-file-input>
+              </div>
+            </div>
+            <div class="row">
+              <div v-for="(image,key) in editFormData.images" :key="key" class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+                <div class="card">
+                  <img class="card-img-top img-fluid" :src="ImageUrl+image.link" alt="image">
+                  <div class="card-footer">
+                    <small class="text-muted">حذف شود؟</small>
+                    <v-checkbox v-model="editFormData.image_delete" color="blue" :value="image.id"></v-checkbox>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row">
@@ -305,7 +280,6 @@ export default {
         instagram_id:'',
         telegram_id:'',
         description:'',
-        icon:null,
         images:null,
       },
       editFormData:{},
@@ -340,7 +314,6 @@ export default {
       data.append('instagram_id', this.formData.instagram_id);
       data.append('telegram_id', this.formData.telegram_id);
       data.append('description', this.formData.description);
-      data.append('icon', this.formData.icon);
       if(this.formData.images !== null){
         for(var i=0 ; i < this.formData.images.length ; i++){
           let file = this.formData.images[i];
@@ -362,7 +335,6 @@ export default {
           instagram_id:'',
           telegram_id:'',
           description:'',
-          icon:'',
           images:null,
         };
         this.successMessage = res.data.message;
@@ -393,7 +365,6 @@ export default {
       editdata.append('instagram_id', this.editFormData.instagram_id);
       editdata.append('telegram_id', this.editFormData.telegram_id);
       editdata.append('description', this.editFormData.description);
-      editdata.append('new_icon', this.editFormData.new_icon);
       editdata.append('image_delete', this.editFormData.image_delete);
       for(var i=0 ; i < this.editFormData.new_images.length ; i++){
         let file = this.editFormData.new_images[i];
