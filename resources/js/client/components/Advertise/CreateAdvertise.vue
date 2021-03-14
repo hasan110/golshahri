@@ -140,15 +140,19 @@
             </div>
         </div>
 
-        <v-snackbar color="red" :timeout="4000" v-model="errorSnackbar">
-            <div>{{errorMessage}}</div>
-            <br>
-            <div class="text-center text-light">
-                <h1 class="text-center">
-                <i class="fa fa-info-circle"></i>
-                </h1>
-            </div>
-        </v-snackbar>
+        <v-dialog v-model="errorSnackbar" max-width="290">
+            <v-card dark color="error">
+                <v-card-title class="headline">
+                </v-card-title>
+                <v-card-text align="center">
+                    <h3><i class="fa fa-info-circle"></i></h3>
+                    {{errorMessage}}<br><br>
+                    <v-btn color="primary" @click="errorSnackbar = false">
+                        فهمیدم !
+                    </v-btn>
+                </v-card-text>
+            </v-card>
+        </v-dialog> 
     </div>
 </template>
 <script>

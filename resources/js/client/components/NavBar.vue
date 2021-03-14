@@ -19,12 +19,12 @@
         </li>
       </ul>
       <div class="social-media">
-        <button class="social-btn button4">
+        <a :href="setting.instagram_address" class="social-btn button4">
             <img height="30px" :src="ImageUrl+setting.instagram_image">
-        </button>
-        <button style="margin-left:10px;" class="social-btn button4">
+        </a>
+        <a :href="setting.telegram_address" style="margin-left:10px;" class="social-btn button4">
             <img height="30px" :src="ImageUrl+setting.telegram_image">
-        </button>
+        </a>
       </div>
     </nav>
 

@@ -12,12 +12,17 @@
           @endif
           @if (auth()->user()->can('menu_business'))
           <li class="nav-item">
-              <router-link class="nav-link" :to="{name:'Businesses'}"><i class="icon-docs"></i>لیست کسب و کارها</router-link>
+              <router-link class="nav-link" :to="{name:'Businesses'}"><i class="icon-direction"></i>لیست کسب و کارها</router-link>
           </li>
           @endif
           @if (auth()->user()->can('menu_category'))
           <li class="nav-item">
-              <router-link class="nav-link" :to="{name:'Categories'}"><i class="icon-docs"></i>لیست دسته بندی ها</router-link>
+              <router-link class="nav-link" :to="{name:'Categories'}"><i class="icon-chart"></i>لیست دسته بندی ها</router-link>
+          </li>
+          @endif
+          @if (auth()->user()->can('menu_region'))
+          <li class="nav-item">
+              <router-link class="nav-link" :to="{name:'Regions'}"><i class="icon-location-pin"></i>لیست منطقه ها</router-link>
           </li>
           @endif
           @if (auth()->user()->can('menu_admin'))

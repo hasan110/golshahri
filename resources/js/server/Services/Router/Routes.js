@@ -16,6 +16,8 @@ import Businesses from '../../components/Businesses/Businesses.vue';
 
 import Categories from '../../components/Categories/Categories.vue';
 
+import Regions from '../../components/Regions/Regions.vue';
+
 const allUrl = [
     {
         path: '/admin-area/Panel',
@@ -35,6 +37,8 @@ const allUrl = [
             { path: 'Businesses', name: 'Businesses', component: Businesses },
 
             { path: 'Categories', name: 'Categories', component: Categories },
+
+            { path: 'Regions', name: 'Regions', component: Regions },
             
             { path: 'SlideShows', name: 'SlideShows', component: SlideShows },
             { path: 'Setting', name: 'Setting', component: Setting },

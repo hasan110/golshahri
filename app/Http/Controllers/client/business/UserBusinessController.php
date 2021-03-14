@@ -78,8 +78,8 @@ class UserBusinessController extends Controller
 
         $business = Business::create([
             'user_id'=>$user->id,
+            'category_id'=>$request->category_id,
             'title'=>$request->title,
-            'icon'=>'',
             'description'=>$request->description,
             'contact_number'=>$request->contact_number,
             'instagram_id'=>$request->instagram_id,
@@ -166,25 +166,14 @@ class UserBusinessController extends Controller
         ]);
 
         $business = Business::find($request->id);
-        
-        if($request->hasFile('new_icon')){
-            $new_icon = $request->new_icon;
-            $new_icon_name = 'ICON'.'-'.time().'.'.$new_icon->getClientOriginalExtension();
-            $new_icon->move('uploads/businesses/'.$business->id,$new_icon_name);
-            $new_icon_link = 'businesses/'.$business->id.'/'.$new_icon_name;
-            File::delete(public_path().'/uploads/'.$business->icon);
-        }else{
-            $new_icon_link = $business->icon;
-        }
 
         $business->update([
             'title'=>$request->title,
-            'icon'=>$new_icon_link,
             'contact_number'=>$request->contact_number,
             'instagram_id'=>$request->instagram_id,
             'telegram_id'=>$request->telegram_id,
             'description'=>$request->description,
-            'confirmed'=>0
+            'confirmed'=>1
         ]);
 
         if($request->hasFile('new_images')){

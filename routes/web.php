@@ -16,6 +16,7 @@ use App\Http\Controllers\server\user\UserController;
 use App\Http\Controllers\server\advertise\AdvertiseController;
 use App\Http\Controllers\server\business\BusinessController;
 use App\Http\Controllers\server\category\CategoryController;
+use App\Http\Controllers\server\region\RegionController;
 
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\client\auth\AuthenticateController;
@@ -86,6 +87,7 @@ Route::prefix('/admin-area')->group(function(){
             Route::post('/delete' , [AdvertiseController::class , 'advertiseDelete'])->name('advertiseDelete');
             Route::post('/changeStatus' , [AdvertiseController::class , 'advertiseChangeStatus'])->name('advertiseChangeStatus');
             Route::post('/search' , [AdvertiseController::class , 'advertiseSearch'])->name('advertiseSearch');
+            Route::get('/regions' , [AdvertiseController::class , 'advertiseRegions'])->name('advertiseRegions');
         });
 
         // Businesses Routes
@@ -107,6 +109,15 @@ Route::prefix('/admin-area')->group(function(){
             Route::get('/category/{id}' , [CategoryController::class , 'categoryData'])->name('categoryData');
             Route::post('/edit' , [CategoryController::class , 'categoryEdit'])->name('categoryEdit');
             Route::post('/delete' , [CategoryController::class , 'categoryDelete'])->name('categoryDelete');
+        });
+
+        // Regions Routes
+        Route::prefix('/regions')->group(function(){
+            Route::get('/list' , [RegionController::class , 'regionList'])->name('regionList');
+            Route::post('/create' , [RegionController::class , 'regionCreate'])->name('regionCreate');
+            Route::get('/region/{id}' , [RegionController::class , 'regionData'])->name('regionData');
+            Route::post('/edit' , [RegionController::class , 'regionEdit'])->name('regionEdit');
+            Route::post('/delete' , [RegionController::class , 'regionDelete'])->name('regionDelete');
         });
 
         Route::prefix('/settings')->group(function(){

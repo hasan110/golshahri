@@ -9,6 +9,7 @@ use App\Models\User\User;
 use App\Models\Admin\Admin;
 use App\Models\AppModels\View;
 use App\Models\Category\Category;
+use App\Models\Region\Region;
 
 class Advertise extends Model
 {
@@ -29,5 +30,8 @@ class Advertise extends Model
     }
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+    public function region(){
+        return $this->belongsTo(Region::class);
     }
 }

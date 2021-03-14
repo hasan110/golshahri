@@ -8,6 +8,7 @@ use App\Models\Advertise\Advertise;
 use App\Models\Advertise\AdvertisePicture;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
+use App\Models\Region\Region;
 use Auth;
 use Morilog\Jalali\Jalalian;
 use Illuminate\Support\Facades\Notification;
@@ -300,5 +301,10 @@ class AdvertiseController extends Controller
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%Y/%m/%d- H:i');
         }
         return response()->json($advertises,200);
+    }
+    public function advertiseRegions(Request $request)
+    {
+        $regions = Region::whereStatus(1)->orderBy('priority' , 'ASC')->get();
+        return response()->json($regions,200);
     }
 }

@@ -456,6 +456,7 @@ export default {
       preview:false,
       array:[],
       advertises:{},
+      regions:{},
       loaded:false,
       current_page:1,
       last_page:1,
@@ -512,6 +513,15 @@ export default {
       })
       .catch(err => {
           console.log(err)
+      });
+    },
+    getRegions(page){
+      Axios.get('advertises/regions')
+      .then(res => {
+        this.regions = res.data;
+      })
+      .catch(err => {
+        console.log(err)
       });
     },
     CreateAdvertise(){
@@ -689,6 +699,7 @@ export default {
     }
   },
   mounted(){
+    this.getRegions();
     this.getAdvertises(this.current_page);
   }
 }

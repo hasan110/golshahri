@@ -13,7 +13,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="contact_number"> شماره تماس </label>
-                            <input v-model="formData.contact_number" @input="InsertJustNumber" type="text" id="contact_number" class="form-control " placeholder="">
+                            <input v-model="formData.contact_number" @input="InsertJustNumber" type="number" id="contact_number" class="form-control " placeholder="">
                         </div>
                     </div>
                     <div class="row">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="category_id">دسته بندی *</label>
+                            <label for="category_id">دسته بندی <span class="text-danger">*</span></label>
                             <select v-model="formData.category_id" id="category_id" class="form-control">
                             <option value="">دسته بندی آگهی خود را انتخاب کنید</option>
                             <option v-for="(category , key) in categories" :key="key" :value="category.id">{{category.title}}</option>
@@ -78,15 +78,19 @@
             </div>
         </div>
 
-        <v-snackbar color="red" :timeout="4000" v-model="errorSnackbar">
-            <div>{{errorMessage}}</div>
-            <br>
-            <div class="text-center text-light">
-                <h1 class="text-center">
-                <i class="fa fa-info-circle"></i>
-                </h1>
-            </div>
-        </v-snackbar>
+        <v-dialog v-model="errorSnackbar" max-width="290">
+            <v-card dark color="error">
+                <v-card-title class="headline">
+                </v-card-title>
+                <v-card-text align="center">
+                    <h3><i class="fa fa-info-circle"></i></h3>
+                    {{errorMessage}}<br><br>
+                    <v-btn color="primary" @click="errorSnackbar = false">
+                        فهمیدم !
+                    </v-btn>
+                </v-card-text>
+            </v-card>
+        </v-dialog> 
     </div>
 </template>
 <script>
@@ -125,13 +129,13 @@ export default {
                 this.errorSnackbar = true;
                 return;
             }
-            if(this.formData.images.length == 0){
-                this.errorMessage = 'تصویر آگهی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
+            if(this.formData.category_id === ''){
+                this.errorMessage = 'انتخاب دسته بندی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
                 this.errorSnackbar = true;
                 return;
             }
-            if(this.formData.category_id === ''){
-                this.errorMessage = 'انتخاب دسته بندی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
+            if(this.formData.images.length == 0){
+                this.errorMessage = 'تصویر آگهی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
                 this.errorSnackbar = true;
                 return;
             }
@@ -140,8 +144,6 @@ export default {
                 this.errorSnackbar = true;
                 return;
             }
-            
-            this.loading = true;
             const auth_token = localStorage.getItem('auth_token');
             const data = new FormData();
             data.append('auth_token', auth_token);
@@ -155,6 +157,8 @@ export default {
                 let file = this.formData.images[i].blob;
                 data.append('images['+ i +']', file);
             }
+
+            this.loading = true;
             Axios.post(`businesses/create` , data,
             {
                 headers: {
