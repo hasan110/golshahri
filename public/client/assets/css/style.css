@@ -559,8 +559,9 @@ select{
   .btn-record{
     font-size:12px !important;
   }
-  .form-container{
-    width: 80%;
+  .btn-legendary {
+    font-size: 12px;
+    padding: 7px 7px;
   }
   .form-container2{
     width: 98%;
