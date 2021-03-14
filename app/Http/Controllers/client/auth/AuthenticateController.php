@@ -31,23 +31,27 @@ class AuthenticateController extends Controller
         }
 
         $token = rand(1000 , 9999);
-        
-        // $curl = curl_init('https://api.ghasedak.io/v2/verification/send/simple');
-        // curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
-        // curl_setopt($curl, CURLOPT_POSTFIELDS, 'receptor='.$request->number.'&template=verify&type=1&param1='.$token);
-        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-        // curl_setopt($curl, CURLOPT_ENCODING, '');
-        // curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-        //     "apikey: 8df596628385b6516b021da31169260ee782d991392fa6b1923c8090e62c80b6",
-        //     "cache-control: no-cache",
-        //     "content-type: application/x-www-form-urlencoded",
-        // ));
-        // $result = curl_exec($curl);
-        // $error = curl_error($curl);
-        // $result = json_decode($result, true);
-        // curl_close($curl);
 
+        // $curl = curl_init();
+        // curl_setopt_array($curl,
+        //     array(
+        //         CURLOPT_URL => "https://api.ghasedak.io/v2/verification/send/simple",
+        //         CURLOPT_RETURNTRANSFER => true,
+        //         CURLOPT_ENCODING => "",
+        //         CURLOPT_MAXREDIRS => 10,
+        //         CURLOPT_TIMEOUT => 30,
+        //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //         CURLOPT_CUSTOMREQUEST => "POST",
+        //         CURLOPT_POSTFIELDS => 'receptor='.$request->number.'&template=verify&type=1&param1='.$token,
+        //         CURLOPT_HTTPHEADER => array(
+        //         "apikey: 8df596628385b6516b021da31169260ee782d991392fa6b1923c8090e62c80b6",
+        //         "cache-control: no-cache",
+        //         "content-type: application/x-www-form-urlencoded",
+        //     )
+        // ));
+        // $response = curl_exec($curl);
+        // $error = curl_error($curl);
+        // curl_close($curl);
         // if ($error) {
         //     return response()->json(
         //         ['status' => 'failed' , 'message'=>'مشکل در ارسال پیام پیش آمده است .'],
