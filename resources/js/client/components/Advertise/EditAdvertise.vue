@@ -29,11 +29,9 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="neighborhood">محله *</label>
-                        <select v-model="formData.neighborhood" id="neighborhood" class="form-control ">
-                        <option value="گلشهر">گلشهر</option>
-                        <option value="نوکاریز">نوکاریز</option>
-                        <option value="شهرک ثامن">شهرک ثامن</option>
+                        <label for="region_id">انتخاب منطقه <span class="text-danger">*</span></label>
+                        <select v-model="formData.region_id" id="region_id" class="form-control">
+                            <option v-for="(region , key) in regions" :key="key" :value="region.id">{{region.title}}</option>
                         </select>
                     </div>
                     </div>
@@ -50,7 +48,7 @@
                         <label for="street">خیابان *</label>
                         <input v-model="formData.street" type="text" id="street" class="form-control" placeholder="نام خیابان را وارد کنید">
                     </div>
-                    <div v-show="formData.status == 'منزل' || formData.type == 'فروش'" class="form-group col-md-6">
+                    <div v-show="formData.status == 'منزل' && formData.type == 'فروش'" class="form-group col-md-6">
                         <label for="skeleton_state">وضعیت اسکلت بندی *</label>
                         <select v-model="formData.skeleton_state" id="skeleton_state" class="form-control">
                         <option value="اسکلت">اسکلت</option>
@@ -130,15 +128,19 @@
             </div>
         </div>
 
-        <v-snackbar color="red" :timeout="4000" v-model="errorSnackbar">
-            <div>{{errorMessage}}</div>
-            <br>
-            <div class="text-center text-light">
-                <h1 class="text-center">
-                <i class="fa fa-info-circle"></i>
-                </h1>
-            </div>
-        </v-snackbar>
+        <v-dialog v-model="errorSnackbar" max-width="290">
+            <v-card dark color="error">
+                <v-card-title class="headline">
+                </v-card-title>
+                <v-card-text align="center">
+                    <h3><i class="fa fa-info-circle"></i></h3>
+                    {{errorMessage}}<br><br>
+                    <v-btn color="primary" @click="errorSnackbar = false">
+                        فهمیدم !
+                    </v-btn>
+                </v-card-text>
+            </v-card>
+        </v-dialog> 
         
         <div v-if="loading" class="appLoading">
             <div class="circles-wrapper">
@@ -162,12 +164,22 @@ export default {
             errorSnackbar:false,
             errorMessage:'',
             loading:true,
+            regions:{}
         }
     },
     methods :{
         ...mapActions([
             'setRedirectRoute',
         ]),
+        getRegions(){
+            Axios.get('advertises/regions')
+            .then(res => {
+                this.regions = res.data;
+            })
+            .catch(err => {
+                console.log(err)
+            });
+        },
         EditAdvertise(){
             const auth_token = localStorage.getItem('auth_token');
             const editdata = new FormData();
@@ -176,7 +188,7 @@ export default {
             editdata.append('title', this.formData.title);
             editdata.append('type', this.formData.type);
             editdata.append('status', this.formData.status);
-            editdata.append('neighborhood', this.formData.neighborhood);
+            editdata.append('region_id', this.formData.region_id);
             editdata.append('street', this.formData.street);
             editdata.append('lifetime_state', this.formData.lifetime_state);
             editdata.append('skeleton_state', this.formData.skeleton_state);
@@ -233,6 +245,8 @@ export default {
             this.setRedirectRoute('/MyAdvertises');
             this.$router.push('/Login');
         }
+        
+        this.getRegions();
 
         if(this.$route.params.advertise_id){
             this.getAdvertiseData(this.$route.params.advertise_id)

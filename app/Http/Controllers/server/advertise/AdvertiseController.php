@@ -19,9 +19,9 @@ class AdvertiseController extends Controller
     public function advertiseList(Request $request)
     {
         if(auth()->user()->hasRole('super_admin')){
-            $advertises = Advertise::latest()->with('user')->with('admin')->with('images')->paginate(50);
+            $advertises = Advertise::latest()->with('user')->with('admin')->with('region')->with('images')->paginate(50);
         }else{
-            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user')->with('admin')->with('images')->paginate(50);
+            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user')->with('region')->with('admin')->with('images')->paginate(50);
         }
         
         foreach($advertises as $key=>$item){
@@ -37,7 +37,7 @@ class AdvertiseController extends Controller
             'title' => ['required'],
             'type' => ['required'],
             'status' => ['required'],
-            'neighborhood' => ['required'],
+            'region_id' => ['required'],
             'street' => ['required'],
             'area' => ['required']
         ]);
@@ -95,7 +95,7 @@ class AdvertiseController extends Controller
             'title'=>$request->title,
             'type'=>$type,
             'status'=>$status,
-            'neighborhood'=>$request->neighborhood,
+            'region_id'=>$request->region_id,
             'street'=>$request->street,
             'is_in_lane'=>$is_in_lane,
             'lane_width'=>$lane_width,
@@ -136,10 +136,9 @@ class AdvertiseController extends Controller
     }
     public function advertiseData(Request $request)
     {
-        $advertise = Advertise::find($request->id);
+        $advertise = Advertise::find($request->id)->load('images')->load('region');
         $advertise['new_images'] = [];
         $advertise['image_delete'] = [];
-        $images = $advertise->images;
         return response()->json($advertise,200);
     }
     public function advertiseEdit(Request $request)
@@ -149,7 +148,7 @@ class AdvertiseController extends Controller
             'title' => ['required'],
             'type' => ['required'],
             'status' => ['required'],
-            'neighborhood' => ['required'],
+            'region_id' => ['required'],
             'street' => ['required'],
             'area' => ['required'],
         ]);
@@ -201,7 +200,7 @@ class AdvertiseController extends Controller
             'title'=>$request->title,
             'type'=>$type,
             'status'=>$status,
-            'neighborhood'=>$request->neighborhood,
+            'region_id'=>$request->region_id,
             'street'=>$request->street,
             'is_in_lane'=>$is_in_lane,
             'lane_width'=>$lane_width,
@@ -278,7 +277,7 @@ class AdvertiseController extends Controller
     {
         $key = $request->key;
         if(auth()->user()->hasRole('super_admin')){
-            $advertises = Advertise::latest()->with('user')->with('admin')->with('images')
+            $advertises = Advertise::latest()->with('user')->with('admin')->with('region')->with('images')
             ->where('title' , 'LIKE', '%'.$key.'%')
             ->orWhere('street' , 'LIKE', '%'.$key.'%')
             ->orWhere('area' , 'LIKE', '%'.$key.'%')
@@ -286,7 +285,7 @@ class AdvertiseController extends Controller
             ->orWhere('description' , 'LIKE', '%'.$key.'%')
             ->paginate(50);
         }else{
-            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user')->with('admin')->with('images')
+            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user')->with('region')->with('admin')->with('images')
             ->where(function ($query) use ($key) {
                 $query->where('title','LIKE', '%'.$key.'%')
                 ->orWhere('street','LIKE', '%'.$key.'%')

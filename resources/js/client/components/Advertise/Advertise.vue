@@ -33,7 +33,7 @@
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-map-marker item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0">
                             <p class="medium-text mr-text" >محدوده : </p>
-                            <p class="medium-text">{{ advertise.neighborhood }} - {{ advertise.street }}</p>
+                            <p class="medium-text">{{ advertise.region.title }} - {{ advertise.street }}</p>
                         </div>
                     </div>
                     <hr class="custom-color">  

@@ -12,6 +12,7 @@
           <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
             <router-link v-if="!authenticated" class="dropdown-item pl-1" :to="{name:'Login'}">ورود</router-link>
             <router-link class="dropdown-item pl-1" :to="{name:'MyAdvertises'}">آگهی های من</router-link>
+            <router-link class="dropdown-item pl-1" :to="{name:'MyBusinesses'}">کسب و کارهای من</router-link>
             <div v-if="authenticated" class="dropdown-item pl-1">{{userData.name}}</div>
             <div v-if="authenticated" class="dropdown-item pl-1">{{userData.number}}</div>
             <button v-if="authenticated" class="btn btn-danger btn-sm btn-block" @click="logoutdialog = true">خروج</button>

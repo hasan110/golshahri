@@ -173,6 +173,7 @@ Route::prefix('/advertises')->group(function(){
     Route::post('/delete' , [UserAdvertiseController::class , 'advertiseDelete'])->name('user.advertiseDelete');
     Route::post('/changeStatus' , [UserAdvertiseController::class , 'advertiseChangeStatus'])->name('user.advertiseChangeStatus');
     Route::post('/search' , [UserAdvertiseController::class , 'advertiseSearch'])->name('user.advertiseSearch');
+    Route::get('/regions' , [UserAdvertiseController::class , 'advertiseRegions'])->name('user.advertiseRegions');
 });
 
 Route::prefix('/businesses')->group(function(){

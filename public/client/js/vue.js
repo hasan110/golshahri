@@ -2444,8 +2444,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 
@@ -2456,11 +2454,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "CreateAdvertise",
   data: function data() {
     return {
+      regions: {},
       formData: {
         title: '',
         type: 'فروش',
         status: 'منزل',
-        neighborhood: 'گلشهر',
+        region_id: 1,
         street: '',
         lifetime_state: 'نوساز',
         skeleton_state: 'اسکلت',
@@ -2481,8 +2480,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])(['setRedirectRoute'])), {}, {
-    CreateAdvertise: function CreateAdvertise() {
+    getRegions: function getRegions() {
       var _this = this;
+
+      _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('advertises/regions').then(function (res) {
+        _this.regions = res.data;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    CreateAdvertise: function CreateAdvertise() {
+      var _this2 = this;
 
       if (this.formData.title === '') {
         this.errorMessage = 'عنوان آگهی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
@@ -2531,7 +2539,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       data.append('title', this.formData.title);
       data.append('type', this.formData.type);
       data.append('status', this.formData.status);
-      data.append('neighborhood', this.formData.neighborhood);
+      data.append('region_id', this.formData.region_id);
       data.append('street', this.formData.street);
       data.append('lifetime_state', this.formData.lifetime_state);
       data.append('skeleton_state', this.formData.skeleton_state);
@@ -2555,11 +2563,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (res) {
-        _this.$router.push('/MyAdvertises');
+        _this2.$router.push('/MyAdvertises');
       })["catch"](function (err) {
-        _this.loading = false;
-        _this.errorMessage = err.response.data.message;
-        _this.errorSnackbar = true;
+        _this2.loading = false;
+        _this2.errorMessage = err.response.data.message;
+        _this2.errorSnackbar = true;
       });
     },
     InsertJustNumber: function InsertJustNumber(e) {
@@ -2576,6 +2584,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.setRedirectRoute('/CreateAdvertise');
       this.$router.push('/Login');
     }
+
+    this.getRegions();
   }
 });
 
@@ -2749,6 +2759,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -2762,12 +2774,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       formData: {},
       errorSnackbar: false,
       errorMessage: '',
-      loading: true
+      loading: true,
+      regions: {}
     };
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])(['setRedirectRoute'])), {}, {
-    EditAdvertise: function EditAdvertise() {
+    getRegions: function getRegions() {
       var _this = this;
+
+      _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('advertises/regions').then(function (res) {
+        _this.regions = res.data;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    EditAdvertise: function EditAdvertise() {
+      var _this2 = this;
 
       var auth_token = localStorage.getItem('auth_token');
       var editdata = new FormData();
@@ -2776,7 +2798,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       editdata.append('title', this.formData.title);
       editdata.append('type', this.formData.type);
       editdata.append('status', this.formData.status);
-      editdata.append('neighborhood', this.formData.neighborhood);
+      editdata.append('region_id', this.formData.region_id);
       editdata.append('street', this.formData.street);
       editdata.append('lifetime_state', this.formData.lifetime_state);
       editdata.append('skeleton_state', this.formData.skeleton_state);
@@ -2801,21 +2823,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (res) {
-        _this.$router.push('/MyAdvertises');
+        _this2.$router.push('/MyAdvertises');
       })["catch"](function (err) {
-        _this.loading = false;
-        _this.errorMessage = err.response.data.message;
-        _this.errorSnackbar = true;
+        _this2.loading = false;
+        _this2.errorMessage = err.response.data.message;
+        _this2.errorSnackbar = true;
       });
     },
     getAdvertiseData: function getAdvertiseData(advertise_id) {
-      var _this2 = this;
+      var _this3 = this;
 
       _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('advertises/advertise/' + advertise_id).then(function (res) {
-        _this2.formData = res.data;
-        _this2.loading = false;
+        _this3.formData = res.data;
+        _this3.loading = false;
       })["catch"](function (err) {
-        _this2.loading = false;
+        _this3.loading = false;
         console.log(err);
       });
     },
@@ -2833,6 +2855,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.setRedirectRoute('/MyAdvertises');
       this.$router.push('/Login');
     }
+
+    this.getRegions();
 
     if (this.$route.params.advertise_id) {
       this.getAdvertiseData(this.$route.params.advertise_id);
@@ -4195,6 +4219,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4464,6 +4494,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -6826,7 +6857,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", { staticClass: "medium-text" }, [
                     _vm._v(
-                      _vm._s(_vm.advertise.neighborhood) +
+                      _vm._s(_vm.advertise.region.title) +
                         " - " +
                         _vm._s(_vm.advertise.street)
                     )
@@ -7499,7 +7530,7 @@ var render = function() {
                       attrs: {
                         type: "text",
                         id: "title",
-                        placeholder: "یک عنوان انتخاب کنید ."
+                        placeholder: "عنوان مناسبی برای آگهی خود انتخاب کنید ."
                       },
                       domProps: { value: _vm.formData.title },
                       on: {
@@ -7625,12 +7656,12 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.formData.neighborhood,
-                            expression: "formData.neighborhood"
+                            value: _vm.formData.region_id,
+                            expression: "formData.region_id"
                           }
                         ],
-                        staticClass: "form-control ",
-                        attrs: { id: "neighborhood" },
+                        staticClass: "form-control",
+                        attrs: { id: "region_id" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -7643,7 +7674,7 @@ var render = function() {
                               })
                             _vm.$set(
                               _vm.formData,
-                              "neighborhood",
+                              "region_id",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -7651,19 +7682,14 @@ var render = function() {
                           }
                         }
                       },
-                      [
-                        _c("option", { attrs: { value: "گلشهر" } }, [
-                          _vm._v("گلشهر")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "نوکاریز" } }, [
-                          _vm._v("نوکاریز")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "شهرک ثامن" } }, [
-                          _vm._v("شهرک ثامن")
-                        ])
-                      ]
+                      _vm._l(_vm.regions, function(region, key) {
+                        return _c(
+                          "option",
+                          { key: key, domProps: { value: region.id } },
+                          [_vm._v(_vm._s(region.title))]
+                        )
+                      }),
+                      0
                     )
                   ])
                 ]),
@@ -7751,7 +7777,7 @@ var render = function() {
                       attrs: {
                         type: "text",
                         id: "street",
-                        placeholder: "نام و شماره خیابان -> مثال : آوینی 54"
+                        placeholder: "فقط نام و شماره خیابان را وارد کنید"
                       },
                       domProps: { value: _vm.formData.street },
                       on: {
@@ -8399,7 +8425,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "type" } }, [
-      _vm._v("نوع آگهی "),
+      _vm._v("انتخاب نوع آگهی "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -8408,7 +8434,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "status" } }, [
-      _vm._v("نوع ملک "),
+      _vm._v("نوع ملک خود را انتخاب کنید "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -8416,8 +8442,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "neighborhood" } }, [
-      _vm._v("محله "),
+    return _c("label", { attrs: { for: "region_id" } }, [
+      _vm._v("ملک شما در کدام منطقه است؟ "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -8697,9 +8723,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-md-6" }, [
-                    _c("label", { attrs: { for: "neighborhood" } }, [
-                      _vm._v("محله *")
-                    ]),
+                    _vm._m(1),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -8708,12 +8732,12 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.formData.neighborhood,
-                            expression: "formData.neighborhood"
+                            value: _vm.formData.region_id,
+                            expression: "formData.region_id"
                           }
                         ],
-                        staticClass: "form-control ",
-                        attrs: { id: "neighborhood" },
+                        staticClass: "form-control",
+                        attrs: { id: "region_id" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -8726,7 +8750,7 @@ var render = function() {
                               })
                             _vm.$set(
                               _vm.formData,
-                              "neighborhood",
+                              "region_id",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -8734,19 +8758,14 @@ var render = function() {
                           }
                         }
                       },
-                      [
-                        _c("option", { attrs: { value: "گلشهر" } }, [
-                          _vm._v("گلشهر")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "نوکاریز" } }, [
-                          _vm._v("نوکاریز")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "شهرک ثامن" } }, [
-                          _vm._v("شهرک ثامن")
-                        ])
-                      ]
+                      _vm._l(_vm.regions, function(region, key) {
+                        return _c(
+                          "option",
+                          { key: key, domProps: { value: region.id } },
+                          [_vm._v(_vm._s(region.title))]
+                        )
+                      }),
+                      0
                     )
                   ])
                 ]),
@@ -8860,10 +8879,10 @@ var render = function() {
                           name: "show",
                           rawName: "v-show",
                           value:
-                            _vm.formData.status == "منزل" ||
+                            _vm.formData.status == "منزل" &&
                             _vm.formData.type == "فروش",
                           expression:
-                            "formData.status == 'منزل' || formData.type == 'فروش'"
+                            "formData.status == 'منزل' && formData.type == 'فروش'"
                         }
                       ],
                       staticClass: "form-group col-md-6"
@@ -9188,7 +9207,7 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group col-md-6" }, [
-                      _vm._m(1),
+                      _vm._m(2),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -9433,9 +9452,9 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-snackbar",
+        "v-dialog",
         {
-          attrs: { color: "red", timeout: 4000 },
+          attrs: { "max-width": "290" },
           model: {
             value: _vm.errorSnackbar,
             callback: function($$v) {
@@ -9445,20 +9464,45 @@ var render = function() {
           }
         },
         [
-          _c("div", [_vm._v(_vm._s(_vm.errorMessage))]),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-center text-light" }, [
-            _c("h1", { staticClass: "text-center" }, [
-              _c("i", { staticClass: "fa fa-info-circle" })
-            ])
-          ])
-        ]
+          _c(
+            "v-card",
+            { attrs: { dark: "", color: "error" } },
+            [
+              _c("v-card-title", { staticClass: "headline" }),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                { attrs: { align: "center" } },
+                [
+                  _c("h3", [_c("i", { staticClass: "fa fa-info-circle" })]),
+                  _vm._v("\n                " + _vm._s(_vm.errorMessage)),
+                  _c("br"),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: {
+                        click: function($event) {
+                          _vm.errorSnackbar = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    فهمیدم !\n                ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       ),
       _vm._v(" "),
       _vm.loading
-        ? _c("div", { staticClass: "appLoading" }, [_vm._m(2)])
+        ? _c("div", { staticClass: "appLoading" }, [_vm._m(3)])
         : _vm._e()
     ],
     1
@@ -9472,6 +9516,15 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _vm._v("\n                ویرایش "),
       _c("strong", [_vm._v("آگهی")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "region_id" } }, [
+      _vm._v("انتخاب منطقه "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
   function() {
@@ -9529,7 +9582,7 @@ var render = function() {
             { staticClass: "card m-b-0", staticStyle: { height: "auto" } },
             [
               _c("div", { staticClass: "card-header text-center" }, [
-                _vm._v("\n                آگهی های من\n            ")
+                _vm._v("\n                آگهی های املاک من\n            ")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
@@ -10385,85 +10438,100 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm.business.contact_number
+                ? _c("hr", { staticClass: "custom-color my-2" })
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "row ml-1 mt-0" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "col-11 ml-0 pl-0 pr-2",
-                    staticStyle: { "padding-top": "20px" }
-                  },
-                  [
+              _vm.business.contact_number
+                ? _c("div", { staticClass: "row ml-1 mt-0" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
                     _c(
-                      "a",
+                      "div",
                       {
-                        staticClass: "medium-text",
-                        staticStyle: { color: "#212529" },
-                        attrs: { href: "tel:" + _vm.business.contact_number }
+                        staticClass: "col-11 ml-0 pl-0 pr-2",
+                        staticStyle: { "padding-top": "20px" }
                       },
-                      [_vm._v(_vm._s(_vm.business.contact_number))]
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "medium-text",
+                            staticStyle: { color: "#212529" },
+                            attrs: {
+                              href: "tel:" + _vm.business.contact_number
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.business.contact_number))]
+                        )
+                      ]
                     )
-                  ]
-                )
-              ]),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm.business.telegram_id
+                ? _c("hr", { staticClass: "custom-color my-2" })
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "row ml-1 mt-0" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "col-11 ml-0 pl-0 pr-2",
-                    staticStyle: { "padding-top": "20px" }
-                  },
-                  [
+              _vm.business.telegram_id
+                ? _c("div", { staticClass: "row ml-1 mt-0" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
                     _c(
-                      "a",
+                      "div",
                       {
-                        staticClass: "medium-text",
-                        staticStyle: { color: "#212529" },
-                        attrs: {
-                          href: "https://t.me/" + _vm.business.telegram_id
-                        }
+                        staticClass: "col-11 ml-0 pl-0 pr-2",
+                        staticStyle: { "padding-top": "20px" }
                       },
-                      [_vm._v(_vm._s(_vm.business.telegram_id) + "@")]
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "medium-text",
+                            staticStyle: { color: "#212529" },
+                            attrs: {
+                              href: "https://t.me/" + _vm.business.telegram_id
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.business.telegram_id))]
+                        )
+                      ]
                     )
-                  ]
-                )
-              ]),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("hr", { staticClass: "custom-color my-2" }),
+              _vm.business.instagram_id
+                ? _c("hr", { staticClass: "custom-color my-2" })
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "row ml-1 mt-0" }, [
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "col-11 ml-0 pl-0 pr-2",
-                    staticStyle: { "padding-top": "20px" }
-                  },
-                  [
+              _vm.business.instagram_id
+                ? _c("div", { staticClass: "row ml-1 mt-0" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
                     _c(
-                      "a",
+                      "div",
                       {
-                        staticClass: "medium-text",
-                        staticStyle: { color: "#212529" },
-                        attrs: {
-                          href:
-                            "https://instagram.com/" + _vm.business.instagram_id
-                        }
+                        staticClass: "col-11 ml-0 pl-0 pr-2",
+                        staticStyle: { "padding-top": "20px" }
                       },
-                      [_vm._v(_vm._s(_vm.business.instagram_id) + "@")]
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "medium-text",
+                            staticStyle: { color: "#212529" },
+                            attrs: {
+                              href:
+                                "https://instagram.com/" +
+                                _vm.business.instagram_id
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.business.instagram_id))]
+                        )
+                      ]
                     )
-                  ]
-                )
-              ]),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "row ml-1" }, [
                 _c("div", { staticClass: "col-6" }, [
@@ -11749,7 +11817,7 @@ var render = function() {
             { staticClass: "card m-b-0", staticStyle: { height: "auto" } },
             [
               _c("div", { staticClass: "card-header text-center" }, [
-                _vm._v("\n                آگهی های من\n            ")
+                _vm._v("\n                کسب و کار های من\n            ")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
@@ -11771,29 +11839,66 @@ var render = function() {
                               { staticClass: "card advertise-card" },
                               [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col-6" }, [
-                                    _c("h6", { staticClass: "mt-3 ml-1" }, [
-                                      _vm._v(_vm._s(business.title))
-                                    ]),
-                                    _vm._v(" "),
-                                    business.confirmed
-                                      ? _c(
-                                          "p",
-                                          {
-                                            staticClass:
-                                              "m-2 badge badge-success"
-                                          },
-                                          [_vm._v("منتشر شد")]
-                                        )
-                                      : _c(
-                                          "p",
-                                          {
-                                            staticClass:
-                                              "m-2 badge badge-danger"
-                                          },
-                                          [_vm._v("بزودی منتشر میشود ...")]
-                                        )
-                                  ]),
+                                  _c(
+                                    "div",
+                                    { staticClass: "col-6" },
+                                    [
+                                      _c("h6", { staticClass: "mt-3 ml-1" }, [
+                                        _vm._v(_vm._s(business.title))
+                                      ]),
+                                      _vm._v(" "),
+                                      business.confirmed
+                                        ? _c(
+                                            "p",
+                                            {
+                                              staticClass:
+                                                "m-2 badge badge-success"
+                                            },
+                                            [_vm._v("منتشر شد")]
+                                          )
+                                        : _c(
+                                            "p",
+                                            {
+                                              staticClass:
+                                                "m-2 badge badge-danger"
+                                            },
+                                            [_vm._v("بزودی منتشر میشود ...")]
+                                          ),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      business.confirmed
+                                        ? _c(
+                                            "router-link",
+                                            {
+                                              attrs: {
+                                                to: {
+                                                  name: "Business",
+                                                  params: {
+                                                    business_id: business.id
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticClass:
+                                                    "m-2 btn btn-warning"
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass: "fa fa-eye"
+                                                  })
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "div",
@@ -12217,6 +12322,15 @@ var render = function() {
                       attrs: { to: { name: "MyAdvertises" } }
                     },
                     [_vm._v("آگهی های من")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "dropdown-item pl-1",
+                      attrs: { to: { name: "MyBusinesses" } }
+                    },
+                    [_vm._v("کسب و کارهای من")]
                   ),
                   _vm._v(" "),
                   _vm.authenticated

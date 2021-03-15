@@ -9,10 +9,10 @@
                     <div class="row">
                     <div class="form-group col-md-6">
                         <label for="title">عنوان آگهی <span class="text-danger">*</span></label>
-                        <input v-model="formData.title" type="text" id="title" class="form-control " placeholder="یک عنوان انتخاب کنید .">
+                        <input v-model="formData.title" type="text" id="title" class="form-control " placeholder="عنوان مناسبی برای آگهی خود انتخاب کنید .">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="type">نوع آگهی <span class="text-danger">*</span></label>
+                        <label for="type">انتخاب نوع آگهی <span class="text-danger">*</span></label>
                         <select v-model="formData.type" id="type" class="form-control ">
                         <option value="فروش">فروش</option>
                         <option value="رهن و اجاره">رهن و اجاره</option>
@@ -21,7 +21,7 @@
                     </div>
                     <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="status">نوع ملک <span class="text-danger">*</span></label>
+                        <label for="status">نوع ملک خود را انتخاب کنید <span class="text-danger">*</span></label>
                         <select v-model="formData.status" id="status" class="form-control ">
                         <option value="منزل">منزل</option>
                         <option value="مغازه">مغازه</option>
@@ -29,11 +29,9 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="neighborhood">محله <span class="text-danger">*</span></label>
-                        <select v-model="formData.neighborhood" id="neighborhood" class="form-control ">
-                        <option value="گلشهر">گلشهر</option>
-                        <option value="نوکاریز">نوکاریز</option>
-                        <option value="شهرک ثامن">شهرک ثامن</option>
+                        <label for="region_id">ملک شما در کدام منطقه است؟ <span class="text-danger">*</span></label>
+                        <select v-model="formData.region_id" id="region_id" class="form-control">
+                            <option v-for="(region , key) in regions" :key="key" :value="region.id">{{region.title}}</option>
                         </select>
                     </div>
                     </div>
@@ -48,7 +46,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="street">خیابان <span class="text-danger">*</span></label>
-                        <input v-model="formData.street" type="text" id="street" class="form-control " placeholder="نام و شماره خیابان -> مثال : آوینی 54">
+                        <input v-model="formData.street" type="text" id="street" class="form-control " placeholder="فقط نام و شماره خیابان را وارد کنید">
                     </div>
                     <div v-show="formData.status == 'منزل' && formData.type == 'فروش'" class="form-group col-md-6">
                         <label for="skeleton_state">وضعیت اسکلت بندی <span class="text-danger">*</span></label>
@@ -166,11 +164,12 @@ export default {
     name:"CreateAdvertise",
     data(){
         return{
+            regions:{},
             formData:{
                 title:'',
                 type:'فروش',
                 status:'منزل',
-                neighborhood:'گلشهر',
+                region_id:1,
                 street:'',
                 lifetime_state: 'نوساز',
                 skeleton_state: 'اسکلت',
@@ -194,6 +193,15 @@ export default {
         ...mapActions([
             'setRedirectRoute',
         ]),
+        getRegions(){
+            Axios.get('advertises/regions')
+            .then(res => {
+                this.regions = res.data;
+            })
+            .catch(err => {
+                console.log(err)
+            });
+        },
         CreateAdvertise(){
             if(this.formData.title === ''){
                 this.errorMessage = 'عنوان آگهی اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
@@ -239,7 +247,7 @@ export default {
             data.append('title', this.formData.title);
             data.append('type', this.formData.type);
             data.append('status', this.formData.status);
-            data.append('neighborhood', this.formData.neighborhood);
+            data.append('region_id', this.formData.region_id);
             data.append('street', this.formData.street);
             data.append('lifetime_state', this.formData.lifetime_state);
             data.append('skeleton_state', this.formData.skeleton_state);
@@ -284,6 +292,7 @@ export default {
             this.setRedirectRoute('/CreateAdvertise');
             this.$router.push('/Login');
         }
+        this.getRegions();
     }
 }
 </script>

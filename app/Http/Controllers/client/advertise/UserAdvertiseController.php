@@ -8,6 +8,7 @@ use App\Models\Advertise\Advertise;
 use App\Models\Advertise\AdvertisePicture;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
+use App\Models\Region\Region;
 use Illuminate\Support\Facades\Notification;
 use Auth;
 use Morilog\Jalali\Jalalian;
@@ -58,7 +59,7 @@ class UserAdvertiseController extends Controller
             'title' => ['required'],
             'type' => ['required'],
             'status' => ['required'],
-            'neighborhood' => ['required'],
+            'region_id' => ['required'],
             'street' => ['required'],
             'area' => ['required']
         ]);
@@ -118,7 +119,7 @@ class UserAdvertiseController extends Controller
             'title'=>$request->title,
             'type'=>$type,
             'status'=>$status,
-            'neighborhood'=>$request->neighborhood,
+            'region_id'=>$request->region_id,
             'street'=>$request->street,
             'is_in_lane'=>$is_in_lane,
             'lane_width'=>$lane_width,
@@ -184,6 +185,7 @@ class UserAdvertiseController extends Controller
         $advertise['images_count'] = $advertise->images->count();
         $advertise['default_image'] = Setting::find(1)->advertise_default_image;
         $images = $advertise->images;
+        $region = $advertise->region;
 
         
         if($request->has('auth_token')){
@@ -213,7 +215,7 @@ class UserAdvertiseController extends Controller
             'title' => ['required'],
             'type' => ['required'],
             'status' => ['required'],
-            'neighborhood' => ['required'],
+            'region_id' => ['required'],
             'street' => ['required'],
             'area' => ['required']
         ]);
@@ -265,7 +267,7 @@ class UserAdvertiseController extends Controller
             'title'=>$request->title,
             'type'=>$type,
             'status'=>$status,
-            'neighborhood'=>$request->neighborhood,
+            'region_id'=>$request->region_id,
             'street'=>$request->street,
             'is_in_lane'=>$is_in_lane,
             'lane_width'=>$lane_width,
@@ -381,5 +383,10 @@ class UserAdvertiseController extends Controller
             }
         }
         return response()->json($advertises,200);
+    }
+    public function advertiseRegions(Request $request)
+    {
+        $regions = Region::whereStatus(1)->orderBy('priority' , 'ASC')->get();
+        return response()->json($regions,200);
     }
 }

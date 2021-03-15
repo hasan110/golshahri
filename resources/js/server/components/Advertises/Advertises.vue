@@ -60,7 +60,7 @@
                       <td>{{ key+1 }}</td>
                       <td>{{ advertise.id }}</td>
                       <td>{{ advertise.title }}</td>
-                      <td>{{ advertise.neighborhood }} - {{ advertise.street }}</td>
+                      <td>{{ advertise.region.title }} - {{ advertise.street }}</td>
                       <td>
                         <template v-if="advertise.user">
                           کاربر - {{ advertise.user.name }}
@@ -124,11 +124,9 @@
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <label for="neighborhood">محله *</label>
-                <select v-model="formData.neighborhood" id="neighborhood" class="form-control">
-                  <option value="گلشهر">گلشهر</option>
-                  <option value="نوکاریز">نوکاریز</option>
-                  <option value="شهرک ثامن">شهرک ثامن</option>
+                <label for="region_id">محله *</label>
+                <select v-model="formData.region_id" id="region_id" class="form-control">
+                  <option v-for="(region , key) in regions" :key="key" :value="region.id">{{region.title}}</option>
                 </select>
               </div>
             </div>
@@ -277,11 +275,9 @@
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <label for="neighborhood">محله *</label>
-                <select v-model="editFormData.neighborhood" id="neighborhood" class="form-control">
-                  <option value="گلشهر">گلشهر</option>
-                  <option value="نوکاریز">نوکاریز</option>
-                  <option value="شهرک ثامن">شهرک ثامن</option>
+                <label for="region_id">محله *</label>
+                <select v-model="editFormData.region_id" id="region_id" class="form-control">
+                  <option v-for="(region , key) in regions" :key="key" :value="region.id">{{region.title}}</option>
                 </select>
               </div>
             </div>
@@ -467,7 +463,7 @@ export default {
         title:'',
         type:'فروش',
         status:'منزل',
-        neighborhood:'گلشهر',
+        region_id:1,
         street:'',
         lifetime_state: 'نوساز',
         skeleton_state: 'اسکلت',
@@ -515,7 +511,7 @@ export default {
           console.log(err)
       });
     },
-    getRegions(page){
+    getRegions(){
       Axios.get('advertises/regions')
       .then(res => {
         this.regions = res.data;
@@ -529,7 +525,7 @@ export default {
       data.append('title', this.formData.title);
       data.append('type', this.formData.type);
       data.append('status', this.formData.status);
-      data.append('neighborhood', this.formData.neighborhood);
+      data.append('region_id', this.formData.region_id);
       data.append('street', this.formData.street);
       data.append('lifetime_state', this.formData.lifetime_state);
       data.append('skeleton_state', this.formData.skeleton_state);
@@ -563,7 +559,7 @@ export default {
           title:'',
           type:'فروش',
           status:'منزل',
-          neighborhood:'گلشهر',
+          region_id:1,
           street:'',
           lifetime_state: 'نوساز',
           skeleton_state: 'اسکلت',
@@ -608,7 +604,7 @@ export default {
       editdata.append('title', this.editFormData.title);
       editdata.append('type', this.editFormData.type);
       editdata.append('status', this.editFormData.status);
-      editdata.append('neighborhood', this.editFormData.neighborhood);
+      editdata.append('region_id', this.editFormData.region_id);
       editdata.append('street', this.editFormData.street);
       editdata.append('lifetime_state', this.editFormData.lifetime_state);
       editdata.append('skeleton_state', this.editFormData.skeleton_state);

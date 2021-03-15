@@ -15,7 +15,7 @@ class CreateAdvertisesTable extends Migration
             $table->text('title');
             $table->enum('status',['منزل','مغازه','زمین']);
             $table->enum('type',['فروش','رهن و اجاره']);
-            $table->string('neighborhood');
+            $table->integer('region_id');
             $table->string('street');
             $table->integer('area');
             $table->boolean('is_in_lane');

@@ -3,7 +3,7 @@
         <div class="container" style="margin-top:60px">
             <div style="height:auto;" class="card m-b-0">
                 <div class="card-header text-center">
-                    آگهی های من
+                    آگهی های املاک من
                 </div>
                 <div class="card-body">
                     <div v-if="advertises_count" class="row">

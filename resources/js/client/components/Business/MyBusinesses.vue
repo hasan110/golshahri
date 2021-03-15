@@ -3,7 +3,7 @@
         <div class="container" style="margin-top:60px">
             <div style="height:auto;" class="card m-b-0">
                 <div class="card-header text-center">
-                    آگهی های من
+                    کسب و کار های من
                 </div>
                 <div class="card-body">
                     <div v-if="businesses_count" class="row">
@@ -14,6 +14,12 @@
                                 <h6 class="mt-3 ml-1">{{ business.title }}</h6>
                                 <p v-if="business.confirmed" class="m-2 badge badge-success">منتشر شد</p>
                                 <p v-else class="m-2 badge badge-danger">بزودی منتشر میشود ...</p>
+                                <br>
+                                <router-link v-if="business.confirmed" :to="{name:'Business' , params:{business_id:business.id}}">
+                                    <p class="m-2 btn btn-warning">
+                                        <i class="fa fa-eye"></i>
+                                    </p>
+                                </router-link>
                                 </div>
                                 <div class="col-6 pr-0 pt-0">
                                     <div class="card-image-wrapper">
