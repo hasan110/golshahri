@@ -32,23 +32,7 @@ class UserAdvertiseController extends Controller
             }
         }
 
-        if($request->has('auth_token')){
-            $user = User::where('auth_token',$request->auth_token)->first();
-            if($user){
-                $user_id = $user->id;
-            }
-        }else{
-            $user_id = null;
-        }
-
-        $ipAddress = $request->ip();
-
-        View::create([
-            'user_id'=>$user_id,
-            'user_ip'=>$ipAddress,
-            'type'=>'home',
-            'advertise_id'=>null,
-        ]);
+        $this->recordView($request , 'advertises' , null , null);
 
         return response()->json($advertises,200);
     }
@@ -187,24 +171,7 @@ class UserAdvertiseController extends Controller
         $images = $advertise->images;
         $region = $advertise->region;
 
-        
-        if($request->has('auth_token')){
-            $user = User::where('auth_token',$request->auth_token)->first();
-            if($user){
-                $user_id = $user->id;
-            }
-        }else{
-            $user_id = null;
-        }
-
-        $ipAddress = $request->ip();
-
-        View::create([
-            'user_id'=>$user_id,
-            'user_ip'=>$ipAddress,
-            'type'=>'advertise',
-            'advertise_id'=>$advertise->id,
-        ]);
+        $this->recordView($request , 'advertise' , $advertise->id , null);
 
         return response()->json($advertise,200);
     }

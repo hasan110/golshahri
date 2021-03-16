@@ -38,24 +38,7 @@ class UserBusinessController extends Controller
             $item['days_ago'] = $now->diffInDays($item->created_at);
         }
 
-        if($request->has('auth_token')){
-            $user = User::where('auth_token',$request->auth_token)->first();
-            if($user){
-                $user_id = $user->id;
-            }
-        }else{
-            $user_id = null;
-        }
-
-        $ipAddress = $request->ip();
-
-        View::create([
-            'user_id'=>$user_id,
-            'user_ip'=>$ipAddress,
-            'type'=>'businessList',
-            'advertise_id'=>null,
-            'business_id'=>null,
-        ]);
+        $this->recordView($request , 'businesses' , null , null);
 
         return response()->json($businesses,200);
     }
@@ -136,24 +119,7 @@ class UserBusinessController extends Controller
         $business['percent'] = floor($percent);
         $business['all_votes'] = Vote::where('business_id', $request->id)->count();
         
-        if($request->has('auth_token')){
-            $user = User::where('auth_token',$request->auth_token)->first();
-            if($user){
-                $user_id = $user->id;
-            }
-        }else{
-            $user_id = null;
-        }
-
-        $ipAddress = $request->ip();
-
-        View::create([
-            'user_id'=>$user_id,
-            'user_ip'=>$ipAddress,
-            'type'=>'business',
-            'advertise_id'=>null,
-            'business_id'=>$business->id,
-        ]);
+        $this->recordView($request , 'business' , null , $business->id);
 
         return response()->json($business,200);
     }

@@ -46,9 +46,9 @@ class BusinessController extends Controller
             'title'=>$request->title,
             'category_id'=>$request->category_id,
             'description'=>$request->description,
-            'contact_number'=>$request->contact_number ? $request->contact_number : '',
-            'instagram_id'=>$request->instagram_id ? $request->instagram_id : '',
-            'telegram_id'=>$request->telegram_id ? $request->telegram_id : '',
+            'contact_number'=>$request->contact_number,
+            'instagram_id'=>$request->instagram_id,
+            'telegram_id'=>$request->telegram_id,
             'confirmed'=>1,
         ]);
 
@@ -95,9 +95,9 @@ class BusinessController extends Controller
             'title'=>$request->title,
             'description'=>$request->description,
             'category_id'=>$request->category_id,
-            'contact_number'=>$request->contact_number ? $request->contact_number : $business->contact_number,
-            'instagram_id'=>$request->instagram_id ? $request->instagram_id : $business->instagram_id,
-            'telegram_id'=>$request->telegram_id ? $request->telegram_id : $business->telegram_id,
+            'contact_number'=>$request->contact_number,
+            'instagram_id'=>$request->instagram_id,
+            'telegram_id'=>$request->telegram_id,
             'confirmed'=>1,
         ]);
 

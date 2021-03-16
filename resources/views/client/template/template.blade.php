@@ -9,8 +9,8 @@
   <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
 	<link rel="shortcut icon" href="{{ asset('images/transparentbglogo.png') }}">
 	<link rel="apple-touch-icon" href="{{ asset('images/whitebglogo.jpg') }}">
-  <title>گلشهری | سامانه آگهی های مسکن گلشهر مشهد</title>
-  <meta name="description" content="در سامانه گلشهری شما می توانید در کم ترین زمان منزل یا ملک مورد نظر خود را پیداکنید .">
+  <title>گلشهری | سامانه آگهی های گلشهر مشهد</title>
+  <meta name="description" content="در سامانه گلشهری شما می توانید در کم ترین زمان منزل یا ملک مورد نظر خود را پیداکنید . و هم چنین می توانید کسب و کار خود را معرفی کنید .">
   <meta name="keywords" content="گلشهر , گلشهرمشهد , گلشهری , خرید منزل در گلشهر , املاک گلشهرمشهد , سایت گلشهری , وبسایت گلشهری , خرید ملک در گلشهر , golshahri , golshahr , آگهی های گلشهر , بنگاه مجازی گلشهر , معاملات مسکن گلشهر">
   <meta name="robots" content="index, follow">
 </head>
