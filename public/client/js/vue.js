@@ -7368,86 +7368,67 @@ var render = function() {
                     }
                   },
                   [
-                    _c(
-                      "div",
-                      { staticClass: "card advertise-card" },
-                      [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-6" }, [
-                            _c(
-                              "h6",
-                              {
-                                staticClass: "advertise-title mt-1 ml-1 nowrap"
-                              },
-                              [_vm._v(_vm._s(advertise.title))]
-                            ),
-                            _vm._v(" "),
-                            _c("small", { staticClass: "m-2 small nowrap" }, [
-                              _vm._v("محدوده " + _vm._s(advertise.street))
-                            ]),
-                            _vm._v(" "),
-                            advertise.area
-                              ? _c("small", { staticClass: "m-2 small" }, [
-                                  _vm._v(
-                                    "متراژ : " + _vm._s(advertise.area) + " متر"
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            advertise.type == "فروش"
-                              ? _c(
-                                  "p",
-                                  { staticClass: "m-2 badge badge-success" },
-                                  [
-                                    _vm._v(
-                                      _vm._s(advertise.type) +
-                                        " " +
-                                        _vm._s(advertise.status)
-                                    )
-                                  ]
-                                )
-                              : _c(
-                                  "p",
-                                  { staticClass: "m-2 badge badge-danger" },
-                                  [
-                                    _vm._v(
-                                      _vm._s(advertise.type) +
-                                        " " +
-                                        _vm._s(advertise.status)
-                                    )
-                                  ]
-                                )
+                    _c("div", { staticClass: "card advertise-card" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-6" }, [
+                          _c(
+                            "h6",
+                            { staticClass: "advertise-title mt-1 ml-1" },
+                            [_vm._v(_vm._s(advertise.title))]
+                          ),
+                          _vm._v(" "),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("small", { staticClass: "m-2 small" }, [
+                            _vm._v("محدوده " + _vm._s(advertise.street))
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-6 pr-0 pt-0" }, [
-                            _c("div", { staticClass: "card-image-wrapper" }, [
-                              _c("img", {
-                                staticClass: "card-image",
-                                attrs: {
-                                  src: _vm.ImageUrl + advertise.image,
-                                  alt: ""
-                                }
-                              })
-                            ])
-                          ])
+                          advertise.area
+                            ? _c("small", { staticClass: "m-2 small" }, [
+                                _vm._v(
+                                  "متراژ : " + _vm._s(advertise.area) + " متر"
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          advertise.type == "فروش"
+                            ? _c(
+                                "p",
+                                { staticClass: "m-2 badge badge-success" },
+                                [
+                                  _vm._v(
+                                    _vm._s(advertise.type) +
+                                      " " +
+                                      _vm._s(advertise.status)
+                                  )
+                                ]
+                              )
+                            : _c(
+                                "p",
+                                { staticClass: "m-2 badge badge-danger" },
+                                [
+                                  _vm._v(
+                                    _vm._s(advertise.type) +
+                                      " " +
+                                      _vm._s(advertise.status)
+                                  )
+                                ]
+                              )
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "btn btn-legendary btn-sm details-btn",
-                            attrs: {
-                              to: {
-                                name: "Advertise",
-                                params: { advertise_id: advertise.id }
+                        _c("div", { staticClass: "col-6 pr-0 pt-0" }, [
+                          _c("div", { staticClass: "card-image-wrapper" }, [
+                            _c("img", {
+                              staticClass: "card-image",
+                              attrs: {
+                                src: _vm.ImageUrl + advertise.image,
+                                alt: ""
                               }
-                            }
-                          },
-                          [_vm._v("اطلاعات بیشتر...")]
-                        )
-                      ],
-                      1
-                    )
+                            })
+                          ])
+                        ])
+                      ])
+                    ])
                   ]
                 )
               ],

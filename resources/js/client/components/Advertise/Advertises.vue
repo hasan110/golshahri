@@ -18,8 +18,9 @@
                     <div class="card advertise-card">
                         <div class="row">
                             <div class="col-6">
-                                <h6 class="advertise-title mt-1 ml-1 nowrap">{{ advertise.title }}</h6>
-                                <small class="m-2 small nowrap">محدوده {{ advertise.street }}</small>
+                                <h6 class="advertise-title mt-1 ml-1">{{ advertise.title }}</h6>
+                                <hr>
+                                <small class="m-2 small">محدوده {{ advertise.street }}</small>
                                 <small v-if="advertise.area" class="m-2 small">متراژ : {{ advertise.area }} متر</small>
                                 <p v-if="advertise.type == 'فروش'" class="m-2 badge badge-success">{{ advertise.type }} {{ advertise.status }}</p>
                                 <p v-else class="m-2 badge badge-danger">{{ advertise.type }} {{ advertise.status }}</p>
@@ -30,7 +31,6 @@
                                 </div>
                             </div>
                         </div>
-                        <router-link :to="{name:'Advertise' , params:{advertise_id:advertise.id}}" class="btn btn-legendary btn-sm details-btn">اطلاعات بیشتر...</router-link>
                     </div>
                     </router-link>
                 </div>

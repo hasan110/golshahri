@@ -9,34 +9,39 @@
             <div class="animated fadeIn">
                 <div class="row">
                     <div class="col-sm-6 col-lg-3">
-                        <div class="card card-inverse card-primary">
-                            <div class="card-block p-b-0">
-                                <div class="btn-group pull-left">
-                                    <button type="button" class="btn btn-transparent active p-a-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="icon-user"></i>
-                                    </button>
+                        <router-link :to="{name:'Users'}">
+                            <div class="card card-inverse card-primary">
+                                <div class="card-block p-b-0">
+                                    <div class="btn-group pull-left">
+                                        <button type="button" class="btn btn-transparent active p-a-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="icon-user"></i>
+                                        </button>
+                                    </div>
+                                    <h4 class="m-b-0">{{data.usersCount}}</h4>
+                                    <p>تعداد کاربران</p>
                                 </div>
-                                <h4 class="m-b-0">{{usersCount}}</h4>
-                                <p>تعداد کاربران</p>
                             </div>
-                        </div>
+                        </router-link>
                     </div>
                     <!--/col-->
 
                     <div class="col-sm-6 col-lg-3">
+                        <router-link :to="{name:'Advertises'}">
                         <div class="card card-inverse card-info">
                             <div class="card-block p-b-0">
                                 <button type="button" class="btn btn-transparent active p-a-0 pull-left">
                                     <i class="icon-layers"></i>
                                 </button>
-                                <h4 class="m-b-0">{{ advertisesCount }}</h4>
-                                <p>تعداد آگهی ها</p>
+                                <h4 class="m-b-0">{{ data.advertisesCount }}</h4>
+                                <p>تعداد آگهی ها ({{ data.unConfirmedAdvertisesCount }} تاییدنشده)</p>
                             </div>
                         </div>
+                        </router-link>
                     </div>
                     <!--/col-->
 
                     <div class="col-sm-6 col-lg-3">
+                        <router-link :to="{name:'Businesses'}">
                         <div class="card card-inverse card-warning">
                             <div class="card-block p-b-0">
                                 <div class="btn-group pull-left">
@@ -49,10 +54,11 @@
                                         <a class="dropdown-item" href="#">Something else here</a>
                                     </div> -->
                                 </div>
-                                <h4 class="m-b-0">{{ confirmedAdvertisesCount }}</h4>
-                                <p>آگهی های تایید نشده</p>
+                                <h4 class="m-b-0">{{ data.businessesCount }}</h4>
+                                <p>تعداد کسب وکارها ({{ data.unConfirmedBusinessesCount }} تاییدنشده)</p>
                             </div>
                         </div>
+                        </router-link>
                     </div>
                     <!--/col-->
 
@@ -64,7 +70,7 @@
                                         <i class="icon-settings"></i>
                                     </button>
                                 </div>
-                                <h4 class="m-b-0">{{ todayViews }}</h4>
+                                <h4 class="m-b-0">{{ data.todayViews }}</h4>
                                 <p>کل بازدید های امروز</p>
                             </div>
                         </div>
@@ -76,16 +82,16 @@
 
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
-                        <div class="social-box facebook">
+                        <div class="social-box twitter">
                             <i class="fa fa-eye"></i>
                             <ul>
                                 <li>
-                                    <strong>{{ allViewsFromHome }}</strong>
-                                    <span>همه بازدید ها از سایت</span>
+                                    <strong>{{ data.todayViewsFromAdvertises }}</strong>
+                                    <span>بازدید های امروز از املاک</span>
                                 </li>
                                 <li>
-                                    <strong>{{ allViewsFromAds }}</strong>
-                                    <span>همه بازدید ها از آگهی</span>
+                                    <strong>{{ data.todayViewsFromAdvertise }}</strong>
+                                    <span>بازدید های امروز از آگهی</span>
                                 </li>
                             </ul>
                         </div>
@@ -95,11 +101,11 @@
                             <i class="fa fa-eye-slash"></i>
                             <ul>
                                 <li>
-                                    <strong>{{ todayViewsFromHome }}</strong>
-                                    <span>بازدید های امروز از سایت</span>
+                                    <strong>{{ data.todayViewsFromBusinesses }}</strong>
+                                    <span>بازدید های امروز از کسب و کار ها</span>
                                 </li>
                                 <li>
-                                    <strong>{{ todayViewsFromAds }}</strong>
+                                    <strong>{{ data.todayViewsFromBusiness }}</strong>
                                     <span>بازدید های امروز از آگهی</span>
                                 </li>
                             </ul>
@@ -118,28 +124,14 @@ export default {
     name:"Dashboard",
     data(){
         return {
-            usersCount:'',
-            confirmedAdvertisesCount:'',
-            advertisesCount:'',
-            todayViews:'',
-            todayViewsFromHome:'',
-            todayViewsFromAds:'',
-            allViewsFromHome:'',
-            allViewsFromAds:'',
+            data:{},
         }
     },
     methods:{
         getDashboardDetails(){
             Axios.get(`getDashboardDetails`)
             .then(res => {
-                this.usersCount = res.data.usersCount;
-                this.confirmedAdvertisesCount = res.data.confirmedAdvertisesCount;
-                this.advertisesCount = res.data.advertisesCount;
-                this.todayViews = res.data.todayViews;
-                this.todayViewsFromHome = res.data.todayViewsFromHome;
-                this.todayViewsFromAds = res.data.todayViewsFromAds;
-                this.allViewsFromHome = res.data.allViewsFromHome;
-                this.allViewsFromAds = res.data.allViewsFromAds;
+                this.data = res.data;
             })
             .catch(err => {
                 console.log(err)

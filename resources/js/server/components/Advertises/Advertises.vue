@@ -63,7 +63,7 @@
                       <td>{{ advertise.region.title }} - {{ advertise.street }}</td>
                       <td>
                         <template v-if="advertise.user">
-                          کاربر - {{ advertise.user.name }}
+                          کاربر - {{ advertise.user.name }}-{{ advertise.user.number }}
                         </template>
                         <template v-else-if="advertise.admin">
                           مدیر - {{ advertise.admin.name }}

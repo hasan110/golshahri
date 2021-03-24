@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Admin;
 use App\Models\User\User;
 use App\Models\Advertise\Advertise;
+use App\Models\Business\Business;
 use Illuminate\Support\Facades\Notification;
 use App\Models\AppModels\View;
 use Carbon\Carbon;
@@ -24,24 +25,28 @@ class MainController extends Controller
     public function getDashboardDetails(Request $request)
     {
       $usersCount = User::all()->count();
-      $confirmedAdvertisesCount = Advertise::whereConfirmed(0)->count();
       $advertisesCount = Advertise::all()->count();
+      $unConfirmedAdvertisesCount = Advertise::whereConfirmed(0)->count();
+      $businessesCount = Business::all()->count();
+      $unConfirmedBusinessesCount = Business::whereConfirmed(0)->count();
 
       $todayViews = View::where('created_at' , '>' , Carbon::today())->count();
-      $todayViewsFromHome = View::where('created_at' , '>' , Carbon::today())->where('type' , 'home')->count();
-      $todayViewsFromAds = View::where('created_at' , '>' , Carbon::today())->where('type' , 'advertise')->count();
-      $allViewsFromHome = View::where('type' , 'home')->count();
-      $allViewsFromAds = View::where('type' , 'advertise')->count();
+      $todayViewsFromAdvertises = View::where('created_at' , '>' , Carbon::today())->where('type' , 'advertises')->count();
+      $todayViewsFromAdvertise = View::where('created_at' , '>' , Carbon::today())->where('type' , 'advertise')->count();
+      $todayViewsFromBusinesses = View::where('created_at' , '>' , Carbon::today())->where('type' , 'businesses')->count();
+      $todayViewsFromBusiness = View::where('created_at' , '>' , Carbon::today())->where('type' , 'business')->count();
       
       return response()->json([
         'usersCount'=>$usersCount,
-        'confirmedAdvertisesCount'=>$confirmedAdvertisesCount,
         'advertisesCount'=>$advertisesCount,
+        'unConfirmedAdvertisesCount'=>$unConfirmedAdvertisesCount,
+        'businessesCount'=>$businessesCount,
+        'unConfirmedBusinessesCount'=>$unConfirmedBusinessesCount,
         'todayViews'=>$todayViews,
-        'todayViewsFromHome'=>$todayViewsFromHome,
-        'todayViewsFromAds'=>$todayViewsFromAds,
-        'allViewsFromHome'=>$allViewsFromHome,
-        'allViewsFromAds'=>$allViewsFromAds,
+        'todayViewsFromAdvertises'=>$todayViewsFromAdvertises,
+        'todayViewsFromAdvertise'=>$todayViewsFromAdvertise,
+        'todayViewsFromBusinesses'=>$todayViewsFromBusinesses,
+        'todayViewsFromBusiness'=>$todayViewsFromBusiness
         ] , 200);
       }
     public function notificationDelete(Request $request)
