@@ -8,11 +8,11 @@
                 <div class="card-body">
                     <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="title">عنوان آگهی *</label>
+                        <label for="title">عنوان آگهی <span class="text-danger">*</span></label>
                         <input v-model="formData.title" type="text" id="title" class="form-control " placeholder="عنوان آگهی را وارد کنید">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="type">نوع آگهی *</label>
+                        <label for="type">نوع آگهی <span class="text-danger">*</span></label>
                         <select v-model="formData.type" id="type" class="form-control ">
                         <option value="فروش">فروش</option>
                         <option value="رهن و اجاره">رهن و اجاره</option>
@@ -21,7 +21,7 @@
                     </div>
                     <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="status">نوع ملک *</label>
+                        <label for="status">نوع ملک <span class="text-danger">*</span></label>
                         <select v-model="formData.status" id="status" class="form-control ">
                         <option value="منزل">منزل</option>
                         <option value="مغازه">مغازه</option>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="row">
                     <div v-show="formData.status !== 'زمین'" class="form-group col-md-6">
-                        <label for="lifetime_state">وضعیت عمر منزل *</label>
+                        <label for="lifetime_state">وضعیت عمر منزل <span class="text-danger">*</span></label>
                         <select v-model="formData.lifetime_state" id="lifetime_state" class="form-control">
                         <option value="نوساز">نوساز</option>
                         <option value="معمولی">معمولی</option>
@@ -45,11 +45,11 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="street">خیابان *</label>
-                        <input v-model="formData.street" type="text" id="street" class="form-control" placeholder="نام خیابان را وارد کنید">
+                        <label for="address">آدرس دقیق <span class="text-danger">*</span></label>
+                        <input v-model="formData.address" type="text" id="address" class="form-control" placeholder="آدرس دقیق ملک خود را وارد کنید">
                     </div>
                     <div v-show="formData.status == 'منزل' && formData.type == 'فروش'" class="form-group col-md-6">
-                        <label for="skeleton_state">وضعیت اسکلت بندی *</label>
+                        <label for="skeleton_state">وضعیت اسکلت بندی <span class="text-danger">*</span></label>
                         <select v-model="formData.skeleton_state" id="skeleton_state" class="form-control">
                         <option value="اسکلت">اسکلت</option>
                         <option value="نیمه اسکلت">نیمه اسکلت</option>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="row">
                     <div v-show="formData.status !== 'مغازه'" class="form-group col-md-6">
-                        <label for="lifetime_state">موقعیت منزل *</label>
+                        <label for="lifetime_state">موقعیت منزل <span class="text-danger">*</span></label>
                         <v-radio-group v-model="formData.is_in_lane" >
                         <v-radio label="داخل خیابان" :value="0"></v-radio>
                         <v-radio label="داخل کوچه" :value="1"></v-radio>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="row">
                     <div class="form-group col-md-4">
-                        <label for="area">متراژ کل *</label>
+                        <label for="area">متراژ کل <span class="text-danger">*</span></label>
                         <input v-model="formData.area" type="number" @input="InsertJustNumber" min="0" id="area" class="form-control" placeholder="متراژ کل را وارد کنید">
                     </div>
                     <div v-show="formData.type == 'فروش'" class="form-group col-md-4">
@@ -92,7 +92,7 @@
                     </div>
                     <div v-show="formData.type == 'رهن و اجاره'" class="row">
                     <div class="form-group col-md-6">
-                        <label for="rent">میزان اجاره *</label>
+                        <label for="rent">میزان اجاره </label>
                         <input v-model="formData.rent" type="number" @input="InsertJustNumber" min="0" id="rent" class="form-control" placeholder="میزان اجاره را وارد کنید">
                     </div>
                     <div class="form-group col-md-6">
@@ -189,7 +189,7 @@ export default {
             editdata.append('type', this.formData.type);
             editdata.append('status', this.formData.status);
             editdata.append('region_id', this.formData.region_id);
-            editdata.append('street', this.formData.street);
+            editdata.append('address', this.formData.address);
             editdata.append('lifetime_state', this.formData.lifetime_state);
             editdata.append('skeleton_state', this.formData.skeleton_state);
             editdata.append('is_in_lane', this.formData.is_in_lane);
@@ -265,5 +265,15 @@ export default {
 }
 .vux-uploader .vux-uploader_bd .vux-uploader_files .vux-uploader_file {
     float: right !important;
+}
+.vux-uploader_input-box {
+    border: 2px solid #0a3087 !important;
+    border-radius: 12px;
+}
+.vux-uploader_input-box:before {
+    background-color: #0a3087 !important;
+}
+.vux-uploader_input-box:after {
+    background-color: #0a3087 !important;
 }
 </style>

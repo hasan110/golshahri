@@ -45,8 +45,8 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="street">خیابان <span class="text-danger">*</span></label>
-                        <input v-model="formData.street" type="text" id="street" class="form-control " placeholder="فقط نام و شماره خیابان را وارد کنید">
+                        <label for="address">آدرس دقیق <span class="text-danger">*</span></label>
+                        <input v-model="formData.address" type="text" id="address" class="form-control " placeholder="لطفا آدرس دقیق ملک خود را وارد نمایید">
                     </div>
                     <div v-show="formData.status == 'منزل' && formData.type == 'فروش'" class="form-group col-md-6">
                         <label for="skeleton_state">وضعیت اسکلت بندی <span class="text-danger">*</span></label>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div><small class="text-primary">گذاشتن تصویر باعث بازدید بیشتر می شود.</small></div>
+                            <div><small class="text-primary">تصاویر مسکن خود را از این قسمت انتخاب کنید.</small></div>
                             <uploader v-model="formData.images" title="تصاویر آگهی" :multiple="true" :autoUpload="false" :limit="10"></uploader>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                     <v-btn color="primary" @click="errorSnackbar = false">
                         فهمیدم !
                     </v-btn>
-                </v-card-text>
+                </v-card-text> 
             </v-card>
         </v-dialog> 
     </div>
@@ -170,7 +170,7 @@ export default {
                 type:'فروش',
                 status:'منزل',
                 region_id:1,
-                street:'',
+                address:'',
                 lifetime_state: 'نوساز',
                 skeleton_state: 'اسکلت',
                 is_in_lane:0,
@@ -208,8 +208,8 @@ export default {
                 this.errorSnackbar = true;
                 return;
             }
-            if(this.formData.street === ''){
-                this.errorMessage = 'نام خیابان اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
+            if(this.formData.address === ''){
+                this.errorMessage = 'آدرس دقیق اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
                 this.errorSnackbar = true;
                 return;
             }
@@ -248,7 +248,7 @@ export default {
             data.append('type', this.formData.type);
             data.append('status', this.formData.status);
             data.append('region_id', this.formData.region_id);
-            data.append('street', this.formData.street);
+            data.append('address', this.formData.address);
             data.append('lifetime_state', this.formData.lifetime_state);
             data.append('skeleton_state', this.formData.skeleton_state);
             data.append('is_in_lane', this.formData.is_in_lane);
@@ -305,5 +305,15 @@ export default {
 }
 .vux-uploader .vux-uploader_bd .vux-uploader_files .vux-uploader_file {
     float: right !important;
+}
+.vux-uploader_input-box {
+    border: 2px solid #0a3087 !important;
+    border-radius: 12px;
+}
+.vux-uploader_input-box:before {
+    background-color: #0a3087 !important;
+}
+.vux-uploader_input-box:after {
+    background-color: #0a3087 !important;
 }
 </style>

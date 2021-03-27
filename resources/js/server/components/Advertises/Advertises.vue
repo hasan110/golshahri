@@ -53,20 +53,24 @@
                     <v-progress-linear indeterminate color="cyan"></v-progress-linear>
                   </div>
                   <tbody>
-                    <tr v-for="(advertise, key) in advertises" :key="key">
+                    <tr v-for="(advertise, key) in advertises" :key="key" style="">
                       <td>
                         <v-checkbox v-model="array" color="blue" :value="advertise.id"></v-checkbox>
                       </td>
                       <td>{{ key+1 }}</td>
                       <td>{{ advertise.id }}</td>
-                      <td>{{ advertise.title }}</td>
+                      <td>
+                        <template v-if="advertise.type == 'فروش'"><i class="fa fa-circle text-success"></i></template>
+                        <template v-else-if="advertise.type == 'رهن و اجاره'"><i class="fa fa-circle text-danger"></i></template>
+                        {{ advertise.title }}
+                      </td>
                       <td>{{ advertise.region.title }} - {{ advertise.street }}</td>
                       <td>
                         <template v-if="advertise.user">
-                          کاربر - {{ advertise.user.name }}-{{ advertise.user.number }}
+                          {{ advertise.user.name }}-{{ advertise.user.number }}
                         </template>
                         <template v-else-if="advertise.admin">
-                          مدیر - {{ advertise.admin.name }}
+                          <i class="fa fa-user"></i> - {{ advertise.admin.name }}
                         </template>
                         <template v-else>نا مشخص</template>
                       </td>

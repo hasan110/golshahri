@@ -2460,7 +2460,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: 'فروش',
         status: 'منزل',
         region_id: 1,
-        street: '',
+        address: '',
         lifetime_state: 'نوساز',
         skeleton_state: 'اسکلت',
         is_in_lane: 0,
@@ -2498,8 +2498,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      if (this.formData.street === '') {
-        this.errorMessage = 'نام خیابان اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
+      if (this.formData.address === '') {
+        this.errorMessage = 'آدرس دقیق اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
         this.errorSnackbar = true;
         return;
       }
@@ -2540,7 +2540,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       data.append('type', this.formData.type);
       data.append('status', this.formData.status);
       data.append('region_id', this.formData.region_id);
-      data.append('street', this.formData.street);
+      data.append('address', this.formData.address);
       data.append('lifetime_state', this.formData.lifetime_state);
       data.append('skeleton_state', this.formData.skeleton_state);
       data.append('is_in_lane', this.formData.is_in_lane);
@@ -2799,7 +2799,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       editdata.append('type', this.formData.type);
       editdata.append('status', this.formData.status);
       editdata.append('region_id', this.formData.region_id);
-      editdata.append('street', this.formData.street);
+      editdata.append('address', this.formData.address);
       editdata.append('lifetime_state', this.formData.lifetime_state);
       editdata.append('skeleton_state', this.formData.skeleton_state);
       editdata.append('is_in_lane', this.formData.is_in_lane);
@@ -4649,7 +4649,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.vux-uploader .vux-uploader_bd .vux-uploader_input-box{\r\n    float: right !important;\n}\n.vux-uploader .vux-uploader_bd{\r\n    overflow: inherit !important;\n}\n.vux-uploader .vux-uploader_bd .vux-uploader_files .vux-uploader_file {\r\n    float: right !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.vux-uploader .vux-uploader_bd .vux-uploader_input-box{\r\n    float: right !important;\n}\n.vux-uploader .vux-uploader_bd{\r\n    overflow: inherit !important;\n}\n.vux-uploader .vux-uploader_bd .vux-uploader_files .vux-uploader_file {\r\n    float: right !important;\n}\n.vux-uploader_input-box {\r\n    border: 2px solid #0a3087 !important;\r\n    border-radius: 12px;\n}\n.vux-uploader_input-box:before {\r\n    background-color: #0a3087 !important;\n}\n.vux-uploader_input-box:after {\r\n    background-color: #0a3087 !important;\n}\r\n", ""]);
 
 // exports
 
@@ -4668,7 +4668,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.vux-uploader .vux-uploader_bd .vux-uploader_input-box{\r\n    float: right !important;\n}\n.vux-uploader .vux-uploader_bd{\r\n    overflow: inherit !important;\n}\n.vux-uploader .vux-uploader_bd .vux-uploader_files .vux-uploader_file {\r\n    float: right !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.vux-uploader .vux-uploader_bd .vux-uploader_input-box{\r\n    float: right !important;\n}\n.vux-uploader .vux-uploader_bd{\r\n    overflow: inherit !important;\n}\n.vux-uploader .vux-uploader_bd .vux-uploader_files .vux-uploader_file {\r\n    float: right !important;\n}\n.vux-uploader_input-box {\r\n    border: 2px solid #0a3087 !important;\r\n    border-radius: 12px;\n}\n.vux-uploader_input-box:before {\r\n    background-color: #0a3087 !important;\n}\n.vux-uploader_input-box:after {\r\n    background-color: #0a3087 !important;\n}\r\n", ""]);
 
 // exports
 
@@ -7380,7 +7380,11 @@ var render = function() {
                           _c("hr"),
                           _vm._v(" "),
                           _c("small", { staticClass: "m-2 small" }, [
-                            _vm._v("محدوده " + _vm._s(advertise.street))
+                            _c("i", {
+                              staticClass: "fa fa-map-marker text-secondary",
+                              staticStyle: { "font-size": "18px" }
+                            }),
+                            _vm._v(" " + _vm._s(advertise.street))
                           ]),
                           _vm._v(" "),
                           advertise.area
@@ -7750,23 +7754,23 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.formData.street,
-                          expression: "formData.street"
+                          value: _vm.formData.address,
+                          expression: "formData.address"
                         }
                       ],
                       staticClass: "form-control ",
                       attrs: {
                         type: "text",
-                        id: "street",
-                        placeholder: "فقط نام و شماره خیابان را وارد کنید"
+                        id: "address",
+                        placeholder: "لطفا آدرس دقیق ملک خود را وارد نمایید"
                       },
-                      domProps: { value: _vm.formData.street },
+                      domProps: { value: _vm.formData.address },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.formData, "street", $event.target.value)
+                          _vm.$set(_vm.formData, "address", $event.target.value)
                         }
                       }
                     })
@@ -8441,8 +8445,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "street" } }, [
-      _vm._v("خیابان "),
+    return _c("label", { attrs: { for: "address" } }, [
+      _vm._v("آدرس دقیق "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -8506,7 +8510,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", [
       _c("small", { staticClass: "text-primary" }, [
-        _vm._v("گذاشتن تصویر باعث بازدید بیشتر می شود.")
+        _vm._v("تصاویر مسکن خود را از این قسمت انتخاب کنید.")
       ])
     ])
   },
@@ -8566,9 +8570,7 @@ var render = function() {
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-6" }, [
-                    _c("label", { attrs: { for: "title" } }, [
-                      _vm._v("عنوان آگهی *")
-                    ]),
+                    _vm._m(1),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -8598,9 +8600,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-md-6" }, [
-                    _c("label", { attrs: { for: "type" } }, [
-                      _vm._v("نوع آگهی *")
-                    ]),
+                    _vm._m(2),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -8650,9 +8650,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-6" }, [
-                    _c("label", { attrs: { for: "status" } }, [
-                      _vm._v("نوع ملک *")
-                    ]),
+                    _vm._m(3),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -8704,7 +8702,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-md-6" }, [
-                    _vm._m(1),
+                    _vm._m(4),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -8766,9 +8764,7 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _c("label", { attrs: { for: "lifetime_state" } }, [
-                        _vm._v("وضعیت عمر منزل *")
-                      ]),
+                      _vm._m(5),
                       _vm._v(" "),
                       _c(
                         "select",
@@ -8821,32 +8817,30 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-md-6" }, [
-                    _c("label", { attrs: { for: "street" } }, [
-                      _vm._v("خیابان *")
-                    ]),
+                    _vm._m(6),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.formData.street,
-                          expression: "formData.street"
+                          value: _vm.formData.address,
+                          expression: "formData.address"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: {
                         type: "text",
-                        id: "street",
-                        placeholder: "نام خیابان را وارد کنید"
+                        id: "address",
+                        placeholder: "آدرس دقیق ملک خود را وارد کنید"
                       },
-                      domProps: { value: _vm.formData.street },
+                      domProps: { value: _vm.formData.address },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.formData, "street", $event.target.value)
+                          _vm.$set(_vm.formData, "address", $event.target.value)
                         }
                       }
                     })
@@ -8869,9 +8863,7 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _c("label", { attrs: { for: "skeleton_state" } }, [
-                        _vm._v("وضعیت اسکلت بندی *")
-                      ]),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c(
                         "select",
@@ -8939,9 +8931,7 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _c("label", { attrs: { for: "lifetime_state" } }, [
-                        _vm._v("موقعیت منزل *")
-                      ]),
+                      _vm._m(8),
                       _vm._v(" "),
                       _c(
                         "v-radio-group",
@@ -9029,9 +9019,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-4" }, [
-                    _c("label", { attrs: { for: "area" } }, [
-                      _vm._v("متراژ کل *")
-                    ]),
+                    _vm._m(9),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -9188,7 +9176,7 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group col-md-6" }, [
-                      _vm._m(2),
+                      _vm._m(10),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -9243,7 +9231,7 @@ var render = function() {
                   [
                     _c("div", { staticClass: "form-group col-md-6" }, [
                       _c("label", { attrs: { for: "rent" } }, [
-                        _vm._v("میزان اجاره *")
+                        _vm._v("میزان اجاره ")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -9483,7 +9471,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.loading
-        ? _c("div", { staticClass: "appLoading" }, [_vm._m(3)])
+        ? _c("div", { staticClass: "appLoading" }, [_vm._m(11)])
         : _vm._e()
     ],
     1
@@ -9503,8 +9491,80 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "title" } }, [
+      _vm._v("عنوان آگهی "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "type" } }, [
+      _vm._v("نوع آگهی "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "status" } }, [
+      _vm._v("نوع ملک "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "region_id" } }, [
       _vm._v("انتخاب منطقه "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "lifetime_state" } }, [
+      _vm._v("وضعیت عمر منزل "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "address" } }, [
+      _vm._v("آدرس دقیق "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "skeleton_state" } }, [
+      _vm._v("وضعیت اسکلت بندی "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "lifetime_state" } }, [
+      _vm._v("موقعیت منزل "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "area" } }, [
+      _vm._v("متراژ کل "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -12118,7 +12178,7 @@ var render = function() {
         [
           _c(
             "keep-alive",
-            { attrs: { include: ["Businesses", "Advertises"] } },
+            { attrs: { include: ["Businesses", "Advertises", "Home"] } },
             [_c("router-view")],
             1
           )

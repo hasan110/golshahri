@@ -44,7 +44,7 @@ class UserAdvertiseController extends Controller
             'type' => ['required'],
             'status' => ['required'],
             'region_id' => ['required'],
-            'street' => ['required'],
+            'address' => ['required'],
             'area' => ['required']
         ]);
     
@@ -104,7 +104,8 @@ class UserAdvertiseController extends Controller
             'type'=>$type,
             'status'=>$status,
             'region_id'=>$request->region_id,
-            'street'=>$request->street,
+            'address'=>$request->address,
+            'street'=>'',
             'is_in_lane'=>$is_in_lane,
             'lane_width'=>$lane_width,
             'area'=>$request->area,
@@ -183,7 +184,7 @@ class UserAdvertiseController extends Controller
             'type' => ['required'],
             'status' => ['required'],
             'region_id' => ['required'],
-            'street' => ['required'],
+            'address' => ['required'],
             'area' => ['required']
         ]);
         
@@ -235,7 +236,7 @@ class UserAdvertiseController extends Controller
             'type'=>$type,
             'status'=>$status,
             'region_id'=>$request->region_id,
-            'street'=>$request->street,
+            'address'=>$request->address,
             'is_in_lane'=>$is_in_lane,
             'lane_width'=>$lane_width,
             'area'=>$request->area,
