@@ -200,9 +200,17 @@ class UserBusinessController extends Controller
             ->orWhere('description' , 'LIKE', '%'.$key.'%');
         })
         ->get();
+        $now = Carbon::now();
         foreach($businesses as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
+            if($item->images->count() > 0){
+                $item['image'] = $item->images[0]->link;
+            }else{
+                $item['image'] = Setting::find(1)->advertise_default_image;
+            }
+            $item['view_count'] = $item->views->count();
+            $item['days_ago'] = $now->diffInDays($item->created_at);
         }
         return response()->json($businesses,200);
     }
