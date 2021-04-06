@@ -9,19 +9,17 @@
             <div class="animated fadeIn">
                 <div class="row">
                     <div class="col-sm-6 col-lg-3">
-                        <router-link :to="{name:'Users'}">
-                            <div class="card card-inverse card-primary">
-                                <div class="card-block p-b-0">
-                                    <div class="btn-group pull-left">
-                                        <button type="button" class="btn btn-transparent active p-a-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="icon-user"></i>
-                                        </button>
-                                    </div>
-                                    <h4 class="m-b-0">{{data.usersCount}}</h4>
-                                    <p>تعداد کاربران</p>
+                        <div class="card card-inverse card-primary">
+                            <div class="card-block p-b-0">
+                                <div class="btn-group pull-left">
+                                    <button type="button" class="btn btn-transparent active p-a-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="icon-user"></i>
+                                    </button>
                                 </div>
+                                <h4 class="m-b-0">{{data.usersCount}}</h4>
+                                <p>تعداد کاربران</p>
                             </div>
-                        </router-link>
+                        </div>
                     </div>
                     <!--/col-->
 
@@ -41,7 +39,6 @@
                     <!--/col-->
 
                     <div class="col-sm-6 col-lg-3">
-                        <router-link :to="{name:'Businesses'}">
                         <div class="card card-inverse card-warning">
                             <div class="card-block p-b-0">
                                 <div class="btn-group pull-left">
@@ -58,7 +55,6 @@
                                 <p>تعداد کسب وکارها ({{ data.unConfirmedBusinessesCount }} تاییدنشده)</p>
                             </div>
                         </div>
-                        </router-link>
                     </div>
                     <!--/col-->
 

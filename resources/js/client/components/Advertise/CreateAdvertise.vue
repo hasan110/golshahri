@@ -7,100 +7,101 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="title">عنوان آگهی <span class="text-danger">*</span></label>
-                        <input v-model="formData.title" type="text" id="title" class="form-control " placeholder="عنوان مناسبی برای آگهی خود انتخاب کنید .">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="type">انتخاب نوع آگهی <span class="text-danger">*</span></label>
-                        <select v-model="formData.type" id="type" class="form-control ">
-                        <option value="فروش">فروش</option>
-                        <option value="رهن و اجاره">رهن و اجاره</option>
-                        </select>
-                    </div>
-                    </div>
-                    <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="status">نوع ملک خود را انتخاب کنید <span class="text-danger">*</span></label>
-                        <select v-model="formData.status" id="status" class="form-control ">
-                        <option value="منزل">منزل</option>
-                        <option value="مغازه">مغازه</option>
-                        <option value="زمین">زمین</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="region_id">ملک شما در کدام منطقه است؟ <span class="text-danger">*</span></label>
-                        <select v-model="formData.region_id" id="region_id" class="form-control">
-                            <option v-for="(region , key) in regions" :key="key" :value="region.id">{{region.title}}</option>
-                        </select>
-                    </div>
+                        <div class="form-group col-md-6">
+                            <label for="title">عنوان آگهی <span class="text-danger">*</span></label>
+                            <input v-model="formData.title" type="text" id="title" class="form-control " placeholder="عنوان مناسبی برای آگهی خود انتخاب کنید .">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="type">انتخاب نوع آگهی <span class="text-danger">*</span></label>
+                            <select v-model="formData.type" id="type" class="form-control ">
+                                <option value="1">فروش</option>
+                                <option value="2">رهن کامل</option>
+                                <option value="3">رهن و اجاره</option>
+                                <option value="4">درخواست خرید</option>
+                                <option value="5">درخواست رهن و اجاره</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
-                    <div v-show="formData.status !== 'زمین'" class="form-group col-md-6">
-                        <label for="lifetime_state">وضعیت عمر منزل <span class="text-danger">*</span></label>
-                        <select v-model="formData.lifetime_state" id="lifetime_state" class="form-control ">
-                        <option value="نوساز">نوساز</option>
-                        <option value="معمولی">معمولی</option>
-                        <option value="قدیمی ساز">قدیمی ساز</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="address">آدرس دقیق <span class="text-danger">*</span></label>
-                        <input v-model="formData.address" type="text" id="address" class="form-control " placeholder="لطفا آدرس دقیق ملک خود را وارد نمایید">
-                    </div>
-                    <div v-show="formData.status == 'منزل' && formData.type == 'فروش'" class="form-group col-md-6">
-                        <label for="skeleton_state">وضعیت اسکلت بندی <span class="text-danger">*</span></label>
-                        <select v-model="formData.skeleton_state" id="skeleton_state" class="form-control ">
-                        <option value="اسکلت">اسکلت</option>
-                        <option value="نیمه اسکلت">نیمه اسکلت</option>
-                        <option value="بدون اسکلت">بدون اسکلت</option>
-                        </select>
-                    </div>
+                        <div class="form-group col-md-6">
+                            <label for="status">نوع ملک خود را انتخاب کنید <span class="text-danger">*</span></label>
+                            <select v-model="formData.status" id="status" class="form-control ">
+                            <option value="منزل">منزل</option>
+                            <option value="مغازه">مغازه</option>
+                            <option value="زمین">زمین</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="region_id">ملک شما در کدام منطقه است؟ <span class="text-danger">*</span></label>
+                            <select v-model="formData.region_id" id="region_id" class="form-control">
+                                <option v-for="(region , key) in regions" :key="key" :value="region.id">{{region.title}}</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
-                    <div v-show="formData.status !== 'مغازه'" class="form-group col-md-6">
-                        <label for="lifetime_state">موقعیت منزل <span class="text-danger">*</span></label>
-                        <v-radio-group v-model="formData.is_in_lane" >
-                        <v-radio label="داخل خیابان" :value="0"></v-radio>
-                        <v-radio label="داخل کوچه" :value="1"></v-radio>
-                        </v-radio-group>
-                    </div>
-                    <div v-show="formData.type == 'فروش' && formData.status !== 'مغازه'" class="form-group col-md-6">
-                        <label for="lane_width">عرض کوچه / خیابان (متر)</label>
-                        <input v-model="formData.lane_width" min="0" type="number" id="lane_width" @input="InsertJustNumber" class="form-control " placeholder="عرض کوچه یا خیابان را وارد کنید">
-                    </div>
-                    </div>
-                    <div class="row">
-                    <div class="form-group col-md-4">
-                        <label for="area">متراژ کل <span class="text-danger">*</span></label>
-                        <input v-model="formData.area" min="0" type="number" @input="InsertJustNumber" id="area" class="form-control" placeholder="متراژ کل را وارد کنید">
-                    </div>
-                    <div v-show="formData.type == 'فروش'" class="form-group col-md-4">
-                        <label for="length_house">طول حاشیه</label>
-                        <input v-model="formData.length_house" min="0" type="number" @input="InsertJustNumber" id="length_house" class="form-control" placeholder="طول حاشیه را وارد کنید">
-                    </div>
-                    <div v-show="formData.status == 'منزل'" class="form-group col-md-4">
-                        <label for="roof_number">تعداد طبقات</label>
-                        <input v-model="formData.roof_number" min="0" type="number" @input="InsertJustNumber" id="roof_number" class="form-control" placeholder="تعداد طبقات را وارد کنید">
-                    </div>
-                    </div>
-                    <div v-show="formData.type == 'فروش'" class="row">
-                    <div class="form-group col-md-6">
-                        <label for="price">قیمت <span class="text-danger">*</span></label>
-                        <input v-model="formData.price" min="0" type="number" @input="InsertJustNumber" id="price" class="form-control" placeholder="قیمت را به میلیون تومان وارد کنید">
-                    </div>
-                    </div>
-                    <div v-show="formData.type == 'رهن و اجاره'" class="row">
-                    <div class="form-group col-md-6">
-                        <label for="rent">میزان رهن <span class="text-danger">*</span></label>
-                        <input v-model="formData.rent" min="0" type="number" @input="InsertJustNumber" id="rent" class="form-control" placeholder="اگر فقط اجاره می دهید اینجا صفر وارد کنید">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="meed">میزان اجاره <span class="text-danger">*</span></label>
-                        <input v-model="formData.meed" min="0" type="number" @input="InsertJustNumber" id="meed" class="form-control" placeholder="اگر فقط رهن می دهید اینجا صفر وارد کنید">
-                    </div>
+                        <div v-show="formData.type !== 4 && formData.type !== 5" class="form-group col-md-6">
+                            <label for="address">آدرس دقیق <span class="text-danger">*</span></label>
+                            <input v-model="formData.address" type="text" id="address" class="form-control " placeholder="لطفا آدرس دقیق ملک خود را وارد نمایید">
+                        </div>
+                        <div v-show="formData.type == 1 || formData.type == 4" class="form-group col-md-6">
+                            <label for="price">قیمت <span class="text-danger">*</span></label>
+                            <input v-model="formData.price" min="0" type="number" @input="InsertJustNumber" id="price" class="form-control" placeholder="قیمت را به میلیون تومان وارد کنید">
+                        </div>
+                        <div v-show="formData.status !== 'زمین'" class="form-group col-md-6">
+                            <label for="lifetime_state">وضعیت عُمر <span class="text-danger">*</span></label>
+                            <select v-model="formData.lifetime_state" id="lifetime_state" class="form-control ">
+                            <option value="نوساز">نوساز</option>
+                            <option value="معمولی">معمولی</option>
+                            <option value="قدیمی ساز">قدیمی ساز</option>
+                            </select>
+                        </div>
+                        <div v-show="formData.status == 'منزل' && formData.type == 1 || formData.type == 4" class="form-group col-md-6">
+                            <label for="skeleton_state">وضعیت اسکلت بندی <span class="text-danger">*</span></label>
+                            <select v-model="formData.skeleton_state" id="skeleton_state" class="form-control ">
+                            <option value="اسکلت">اسکلت</option>
+                            <option value="نیمه اسکلت">نیمه اسکلت</option>
+                            <option value="بدون اسکلت">بدون اسکلت</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
+                        <div v-show="formData.status !== 'مغازه'" class="form-group col-md-6">
+                            <label for="lifetime_state">موقعیت ملک <span class="text-danger">*</span></label>
+                            <v-radio-group v-model="formData.is_in_lane" >
+                            <v-radio label="داخل خیابان" :value="0"></v-radio>
+                            <v-radio label="داخل کوچه" :value="1"></v-radio>
+                            </v-radio-group>
+                        </div>
+                        <div v-show="formData.type == 1 && formData.status !== 'مغازه'" class="form-group col-md-6">
+                            <label for="lane_width">عرض کوچه / خیابان (متر)</label>
+                            <input v-model="formData.lane_width" min="0" type="number" id="lane_width" @input="InsertJustNumber" class="form-control " placeholder="عرض کوچه یا خیابان را وارد کنید">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="area">متراژ کل <span class="text-danger">*</span></label>
+                            <input v-model="formData.area" min="0" type="number" @input="InsertJustNumber" id="area" class="form-control" placeholder="متراژ کل را وارد کنید">
+                        </div>
+                        <div v-show="formData.type == 1" class="form-group col-md-4">
+                            <label for="length_house">طول حاشیه</label>
+                            <input v-model="formData.length_house" min="0" type="number" @input="InsertJustNumber" id="length_house" class="form-control" placeholder="طول حاشیه را وارد کنید">
+                        </div>
+                        <div v-show="formData.status == 'منزل'" class="form-group col-md-4">
+                            <label for="roof_number">تعداد طبقات</label>
+                            <input v-model="formData.roof_number" min="0" type="number" @input="InsertJustNumber" id="roof_number" class="form-control" placeholder="تعداد طبقات را وارد کنید">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div v-show="formData.type == 2 || formData.type == 3 || formData.type == 5" class="form-group col-md-6">
+                            <label for="rent">میزان رهن <span class="text-danger">*</span></label>
+                            <input v-model="formData.rent" min="0" type="number" @input="InsertJustNumber" id="rent" class="form-control" placeholder="اگر فقط اجاره می دهید اینجا صفر وارد کنید">
+                        </div>
+                        <div v-show="formData.type == 3 || formData.type == 5" class="form-group col-md-6">
+                            <label for="meed">میزان اجاره <span class="text-danger">*</span></label>
+                            <input v-model="formData.meed" min="0" type="number" @input="InsertJustNumber" id="meed" class="form-control" placeholder="اگر فقط رهن می دهید اینجا صفر وارد کنید">
+                        </div>
+                    </div>
+                    <div class="row" v-show="formData.type == 1 || formData.type == 2 || formData.type == 3">
                         <div class="col-12">
                             <div><small class="text-primary">تصاویر مسکن خود را از این قسمت انتخاب کنید.</small></div>
                             <uploader v-model="formData.images" title="تصاویر آگهی" :multiple="true" :autoUpload="false" :limit="10"></uploader>
@@ -167,7 +168,7 @@ export default {
             regions:{},
             formData:{
                 title:'',
-                type:'فروش',
+                type:1,
                 status:'منزل',
                 region_id:1,
                 address:'',
@@ -218,7 +219,7 @@ export default {
                 this.errorSnackbar = true;
                 return;
             }
-            if(this.formData.type === 'فروش'){
+            if(this.formData.type === 1){
                 
                 if(this.formData.price === ''){
                     this.errorMessage = 'قیمت اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
@@ -227,7 +228,7 @@ export default {
                 }
 
             }
-            if(this.formData.type === 'رهن و اجاره'){
+            if(this.formData.type === 2){
                 
                 if(this.formData.rent === ''){
                     this.errorMessage = 'میزان رهن اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
@@ -297,23 +298,23 @@ export default {
 }
 </script>
 <style>
-.vux-uploader .vux-uploader_bd .vux-uploader_input-box{
-    float: right !important;
-}
-.vux-uploader .vux-uploader_bd{
-    overflow: inherit !important;
-}
-.vux-uploader .vux-uploader_bd .vux-uploader_files .vux-uploader_file {
-    float: right !important;
-}
-.vux-uploader_input-box {
-    border: 2px solid #0a3087 !important;
-    border-radius: 12px;
-}
-.vux-uploader_input-box:before {
-    background-color: #0a3087 !important;
-}
-.vux-uploader_input-box:after {
-    background-color: #0a3087 !important;
-}
+    .vux-uploader .vux-uploader_bd .vux-uploader_input-box{
+        float: right !important;
+    }
+    .vux-uploader .vux-uploader_bd{
+        overflow: inherit !important;
+    }
+    .vux-uploader .vux-uploader_bd .vux-uploader_files .vux-uploader_file {
+        float: right !important;
+    }
+    .vux-uploader_input-box {
+        border: 2px solid #0a3087 !important;
+        border-radius: 12px;
+    }
+    .vux-uploader_input-box:before {
+        background-color: #0a3087 !important;
+    }
+    .vux-uploader_input-box:after {
+        background-color: #0a3087 !important;
+    }
 </style>

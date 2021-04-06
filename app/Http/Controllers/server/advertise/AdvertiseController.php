@@ -38,7 +38,6 @@ class AdvertiseController extends Controller
             'type' => ['required'],
             'status' => ['required'],
             'region_id' => ['required'],
-            'street' => ['required'],
             'area' => ['required']
         ]);
     
@@ -49,31 +48,63 @@ class AdvertiseController extends Controller
             );
         }
 
+        $status = $request->status;
+        $type = $request->type;
         if($request->is_in_lane !== null && $request->is_in_lane == 1){
             $is_in_lane = 1;
         }else{
             $is_in_lane = 0;
         }
-        $type = $request->type;
-        if($type == 'فروش'){
-            $price = $request->price;
-            $rent = null;
-            $meed = null;
-            $lane_width = $request->lane_width;
+        if($request->length_house !== 'null' && $request->length_house !== null){
             $length_house = $request->length_house;
-        }elseif($type == 'رهن و اجاره'){
-            $rent = $request->rent;
-            $meed = $request->meed;
-            $price = null;
-            $lane_width = null;
+        }else{
             $length_house = null;
         }
-        
+        if($request->lane_width !== 'null' && $request->lane_width !== null){
+            $lane_width = $request->lane_width;
+        }else{
+            $lane_width = null;
+        }
+        $roof_number = $request->roof_number;
+        $skeleton_state = $request->skeleton_state;
         $lifetime_state = $request->lifetime_state;
-        
-        $status = $request->status;
+        $price = $request->price;
+        $rent = $request->rent;
+        $meed = $request->meed;
+
+        switch ($type) {
+            case 1:
+                $rent = null;
+                $meed = null;
+            break;
+            case 2:
+                $meed = null;
+                $skeleton_state = null;
+                $price = null;
+                $length_house = null;
+                $lane_width = null;
+            break;
+            case 3:
+                $skeleton_state = null;
+                $price = null;
+                $length_house = null;
+                $lane_width = null;
+            break;
+            case 4:
+                $meed = null;
+                $rent = null;
+                $length_house = null;
+                $lane_width = null;
+            break;
+            case 5:
+                $skeleton_state = null;
+                $price = null;
+                $length_house = null;
+                $lane_width = null;
+            break;
+        }
+
         if($status == 'مغازه'){
-            $is_in_lane = 0;
             $lane_width = null;
             $roof_number = null;
             $skeleton_state = null;
@@ -81,13 +112,6 @@ class AdvertiseController extends Controller
             $lifetime_state = null;
             $roof_number = null;
             $skeleton_state = null;
-        }else{
-            $roof_number = $request->roof_number;
-            if($type == 'فروش'){
-                $skeleton_state = $request->skeleton_state;
-            }elseif($type == 'رهن و اجاره'){
-                $skeleton_state = null;
-            }
         }
 
         $advertise = Advertise::create([
@@ -105,7 +129,6 @@ class AdvertiseController extends Controller
             'lifetime_state'=>$lifetime_state,
             'skeleton_state'=>$skeleton_state,
             'price'=>$price,
-            'alphabet_price'=>null,
             'rent'=>$rent,
             'meed'=>$meed,
             'description'=>$request->description,
@@ -117,9 +140,9 @@ class AdvertiseController extends Controller
         if($request->hasFile('images')){
             foreach($request->images as $key=>$item){
                 $image = $request->images[$key];
-                $file_name = 'IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
-                $image->move('uploads/advertises/'.$advertise->id,$file_name);
-                $link = 'advertises/'.$advertise->id.'/'.$file_name;
+                $file_name = 'ID'.$advertise->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
+                $image->move('uploads/advertises',$file_name);
+                $link = 'advertises/'.$file_name;
 
                 AdvertisePicture::create([
                     'advertise_id'=>$advertise->id,
@@ -149,35 +172,66 @@ class AdvertiseController extends Controller
             'type' => ['required'],
             'status' => ['required'],
             'region_id' => ['required'],
-            'street' => ['required'],
             'area' => ['required'],
         ]);
         
+        $status = $request->status;
+        $type = $request->type;
         if($request->is_in_lane !== null && $request->is_in_lane == 1){
             $is_in_lane = 1;
         }else{
             $is_in_lane = 0;
         }
-        $type = $request->type;
-        if($type == 'فروش'){
-            $price = $request->price;
-            $rent = null;
-            $meed = null;
-            $lane_width = $request->lane_width;
+        if($request->length_house !== 'null' && $request->length_house !== null){
             $length_house = $request->length_house;
-        }elseif($type == 'رهن و اجاره'){
-            $rent = $request->rent;
-            $meed = $request->meed;
-            $price = null;
-            $lane_width = null;
+        }else{
             $length_house = null;
         }
-        
+        if($request->lane_width !== 'null' && $request->lane_width !== null){
+            $lane_width = $request->lane_width;
+        }else{
+            $lane_width = null;
+        }
+        $roof_number = $request->roof_number;
+        $skeleton_state = $request->skeleton_state;
         $lifetime_state = $request->lifetime_state;
-        
-        $status = $request->status;
+        $price = $request->price;
+        $rent = $request->rent;
+        $meed = $request->meed;
+
+        switch ($type) {
+            case 1:
+                $rent = null;
+                $meed = null;
+            break;
+            case 2:
+                $meed = null;
+                $skeleton_state = null;
+                $price = null;
+                $length_house = null;
+                $lane_width = null;
+            break;
+            case 3:
+                $skeleton_state = null;
+                $price = null;
+                $length_house = null;
+                $lane_width = null;
+            break;
+            case 4:
+                $meed = null;
+                $rent = null;
+                $length_house = null;
+                $lane_width = null;
+            break;
+            case 5:
+                $skeleton_state = null;
+                $price = null;
+                $length_house = null;
+                $lane_width = null;
+            break;
+        }
+
         if($status == 'مغازه'){
-            $is_in_lane = 0;
             $lane_width = null;
             $roof_number = null;
             $skeleton_state = null;
@@ -185,13 +239,6 @@ class AdvertiseController extends Controller
             $lifetime_state = null;
             $roof_number = null;
             $skeleton_state = null;
-        }else{
-            $roof_number = $request->roof_number;
-            if($type == 'فروش'){
-                $skeleton_state = $request->skeleton_state;
-            }elseif($type == 'رهن و اجاره'){
-                $skeleton_state = null;
-            }
         }
 
         $advertise = Advertise::find($request->id);
@@ -220,9 +267,9 @@ class AdvertiseController extends Controller
         if($request->hasFile('new_images')){
             foreach($request->new_images as $key=>$item){
                 $image = $request->new_images[$key];
-                $file_name = 'IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
-                $image->move('uploads/advertises/'.$advertise->id,$file_name);
-                $link = 'advertises/'.$advertise->id.'/'.$file_name;
+                $file_name = 'ID'.$advertise->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
+                $image->move('uploads/advertises',$file_name);
+                $link = 'advertises/'.$file_name;
 
                 AdvertisePicture::create([
                     'advertise_id'=>$advertise->id,
@@ -250,8 +297,8 @@ class AdvertiseController extends Controller
         foreach($request->array as $id){
             $advertise = Advertise::find($id);
             if(!is_null($advertise->images)){
-                File::deleteDirectory(public_path('uploads/advertises/'.$advertise->id));
                 foreach($advertise->images as $image){
+                    File::delete(public_path('uploads/'.$image->link));
                     $image->delete();
                 }
             }

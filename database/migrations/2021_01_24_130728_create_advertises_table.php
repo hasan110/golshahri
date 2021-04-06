@@ -14,7 +14,7 @@ class CreateAdvertisesTable extends Migration
             $table->integer('admin_id')->nullable();
             $table->text('title');
             $table->enum('status',['منزل','مغازه','زمین']);
-            $table->enum('type',['فروش','رهن و اجاره']);
+            $table->integer('type');
             $table->integer('region_id');
             $table->string('street');
             $table->integer('area');
@@ -25,7 +25,6 @@ class CreateAdvertisesTable extends Migration
             $table->string('lifetime_state')->nullable();
             $table->string('skeleton_state')->nullable();
             $table->integer('price')->nullable();
-            $table->text('alphabet_price')->nullable();
             $table->integer('rent')->nullable();
             $table->integer('meed')->nullable();
             $table->text('address')->nullable();

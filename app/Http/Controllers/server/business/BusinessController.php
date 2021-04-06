@@ -55,9 +55,9 @@ class BusinessController extends Controller
         if($request->hasFile('images')){
             foreach($request->images as $key=>$item){
                 $image = $request->images[$key];
-                $file_name = 'IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
-                $image->move('uploads/businesses/'.$business->id,$file_name);
-                $link = 'businesses/'.$business->id.'/'.$file_name;
+                $file_name = 'ID'.$business->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
+                $image->move('uploads/businesses',$file_name);
+                $link = 'businesses/'.$file_name;
 
                 BusinessPicture::create([
                     'business_id'=>$business->id,
@@ -104,9 +104,9 @@ class BusinessController extends Controller
         if($request->hasFile('new_images')){
             foreach($request->new_images as $key=>$item){
                 $image = $request->new_images[$key];
-                $file_name = 'IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
-                $image->move('uploads/businesses/'.$business->id,$file_name);
-                $link = 'businesses/'.$business->id.'/'.$file_name;
+                $file_name = 'ID'.$business->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
+                $image->move('uploads/businesses',$file_name);
+                $link = 'businesses/'.$file_name;
 
                 BusinessPicture::create([
                     'business_id'=>$business->id,
@@ -134,8 +134,8 @@ class BusinessController extends Controller
         foreach($request->array as $id){
             $business = Business::find($id);
             if(!is_null($business->images)){
-                File::deleteDirectory(public_path()."/uploads/businessess/".$business->id);
                 foreach($business->images as $image){
+                    File::delete(public_path('uploads/'.$image->link));
                     $image->delete();
                 }
             }

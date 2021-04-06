@@ -22,8 +22,11 @@
                                 <hr>
                                 <small class="m-2 small"><i class="fa fa-map-marker text-secondary" style="font-size:18px;"></i> {{ advertise.street }}</small>
                                 <small v-if="advertise.area" class="m-2 small">متراژ : {{ advertise.area }} متر</small>
-                                <p v-if="advertise.type == 'فروش'" class="m-2 badge badge-success">{{ advertise.type }} {{ advertise.status }}</p>
-                                <p v-else class="m-2 badge badge-danger">{{ advertise.type }} {{ advertise.status }}</p>
+                                <p v-if="advertise.type == 1" class="m-2 badge badge-success">فروش</p>
+                                <p v-else-if="advertise.type == 2" class="m-2 badge badge-danger">رهن کامل</p>
+                                <p v-else-if="advertise.type == 3" class="m-2 badge badge-danger">رهن و اجاره</p>
+                                <p v-else-if="advertise.type == 4" class="m-2 badge badge-info">درخواست خرید</p>
+                                <p v-else-if="advertise.type == 5" class="m-2 badge badge-info">درخواست رهن و اجاره</p>
                             </div>
                             <div class="col-6 pr-0 pt-0">
                                 <div class="card-image-wrapper">

@@ -33,24 +33,24 @@
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-map-marker item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0">
                             <p class="medium-text mr-text" >محدوده : </p>
-                            <p class="medium-text">{{ advertise.region.title }} - {{ advertise.street }}</p>
+                            <p class="medium-text">{{ advertise.region.title }} <template v-if="advertise.type == 1 || advertise.type == 2 || advertise.type == 3">- {{ advertise.street }}</template></p>
                         </div>
                     </div>
                     <hr class="custom-color">  
-                    <div v-if="advertise.type == 'فروش'" class="row ml-1 mt-0">
+                    <div v-if="advertise.type == 1 || advertise.type == 4" class="row ml-1 mt-0">
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-money item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0">
-                            <p class="medium-text mr-text"> قیمت : </p>
+                            <p class="medium-text mr-text"><template v-if="advertise.type == 4">حدود</template> قیمت : </p>
                             <p class="medium-text">  {{ advertise.pointer_price }} میلیون تومان</p>
                         </div>
                     </div>
-                    <div v-if="advertise.type == 'رهن و اجاره'" class="row ml-1 mt-0">
-                        <div class="col-12 ml-0 pl-0">
+                    <div class="row ml-1 mt-0">
+                        <div v-if="advertise.type == 2 || advertise.type == 3 || advertise.type == 5" class="col-12 ml-0 pl-0">
                             <p class="medium-text">میزان رهن : </p>
                             <p v-if="advertise.rent > 0" class="medium-text">  {{ advertise.pointer_rent }} تومان</p>
                             <p v-else class="medium-text"><i class="fa fa-times text-danger"></i></p>
                         </div>
-                        <div class="col-12 ml-0 pl-0">
+                        <div v-if="advertise.type == 3 || advertise.type == 5" class="col-12 ml-0 pl-0">
                             <p class="medium-text">اجاره بها : </p>
                             <p v-if="advertise.meed > 0" class="medium-text">  {{ advertise.pointer_meed }} تومان</p>
                             <p v-else class="medium-text"><i class="fa fa-times text-danger"></i></p>
@@ -68,12 +68,12 @@
                     <div v-if="advertise.area" class="row ml-1 mt-0">
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-arrows item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0">
-                            <p class="medium-text mr-text"> متراژ : </p>
+                            <p class="medium-text mr-text"><template v-if="advertise.type == 4 || advertise.type == 5">حدود</template> متراژ : </p>
                             <p class="medium-text"> {{ advertise.area }} متر</p>
                         </div>
                     </div>   
-                    <hr v-if="advertise.type == 'فروش' && advertise.length_house !== null && advertise.length_house >= 8" class="custom-color">
-                    <div v-if="advertise.type == 'فروش' && advertise.length_house !== null && advertise.length_house >= 8 " class="row medium-lh ml-1 mt-0">
+                    <hr v-if="advertise.type == 1 && advertise.length_house !== null && advertise.length_house >= 8" class="custom-color">
+                    <div v-if="advertise.type == 1 && advertise.length_house !== null && advertise.length_house >= 8 " class="row medium-lh ml-1 mt-0">
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-arrows-h item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0">
                             <p class="medium-text mr-text"> حاشیه : </p>

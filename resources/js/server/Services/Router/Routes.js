@@ -22,7 +22,7 @@ const allUrl = [
     {
         path: '/admin-area/Panel',
         component: LoaderPannel,
-        redirect: '/admin-area/Panel/Dashboard',
+        redirect: '/admin-area/Panel/Advertises',
         children: [
             { path: 'Dashboard', name: 'Dashboard', component: Dashboard },
 

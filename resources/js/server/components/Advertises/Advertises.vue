@@ -60,8 +60,8 @@
                       <td>{{ key+1 }}</td>
                       <td>{{ advertise.id }}</td>
                       <td>
-                        <template v-if="advertise.type == 'فروش'"><i class="fa fa-circle text-success"></i></template>
-                        <template v-else-if="advertise.type == 'رهن و اجاره'"><i class="fa fa-circle text-danger"></i></template>
+                        <template v-if="advertise.type == 1"><i class="fa fa-circle text-success"></i></template>
+                        <template v-else-if="advertise.type == 2"><i class="fa fa-circle text-danger"></i></template>
                         {{ advertise.title }}
                       </td>
                       <td>{{ advertise.region.title }} - {{ advertise.street }}</td>
@@ -108,13 +108,16 @@
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="title">عنوان آگهی *</label>
-                <input v-model="formData.title" type="text" id="title" class="form-control" placeholder="عنوان آگهی را وارد کنید">
+                <input v-model="formData.title" type="text" id="title" class="form-control" placeholder="یک عنوان چشمگیر وارد کنید">
               </div>
               <div class="form-group col-md-6">
                 <label for="type">نوع آگهی *</label>
                 <select v-model="formData.type" id="type" class="form-control">
-                  <option value="فروش">فروش</option>
-                  <option value="رهن و اجاره">رهن و اجاره</option>
+                  <option value="1">فروش</option>
+                  <option value="2">رهن کامل</option>
+                  <option value="3">رهن و اجاره</option>
+                  <option value="4">درخواست خرید</option>
+                  <option value="5">درخواست رهن و اجاره</option>
                 </select>
               </div>
             </div>
@@ -128,13 +131,21 @@
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <label for="region_id">محله *</label>
+                <label for="region_id">منطقه *</label>
                 <select v-model="formData.region_id" id="region_id" class="form-control">
                   <option v-for="(region , key) in regions" :key="key" :value="region.id">{{region.title}}</option>
                 </select>
               </div>
             </div>
             <div class="row">
+              <div v-show="formData.type == 1 || formData.type == 2 || formData.type == 3" class="form-group col-md-6">
+                <label for="street">خیابان *</label>
+                <input v-model="formData.street" type="text" id="street" class="form-control" placeholder="نام خیابان را وارد کنید">
+              </div>
+              <div v-show="formData.type == 1 || formData.type == 4" class="form-group col-md-6">
+                <label for="price">قیمت <span class="text-danger">*</span></label>
+                <input v-model="formData.price" type="number" id="price" @input="InsertJustNumber" min="0" class="form-control" placeholder="قیمت را وارد کنید">
+              </div>
               <div v-show="formData.status !== 'زمین'" class="form-group col-md-6">
                 <label for="lifetime_state">وضعیت عمر منزل *</label>
                 <select v-model="formData.lifetime_state" id="lifetime_state" class="form-control">
@@ -143,11 +154,7 @@
                   <option value="قدیمی ساز">قدیمی ساز</option>
                 </select>
               </div>
-              <div class="form-group col-md-6">
-                <label for="street">خیابان *</label>
-                <input v-model="formData.street" type="text" id="street" class="form-control" placeholder="نام خیابان را وارد کنید">
-              </div>
-              <div v-show="formData.status == 'منزل' && formData.type == 'فروش'" class="form-group col-md-6">
+              <div v-show="formData.status == 'منزل' && formData.type == 1 || formData.type == 4" class="form-group col-md-6">
                 <label for="skeleton_state">وضعیت اسکلت بندی *</label>
                 <select v-model="formData.skeleton_state" id="skeleton_state" class="form-control">
                   <option value="اسکلت">اسکلت</option>
@@ -164,9 +171,9 @@
                   <v-radio label="داخل کوچه" :value="1"></v-radio>
                 </v-radio-group>
               </div>
-              <div v-show="formData.type == 'فروش' && formData.status !== 'مغازه'" class="form-group col-md-6">
+              <div v-show="formData.type == 1 && formData.status !== 'مغازه'" class="form-group col-md-6">
                 <label for="lane_width">عرض کوچه / خیابان</label>
-                <input v-model="formData.lane_width" type="number" @input="InsertJustNumber" min="0" id="lane_width" class="form-control" placeholder="متراژ عرض کوچه / خیابان را وارد کنید">
+                <input v-model="formData.lane_width" type="number" step="any" @input="InsertJustNumber" min="0" id="lane_width" class="form-control" placeholder="متراژ عرض کوچه / خیابان را وارد کنید">
               </div>
             </div>
             <div class="row">
@@ -174,32 +181,26 @@
                 <label for="area">متراژ کل *</label>
                 <input v-model="formData.area" type="number" @input="InsertJustNumber" min="0" id="area" class="form-control" placeholder="متراژ کل را وارد کنید">
               </div>
-              <div v-show="formData.type == 'فروش'" class="form-group col-md-4">
+              <div v-show="formData.type == 1" class="form-group col-md-4">
                 <label for="length_house">طول حاشیه</label>
-                <input v-model="formData.length_house" type="number" @input="InsertJustNumber" min="0" id="length_house" class="form-control" placeholder="طول حاشیه را وارد کنید">
+                <input v-model="formData.length_house" type="number" step="any" @input="InsertJustNumber" min="0" id="length_house" class="form-control" placeholder="طول حاشیه را وارد کنید">
               </div>
               <div v-show="formData.status == 'منزل'" class="form-group col-md-4">
                 <label for="roof_number">تعداد طبقات</label>
-                <input v-model="formData.roof_number" type="number" @input="InsertJustNumber" min="0" id="roof_number" class="form-control" placeholder="تعداد طبقات را وارد کنید">
+                <input v-model="formData.roof_number" type="number" step="any" @input="InsertJustNumber" min="0" id="roof_number" class="form-control" placeholder="تعداد طبقات را وارد کنید">
               </div>
             </div>
-            <div v-show="formData.type == 'فروش'" class="row">
-              <div class="form-group col-md-6">
-                <label for="price">قیمت <span class="text-danger">*</span></label>
-                <input v-model="formData.price" type="number" id="price" @input="InsertJustNumber" min="0" class="form-control" placeholder="قیمت را وارد کنید">
-              </div>
-            </div>
-            <div v-show="formData.type == 'رهن و اجاره'" class="row">
-              <div class="form-group col-md-6">
+            <div class="row">
+              <div v-show="formData.type == 2 || formData.type == 3 || formData.type == 5" class="form-group col-md-6">
                 <label for="rent">میزان رهن *</label>
                 <input v-model="formData.rent" type="number" @input="InsertJustNumber" min="0" id="rent" class="form-control" placeholder="میزان رهن را وارد کنید">
               </div>
-              <div class="form-group col-md-6">
+              <div v-show="formData.type == 3 || formData.type == 5" class="form-group col-md-6">
                 <label for="meed">میزان اجاره *</label>
                 <input v-model="formData.meed" type="number" @input="InsertJustNumber" min="0" id="meed" class="form-control" placeholder="میزان اجاره را وارد کنید">
               </div>
             </div>
-            <div class="row">
+            <div class="row" v-show="formData.type == 1 || formData.type == 2 || formData.type == 3">
               <div class="col-12">
                 <v-file-input
                   v-model="formData.images"
@@ -227,7 +228,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-md-12">
+              <div v-show="formData.type !== 4 && formData.type !== 5" class="form-group col-md-12">
                 <label for="address">آدرس دقیق</label>
                 <textarea rows="2" v-model="formData.address" id="address" class="form-control" placeholder="این آدرس فقط برای مدیر قابل رویت است">
                 </textarea>
@@ -253,7 +254,7 @@
       <div>
         <div class="card m-b-0">
           <div class="card-header">
-              ویرایش <strong>مقاله</strong> با شناسه <b>{{editFormData.id}}</b>
+              ویرایش <strong>آگهی</strong> با شناسه <b>{{editFormData.id}}</b>
           </div>
           <div class="card-block">
             <div class="row">
@@ -264,8 +265,11 @@
               <div class="form-group col-md-6">
                 <label for="type">نوع آگهی *</label>
                 <select v-model="editFormData.type" id="type" class="form-control">
-                  <option value="فروش">فروش</option>
-                  <option value="رهن و اجاره">رهن و اجاره</option>
+                  <option value="1">فروش</option>
+                  <option value="2">رهن کامل</option>
+                  <option value="3">رهن و اجاره</option>
+                  <option value="4">درخواست خرید</option>
+                  <option value="5">درخواست رهن و اجاره</option>
                 </select>
               </div>
             </div>
@@ -279,7 +283,7 @@
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <label for="region_id">محله *</label>
+                <label for="region_id">منطقه *</label>
                 <select v-model="editFormData.region_id" id="region_id" class="form-control">
                   <option v-for="(region , key) in regions" :key="key" :value="region.id">{{region.title}}</option>
                 </select>
@@ -287,6 +291,14 @@
             </div>
             
             <div class="row">
+              <div v-show="editFormData.type == 1 || editFormData.type == 2 || editFormData.type == 3" class="form-group col-md-6">
+                <label for="street">خیابان *</label>
+                <input v-model="editFormData.street" type="text" id="street" class="form-control" placeholder="نام خیابان را وارد کنید">
+              </div>
+              <div v-show="editFormData.type == 1 || editFormData.type == 4" class="form-group col-md-6">
+                <label for="price">قیمت <span class="text-danger">*</span></label>
+                <input v-model="editFormData.price" type="number" @input="InsertJustNumber" min="0" id="price" class="form-control" placeholder="قیمت را وارد کنید">
+              </div>
               <div v-show="editFormData.status !== 'زمین'" class="form-group col-md-6">
                 <label for="lifetime_state">وضعیت عمر منزل *</label>
                 <select v-model="editFormData.lifetime_state" id="lifetime_state" class="form-control">
@@ -295,11 +307,7 @@
                   <option value="قدیمی ساز">قدیمی ساز</option>
                 </select>
               </div>
-              <div class="form-group col-md-6">
-                <label for="street">خیابان *</label>
-                <input v-model="editFormData.street" type="text" id="street" class="form-control" placeholder="نام خیابان را وارد کنید">
-              </div>
-              <div v-show="editFormData.status == 'منزل' && editFormData.type == 'فروش'" class="form-group col-md-6">
+              <div v-if="editFormData.status == 'منزل'" v-show="editFormData.type == 1 || editFormData.type == 4" class="form-group col-md-6">
                 <label for="skeleton_state">وضعیت اسکلت بندی *</label>
                 <select v-model="editFormData.skeleton_state" id="skeleton_state" class="form-control">
                   <option value="اسکلت">اسکلت</option>
@@ -316,9 +324,9 @@
                   <v-radio label="داخل کوچه" :value="1"></v-radio>
                 </v-radio-group>
               </div>
-              <div v-show="editFormData.type == 'فروش' || editFormData.status !== 'مغازه'" class="form-group col-md-6">
+              <div v-show="editFormData.type == 1 || editFormData.status !== 'مغازه'" class="form-group col-md-6">
                 <label for="lane_width">عرض کوچه / خیابان</label>
-                <input v-model="editFormData.lane_width" type="number" @input="InsertJustNumber" min="0" id="lane_width" class="form-control" placeholder="متراژ عرض کوچه / خیابان را وارد کنید">
+                <input v-model="editFormData.lane_width" type="number" step="any" @input="InsertJustNumber" min="0" id="lane_width" class="form-control" placeholder="متراژ عرض کوچه / خیابان را وارد کنید">
               </div>
             </div>
             <div class="row">
@@ -326,32 +334,26 @@
                 <label for="area">متراژ کل *</label>
                 <input v-model="editFormData.area" type="number" @input="InsertJustNumber" min="0" id="area" class="form-control" placeholder="متراژ کل را وارد کنید">
               </div>
-              <div v-show="editFormData.type == 'فروش'" class="form-group col-md-4">
+              <div v-show="editFormData.type == 1" class="form-group col-md-4">
                 <label for="length_house">طول حاشیه</label>
-                <input v-model="editFormData.length_house" type="number" @input="InsertJustNumber" min="0" id="length_house" class="form-control" placeholder="طول حاشیه را وارد کنید">
+                <input v-model="editFormData.length_house" type="number" step="any" @input="InsertJustNumber" min="0" id="length_house" class="form-control" placeholder="طول حاشیه را وارد کنید">
               </div>
               <div v-show="editFormData.status == 'منزل'" class="form-group col-md-4">
                 <label for="roof_number">تعداد طبقات</label>
-                <input v-model="editFormData.roof_number" type="number" @input="InsertJustNumber" min="0" id="roof_number" class="form-control" placeholder="تعداد طبقات را وارد کنید">
+                <input v-model="editFormData.roof_number" type="number" step="any" @input="InsertJustNumber" min="0" id="roof_number" class="form-control" placeholder="تعداد طبقات را وارد کنید">
               </div>
             </div>
-            <div v-show="editFormData.type == 'فروش'" class="row">
-              <div class="form-group col-md-6">
-                <label for="price">قیمت <span class="text-danger">*</span></label>
-                <input v-model="editFormData.price" type="number" @input="InsertJustNumber" min="0" id="price" class="form-control" placeholder="قیمت را وارد کنید">
-              </div>
-            </div>
-            <div v-show="editFormData.type == 'رهن و اجاره'" class="row">
-              <div class="form-group col-md-6">
+            <div class="row">
+              <div v-show="editFormData.type == 2 || editFormData.type == 3 || editFormData.type == 5" class="form-group col-md-6">
                 <label for="rent">میزان رهن *</label>
                 <input v-model="editFormData.rent" type="number" @input="InsertJustNumber" min="0" id="rent" class="form-control" placeholder="میزان رهن را وارد کنید">
               </div>
-              <div class="form-group col-md-6">
+              <div v-show="editFormData.type == 3 || editFormData.type == 5" class="form-group col-md-6">
                 <label for="meed">میزان اجاره *</label>
                 <input v-model="editFormData.meed" type="number" @input="InsertJustNumber" min="0" id="meed" class="form-control" placeholder="میزان اجاره را وارد کنید">
               </div>
             </div>
-            <div class="row">
+            <div class="row" v-show="editFormData.type == 1 || editFormData.type == 2 || editFormData.type == 3">
               <div class="col-12">
                 <v-file-input
                   v-model="editFormData.new_images"
@@ -371,7 +373,7 @@
                 </v-file-input>
               </div>
             </div>
-            <div class="row">
+            <div class="row" v-show="editFormData.type == 1 || editFormData.type == 2 || editFormData.type == 3">
               <div v-for="(image,key) in editFormData.images" :key="key" class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
                 <div class="card">
                   <img class="card-img-top img-fluid" :src="ImageUrl+image.link" alt="image">
@@ -390,7 +392,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-md-12">
+              <div v-show="editFormData.type !== 4 && editFormData.type !== 5" class="form-group col-md-12">
                 <label for="address">آدرس دقیق</label>
                 <textarea rows="2" v-model="editFormData.address" id="address" class="form-control" placeholder="این آدرس فقط برای مدیر قابل رویت است">
                 </textarea>
@@ -465,7 +467,7 @@ export default {
       deleteModal:false,
       formData:{
         title:'',
-        type:'فروش',
+        type:1,
         status:'منزل',
         region_id:1,
         street:'',
@@ -561,7 +563,7 @@ export default {
         this.createModal = false;
         this.formData = {
           title:'',
-          type:'فروش',
+          type:1,
           status:'منزل',
           region_id:1,
           street:'',
@@ -648,7 +650,7 @@ export default {
       });
     },
     deleteAdvertise(){
-      Axios.post('advertises/delete' , {array:this.array})
+      Axios.post('advertises/' , {array:this.array})
       .then(res => {
         this.array = [];
         this.getAdvertises(1);

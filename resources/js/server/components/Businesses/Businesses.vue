@@ -62,7 +62,7 @@
                         <template v-if="business.user">
                           {{ business.user.name }}
                         </template>
-                        <template v-else>ادمین</template>
+                        <template v-else><i class="fa fa-user"></i> ادمین</template>
                       </td>
                       <td>{{ business.view_count }}</td>
                       <td>
@@ -216,6 +216,17 @@
               </div>
             </div>
             <div class="row">
+              <div v-for="(image,key) in editFormData.images" :key="key" class="col-lg-2 col-md-2 col-sm-3 col-xs-6">
+                <div class="card">
+                  <img class="card-img-top img-fluid" :src="ImageUrl+image.link" alt="image">
+                  <div class="card-footer">
+                    <small class="text-muted">حذف شود؟</small>
+                    <v-checkbox v-model="editFormData.image_delete" color="blue" :value="image.id"></v-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <div class="form-group col-md-12">
                 <label for="description">توضیحات تکمیلی</label>
                 <textarea rows="6" v-model="editFormData.description" id="description" class="form-control">
@@ -313,7 +324,7 @@ export default {
         this.array = [];
       })
       .catch(err => {
-          console.log(err)
+        console.log(err)
       });
     },
     CreateBusiness(){
