@@ -1,16 +1,16 @@
 <template>
     <div class="">
-        <div class="container" style="margin-top:50px">
-            <div class="row">
-                <div class="col-8 py-0">
-                    <div class="operations">
-                        <input v-model="search_key" @input="searchAdvertise" type="text" class="search-item" placeholder="جستجو...">
-                    </div>
-                </div>
-                <div class="col-4 py-1">
-                    <router-link to="/CreateAdvertise" class="btn btn-legendary btn-sm float-left"> ثبت آگهی </router-link>
+        <div class="row fixed-search-box">
+            <div class="col-8 py-0">
+                <div class="operations">
+                    <input v-model="search_key" @input="searchAdvertise" type="text" class="search-item" placeholder="جستجو...">
                 </div>
             </div>
+            <div class="col-4 py-1">
+                <router-link to="/CreateAdvertise" class="btn btn-legendary btn-sm float-left"> ثبت آگهی </router-link>
+            </div>
+        </div>
+        <div class="container" style="margin-top:80px">
 
             <div class="row p-2">
                 <div v-for="(advertise , key) in advertises" :key="key" class="advertise-wrapper p-0 col-lg-4 col-md-6 col-sm-6 col-xs-12">

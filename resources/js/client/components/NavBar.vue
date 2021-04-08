@@ -7,14 +7,14 @@
       <ul class="navbar-items">
         <li class="nav-item dropdown">
           <button class="nav-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              کاربری <i class="fa fa-sort-down"></i>
+              <i style="font-size:25px;" class="fa fa-bars"></i>
           </button>
           <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
             <router-link v-if="!authenticated" class="dropdown-item pl-1" :to="{name:'Login'}">ورود</router-link>
             <router-link class="dropdown-item pl-1" :to="{name:'MyAdvertises'}">آگهی های من</router-link>
             <router-link class="dropdown-item pl-1" :to="{name:'MyBusinesses'}">کسب و کارهای من</router-link>
+            <router-link class="dropdown-item pl-1" :to="{name:'AboutUs'}">درباره ما</router-link>
             <div v-if="authenticated" class="dropdown-item pl-1">{{userData.name}}</div>
-            <div v-if="authenticated" class="dropdown-item pl-1">{{userData.number}}</div>
             <button v-if="authenticated" class="btn btn-danger btn-sm btn-block" @click="logoutdialog = true">خروج</button>
           </div>
         </li>

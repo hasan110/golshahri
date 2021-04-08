@@ -1,5 +1,6 @@
 import LoaderPannel from '../../components/LoaderPannel.vue';
 import Home from '../../components/Home/Home.vue';
+import AboutUs from '../../components/Home/AboutUs.vue';
 
 import Login from '../../components/Auth/Login.vue';
 import Register from '../../components/Auth/Register.vue';
@@ -27,6 +28,7 @@ const allUrl = [
     redirect: '/Home',
     children: [
       { path: 'Home', name: 'Home', component: Home },
+      { path: 'AboutUs', name: 'AboutUs', component: AboutUs },
 
       { path: 'Login', name: 'Login', component: Login },
       { path: 'Register', name: 'Register', component: Register },

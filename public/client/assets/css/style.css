@@ -512,7 +512,16 @@ select{
   border-top-left-radius: 4px;
 }
 /* &&&&&&&&&&&&&&&&&&& */
-
+.fixed-search-box{
+  position: fixed;
+  left: 0;
+  top: 60px;
+  background-color: #fff;
+  width: 100%;
+  z-index: 99;
+  height: 45px;
+  padding-left:12px;
+}
 
 
 /* -------------------------------------
