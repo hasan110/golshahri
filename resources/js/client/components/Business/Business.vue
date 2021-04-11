@@ -64,12 +64,10 @@
                         <div class="col-6">
                             <h3 @click="vote('like')" class="vote-icon like">
                                 <i class="fa fa-thumbs-o-up liked"></i>
-                                <small>کارش خوبه</small>
                             </h3>
                         </div>
                         <div class="col-6">
                             <h3 @click="vote('dislike')" class="vote-icon dislike">
-                                <small>خوب نیست</small>
                                 <i class="fa fa-thumbs-o-down disliked"></i>
                             </h3>
                         </div>

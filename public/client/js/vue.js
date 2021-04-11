@@ -2194,6 +2194,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Advertises",
@@ -2448,6 +2450,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2517,6 +2539,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.formData.type === 1) {
         if (this.formData.price === '') {
           this.errorMessage = 'قیمت اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
+          this.errorSnackbar = true;
+          return;
+        }
+      }
+
+      if (this.formData.type === 2) {
+        if (this.formData.rent === '') {
+          this.errorMessage = 'میزان رهن اجباری است (لطفا فیلد های ستاره دار را تکمیل نمایید)';
           this.errorSnackbar = true;
           return;
         }
@@ -2614,6 +2644,26 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3530,8 +3580,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3628,7 +3676,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Services_httpRequest_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Services/httpRequest/axios */ "./resources/js/client/Services/httpRequest/axios.js");
-//
 //
 //
 //
@@ -6909,18 +6956,25 @@ var render = function() {
                     0
                   )
                 ])
-              : _c("div", { staticClass: "col-md-6 col-sm-12 cleavager" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "imagebox col-12" }, [
-                      _c("img", {
-                        attrs: {
-                          src: _vm.ImageUrl + _vm.advertise.default_image,
-                          alt: ""
-                        }
-                      })
+              : _c(
+                  "div",
+                  {
+                    staticClass:
+                      "col-md-6 col-sm-12 cleavager ads-default-image"
+                  },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "imagebox col-12" }, [
+                        _c("img", {
+                          attrs: {
+                            src: _vm.ImageUrl + _vm.advertise.default_image,
+                            alt: ""
+                          }
+                        })
+                      ])
                     ])
-                  ])
-                ]),
+                  ]
+                ),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-6 col-sm-12 cleavager mt-3" }, [
               _c("div", { staticClass: "row ml-1" }, [
@@ -6964,8 +7018,8 @@ var render = function() {
                   {
                     name: "show",
                     rawName: "v-show",
-                    value: _vm.advertise.pointer_price,
-                    expression: "advertise.pointer_price"
+                    value: _vm.advertise.price,
+                    expression: "advertise.price"
                   }
                 ],
                 staticClass: "custom-color"
@@ -6979,8 +7033,8 @@ var render = function() {
                         {
                           name: "show",
                           rawName: "v-show",
-                          value: _vm.advertise.pointer_price,
-                          expression: "advertise.pointer_price"
+                          value: _vm.advertise.price,
+                          expression: "advertise.price"
                         }
                       ],
                       staticClass: "row ml-1 mt-0"
@@ -7517,13 +7571,27 @@ var render = function() {
                           _vm._v(" "),
                           _c("hr"),
                           _vm._v(" "),
-                          _c("small", { staticClass: "m-2 small" }, [
-                            _c("i", {
-                              staticClass: "fa fa-map-marker text-secondary",
-                              staticStyle: { "font-size": "18px" }
-                            }),
-                            _vm._v(" " + _vm._s(advertise.street))
-                          ]),
+                          _c(
+                            "small",
+                            { staticClass: "m-2 small" },
+                            [
+                              _c("i", {
+                                staticClass: "fa fa-map-marker text-secondary",
+                                staticStyle: { "font-size": "18px" }
+                              }),
+                              _vm._v(" "),
+                              advertise.type == 1 ||
+                              advertise.type == 2 ||
+                              advertise.type == 3
+                                ? [_vm._v(_vm._s(advertise.street))]
+                                : [
+                                    _vm._v(
+                                      "محدوده " + _vm._s(advertise.region.title)
+                                    )
+                                  ]
+                            ],
+                            2
+                          ),
                           _vm._v(" "),
                           advertise.area
                             ? _c("small", { staticClass: "m-2 small" }, [
@@ -7644,36 +7712,6 @@ var render = function() {
                   _c("div", { staticClass: "form-group col-md-6" }, [
                     _vm._m(1),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.formData.title,
-                          expression: "formData.title"
-                        }
-                      ],
-                      staticClass: "form-control ",
-                      attrs: {
-                        type: "text",
-                        id: "title",
-                        placeholder: "عنوان مناسبی برای آگهی خود انتخاب کنید ."
-                      },
-                      domProps: { value: _vm.formData.title },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.formData, "title", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-md-6" }, [
-                    _vm._m(2),
-                    _vm._v(" "),
                     _c(
                       "select",
                       {
@@ -7729,6 +7767,36 @@ var render = function() {
                         ])
                       ]
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-md-6" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.title,
+                          expression: "formData.title"
+                        }
+                      ],
+                      staticClass: "form-control ",
+                      attrs: {
+                        type: "text",
+                        id: "title",
+                        placeholder: "عنوان مناسبی برای آگهی خود بنویسید ."
+                      },
+                      domProps: { value: _vm.formData.title },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "title", $event.target.value)
+                        }
+                      }
+                    })
                   ])
                 ]),
                 _vm._v(" "),
@@ -7786,7 +7854,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-md-6" }, [
-                    _vm._m(4),
+                    _c(
+                      "label",
+                      { attrs: { for: "region_id" } },
+                      [
+                        _vm.formData.type == 1 ||
+                        _vm.formData.type == 2 ||
+                        _vm.formData.type == 3
+                          ? [_vm._v("ملک شما در کدام منطقه است؟")]
+                          : [_vm._v("ترجیحا کدام منطقه؟")],
+                        _vm._v(" "),
+                        _c("span", { staticClass: "text-danger" }, [
+                          _vm._v("*")
+                        ])
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -7842,15 +7925,17 @@ var render = function() {
                           name: "show",
                           rawName: "v-show",
                           value:
-                            _vm.formData.type !== 4 && _vm.formData.type !== 5,
+                            _vm.formData.type == 1 ||
+                            _vm.formData.type == 2 ||
+                            _vm.formData.type == 3,
                           expression:
-                            "formData.type !== 4 && formData.type !== 5"
+                            "formData.type == 1 || formData.type == 2 || formData.type == 3"
                         }
                       ],
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(5),
+                      _vm._m(4),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -7899,7 +7984,22 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(6),
+                      _c(
+                        "label",
+                        { attrs: { for: "price" } },
+                        [
+                          _vm.formData.type == 1 ||
+                          _vm.formData.type == 2 ||
+                          _vm.formData.type == 3
+                            ? [_vm._v("قیمت")]
+                            : [_vm._v("حدود قیمت")],
+                          _vm._v(" "),
+                          _c("span", { staticClass: "text-danger" }, [
+                            _vm._v("*")
+                          ])
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -7951,7 +8051,7 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(7),
+                      _vm._m(5),
                       _vm._v(" "),
                       _c(
                         "select",
@@ -8011,17 +8111,16 @@ var render = function() {
                           name: "show",
                           rawName: "v-show",
                           value:
-                            (_vm.formData.status == "منزل" &&
-                              _vm.formData.type == 1) ||
-                            _vm.formData.type == 4,
+                            _vm.formData.status == "منزل" &&
+                            _vm.formData.type == 1,
                           expression:
-                            "formData.status == 'منزل' && formData.type == 1 || formData.type == 4"
+                            "formData.status == 'منزل' && formData.type == 1"
                         }
                       ],
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(8),
+                      _vm._m(6),
                       _vm._v(" "),
                       _c(
                         "select",
@@ -8089,7 +8188,7 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(9),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c(
                         "v-radio-group",
@@ -8177,7 +8276,22 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-4" }, [
-                    _vm._m(10),
+                    _c(
+                      "label",
+                      { attrs: { for: "area" } },
+                      [
+                        _vm.formData.type == 1 ||
+                        _vm.formData.type == 2 ||
+                        _vm.formData.type == 3
+                          ? [_vm._v("متراژ کل")]
+                          : [_vm._v("حدود متراژ")],
+                        _vm._v(" "),
+                        _c("span", { staticClass: "text-danger" }, [
+                          _vm._v("*")
+                        ])
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -8189,12 +8303,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        min: "0",
-                        type: "number",
-                        id: "area",
-                        placeholder: "متراژ کل را وارد کنید"
-                      },
+                      attrs: { min: "0", type: "number", id: "area" },
                       domProps: { value: _vm.formData.area },
                       on: {
                         input: [
@@ -8238,12 +8347,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          min: "0",
-                          type: "number",
-                          id: "length_house",
-                          placeholder: "طول حاشیه را وارد کنید"
-                        },
+                        attrs: { min: "0", type: "number", id: "length_house" },
                         domProps: { value: _vm.formData.length_house },
                         on: {
                           input: [
@@ -8292,12 +8396,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          min: "0",
-                          type: "number",
-                          id: "roof_number",
-                          placeholder: "تعداد طبقات را وارد کنید"
-                        },
+                        attrs: { min: "0", type: "number", id: "roof_number" },
                         domProps: { value: _vm.formData.roof_number },
                         on: {
                           input: [
@@ -8338,7 +8437,20 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(11),
+                      _c(
+                        "label",
+                        { attrs: { for: "rent" } },
+                        [
+                          _vm.formData.type == 2 || _vm.formData.type == 3
+                            ? [_vm._v("میزان رهن")]
+                            : [_vm._v("تا چقدر رهن ؟")],
+                          _vm._v(" "),
+                          _c("span", { staticClass: "text-danger" }, [
+                            _vm._v("*")
+                          ])
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -8350,13 +8462,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          min: "0",
-                          type: "number",
-                          id: "rent",
-                          placeholder:
-                            "اگر فقط اجاره می دهید اینجا صفر وارد کنید"
-                        },
+                        attrs: { min: "0", type: "number", id: "rent" },
                         domProps: { value: _vm.formData.rent },
                         on: {
                           input: [
@@ -8392,7 +8498,20 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(12),
+                      _c(
+                        "label",
+                        { attrs: { for: "meed" } },
+                        [
+                          _vm.formData.type == 3
+                            ? [_vm._v("میزان اجاره")]
+                            : [_vm._v("تا چقدر اجاره ؟")],
+                          _vm._v(" "),
+                          _c("span", { staticClass: "text-danger" }, [
+                            _vm._v("*")
+                          ])
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -8404,12 +8523,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          min: "0",
-                          type: "number",
-                          id: "meed",
-                          placeholder: "اگر فقط رهن می دهید اینجا صفر وارد کنید"
-                        },
+                        attrs: { min: "0", type: "number", id: "meed" },
                         domProps: { value: _vm.formData.meed },
                         on: {
                           input: [
@@ -8453,7 +8567,7 @@ var render = function() {
                       "div",
                       { staticClass: "col-12" },
                       [
-                        _vm._m(13),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c("uploader", {
                           attrs: {
@@ -8485,9 +8599,7 @@ var render = function() {
                     _c("br"),
                     _vm._v(" "),
                     _c("small", { staticClass: "text-primary" }, [
-                      _vm._v(
-                        "لطفا علاوه بر اشاره به اطلاعات ضروری به اطلاعات مربوط به هال , اتاق خواب , آشپزخانه و ... اشاره نمایید "
-                      )
+                      _vm._v("اطلاعات دقیق تری از ملک مورد نظر خود وارد کنید")
                     ]),
                     _vm._v(" "),
                     _c("br"),
@@ -8541,7 +8653,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.loading
-        ? _c("div", { staticClass: "send-data-loading-wrapper" }, [_vm._m(14)])
+        ? _c("div", { staticClass: "send-data-loading-wrapper" }, [_vm._m(9)])
         : _vm._e(),
       _vm._v(" "),
       _c(
@@ -8611,8 +8723,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "title" } }, [
-      _vm._v("عنوان آگهی "),
+    return _c("label", { attrs: { for: "type" } }, [
+      _vm._v("انتخاب نوع آگهی "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -8620,8 +8732,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "type" } }, [
-      _vm._v("انتخاب نوع آگهی "),
+    return _c("label", { attrs: { for: "title" } }, [
+      _vm._v("عنوان آگهی "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -8638,26 +8750,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "region_id" } }, [
-      _vm._v("ملک شما در کدام منطقه است؟ "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "address" } }, [
       _vm._v("آدرس دقیق "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "price" } }, [
-      _vm._v("قیمت "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -8683,35 +8777,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "lifetime_state" } }, [
+    return _c("label", { attrs: { for: "is_in_lane" } }, [
       _vm._v("موقعیت ملک "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "area" } }, [
-      _vm._v("متراژ کل "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "rent" } }, [
-      _vm._v("میزان رهن "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "meed" } }, [
-      _vm._v("میزان اجاره "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -8783,36 +8850,6 @@ var render = function() {
                   _c("div", { staticClass: "form-group col-md-6" }, [
                     _vm._m(1),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.formData.title,
-                          expression: "formData.title"
-                        }
-                      ],
-                      staticClass: "form-control ",
-                      attrs: {
-                        type: "text",
-                        id: "title",
-                        placeholder: "عنوان مناسبی برای آگهی خود انتخاب کنید ."
-                      },
-                      domProps: { value: _vm.formData.title },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.formData, "title", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-md-6" }, [
-                    _vm._m(2),
-                    _vm._v(" "),
                     _c(
                       "select",
                       {
@@ -8824,7 +8861,7 @@ var render = function() {
                             expression: "formData.type"
                           }
                         ],
-                        staticClass: "form-control ",
+                        staticClass: "form-control",
                         attrs: { id: "type" },
                         on: {
                           change: function($event) {
@@ -8868,6 +8905,32 @@ var render = function() {
                         ])
                       ]
                     )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group col-md-6" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.title,
+                          expression: "formData.title"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", id: "title" },
+                      domProps: { value: _vm.formData.title },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "title", $event.target.value)
+                        }
+                      }
+                    })
                   ])
                 ]),
                 _vm._v(" "),
@@ -8925,7 +8988,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-md-6" }, [
-                    _vm._m(4),
+                    _c(
+                      "label",
+                      { attrs: { for: "region_id" } },
+                      [
+                        _vm.formData.type == 1 ||
+                        _vm.formData.type == 2 ||
+                        _vm.formData.type == 3
+                          ? [_vm._v("ویرایش منطقه")]
+                          : [_vm._v("ویرایش حدود منطقه؟")],
+                        _vm._v(" "),
+                        _c("span", { staticClass: "text-danger" }, [
+                          _vm._v("*")
+                        ])
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _c(
                       "select",
@@ -8981,15 +9059,17 @@ var render = function() {
                           name: "show",
                           rawName: "v-show",
                           value:
-                            _vm.formData.type !== 4 && _vm.formData.type !== 5,
+                            _vm.formData.type == 1 ||
+                            _vm.formData.type == 2 ||
+                            _vm.formData.type == 3,
                           expression:
-                            "formData.type !== 4 && formData.type !== 5"
+                            "formData.type == 1 || formData.type == 2 || formData.type == 3"
                         }
                       ],
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(5),
+                      _vm._m(4),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -9000,12 +9080,8 @@ var render = function() {
                             expression: "formData.address"
                           }
                         ],
-                        staticClass: "form-control ",
-                        attrs: {
-                          type: "text",
-                          id: "address",
-                          placeholder: "لطفا آدرس دقیق ملک خود را وارد نمایید"
-                        },
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "address" },
                         domProps: { value: _vm.formData.address },
                         on: {
                           input: function($event) {
@@ -9038,7 +9114,22 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(6),
+                      _c(
+                        "label",
+                        { attrs: { for: "price" } },
+                        [
+                          _vm.formData.type == 1 ||
+                          _vm.formData.type == 2 ||
+                          _vm.formData.type == 3
+                            ? [_vm._v("قیمت")]
+                            : [_vm._v("حدود قیمت")],
+                          _vm._v(" "),
+                          _c("span", { staticClass: "text-danger" }, [
+                            _vm._v("*")
+                          ])
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -9050,12 +9141,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          min: "0",
-                          type: "number",
-                          id: "price",
-                          placeholder: "قیمت را به میلیون تومان وارد کنید"
-                        },
+                        attrs: { min: "0", type: "number", id: "price" },
                         domProps: { value: _vm.formData.price },
                         on: {
                           input: [
@@ -9090,7 +9176,7 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(7),
+                      _vm._m(5),
                       _vm._v(" "),
                       _c(
                         "select",
@@ -9150,17 +9236,16 @@ var render = function() {
                           name: "show",
                           rawName: "v-show",
                           value:
-                            (_vm.formData.status == "منزل" &&
-                              _vm.formData.type == 1) ||
-                            _vm.formData.type == 4,
+                            _vm.formData.status == "منزل" &&
+                            _vm.formData.type == 1,
                           expression:
-                            "formData.status == 'منزل' && formData.type == 1 || formData.type == 4"
+                            "formData.status == 'منزل' && formData.type == 1"
                         }
                       ],
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(8),
+                      _vm._m(6),
                       _vm._v(" "),
                       _c(
                         "select",
@@ -9228,7 +9313,7 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(9),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c(
                         "v-radio-group",
@@ -9286,12 +9371,12 @@ var render = function() {
                             expression: "formData.lane_width"
                           }
                         ],
-                        staticClass: "form-control ",
+                        staticClass: "form-control",
                         attrs: {
+                          step: "any",
                           min: "0",
                           type: "number",
-                          id: "lane_width",
-                          placeholder: "عرض کوچه یا خیابان را وارد کنید"
+                          id: "lane_width"
                         },
                         domProps: { value: _vm.formData.lane_width },
                         on: {
@@ -9316,7 +9401,22 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-4" }, [
-                    _vm._m(10),
+                    _c(
+                      "label",
+                      { attrs: { for: "area" } },
+                      [
+                        _vm.formData.type == 1 ||
+                        _vm.formData.type == 2 ||
+                        _vm.formData.type == 3
+                          ? [_vm._v("متراژ کل")]
+                          : [_vm._v("حدود متراژ")],
+                        _vm._v(" "),
+                        _c("span", { staticClass: "text-danger" }, [
+                          _vm._v("*")
+                        ])
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -9328,12 +9428,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        min: "0",
-                        type: "number",
-                        id: "area",
-                        placeholder: "متراژ کل را وارد کنید"
-                      },
+                      attrs: { min: "0", type: "number", id: "area" },
                       domProps: { value: _vm.formData.area },
                       on: {
                         input: [
@@ -9378,10 +9473,10 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         attrs: {
+                          step: "any",
                           min: "0",
                           type: "number",
-                          id: "length_house",
-                          placeholder: "طول حاشیه را وارد کنید"
+                          id: "length_house"
                         },
                         domProps: { value: _vm.formData.length_house },
                         on: {
@@ -9432,10 +9527,10 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         attrs: {
+                          step: "any",
                           min: "0",
                           type: "number",
-                          id: "roof_number",
-                          placeholder: "تعداد طبقات را وارد کنید"
+                          id: "roof_number"
                         },
                         domProps: { value: _vm.formData.roof_number },
                         on: {
@@ -9477,7 +9572,20 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(11),
+                      _c(
+                        "label",
+                        { attrs: { for: "rent" } },
+                        [
+                          _vm.formData.type == 2 || _vm.formData.type == 3
+                            ? [_vm._v("میزان رهن")]
+                            : [_vm._v("تا چقدر رهن ؟")],
+                          _vm._v(" "),
+                          _c("span", { staticClass: "text-danger" }, [
+                            _vm._v("*")
+                          ])
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -9489,13 +9597,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          min: "0",
-                          type: "number",
-                          id: "rent",
-                          placeholder:
-                            "اگر فقط اجاره می دهید اینجا صفر وارد کنید"
-                        },
+                        attrs: { min: "0", type: "number", id: "rent" },
                         domProps: { value: _vm.formData.rent },
                         on: {
                           input: [
@@ -9531,7 +9633,20 @@ var render = function() {
                       staticClass: "form-group col-md-6"
                     },
                     [
-                      _vm._m(12),
+                      _c(
+                        "label",
+                        { attrs: { for: "meed" } },
+                        [
+                          _vm.formData.type == 3
+                            ? [_vm._v("میزان اجاره")]
+                            : [_vm._v("تا چقدر اجاره ؟")],
+                          _vm._v(" "),
+                          _c("span", { staticClass: "text-danger" }, [
+                            _vm._v("*")
+                          ])
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -9543,12 +9658,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          min: "0",
-                          type: "number",
-                          id: "meed",
-                          placeholder: "اگر فقط رهن می دهید اینجا صفر وارد کنید"
-                        },
+                        attrs: { min: "0", type: "number", id: "meed" },
                         domProps: { value: _vm.formData.meed },
                         on: {
                           input: [
@@ -9664,7 +9774,7 @@ var render = function() {
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "form-group col-md-12" }, [
                     _c("label", { attrs: { for: "description" } }, [
-                      _vm._v("توضیحات تکمیلی")
+                      _vm._v("ویرایش توضیحات")
                     ]),
                     _vm._v(" "),
                     _c("textarea", {
@@ -9762,7 +9872,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.loading
-        ? _c("div", { staticClass: "appLoading" }, [_vm._m(13)])
+        ? _c("div", { staticClass: "appLoading" }, [_vm._m(8)])
         : _vm._e()
     ],
     1
@@ -9782,6 +9892,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "type" } }, [
+      _vm._v("نوع آگهی "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "title" } }, [
       _vm._v("عنوان آگهی "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
@@ -9791,26 +9910,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "type" } }, [
-      _vm._v("انتخاب نوع آگهی "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "status" } }, [
-      _vm._v("نوع ملک خود را انتخاب کنید "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "region_id" } }, [
-      _vm._v("ملک شما در کدام منطقه است؟ "),
+      _vm._v("نوع ملک "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -9820,15 +9921,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "address" } }, [
       _vm._v("آدرس دقیق "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "price" } }, [
-      _vm._v("قیمت "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -9854,35 +9946,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "lifetime_state" } }, [
+    return _c("label", { attrs: { for: "is_in_lane" } }, [
       _vm._v("موقعیت ملک "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "area" } }, [
-      _vm._v("متراژ کل "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "rent" } }, [
-      _vm._v("میزان رهن "),
-      _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "meed" } }, [
-      _vm._v("میزان اجاره "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   },
@@ -10895,11 +10960,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _c("i", { staticClass: "fa fa-thumbs-o-up liked" }),
-                      _vm._v(" "),
-                      _c("small", [_vm._v("کارش خوبه")])
-                    ]
+                    [_c("i", { staticClass: "fa fa-thumbs-o-up liked" })]
                   )
                 ]),
                 _vm._v(" "),
@@ -10914,11 +10975,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _c("small", [_vm._v("خوب نیست")]),
-                      _vm._v(" "),
-                      _c("i", { staticClass: "fa fa-thumbs-o-down disliked" })
-                    ]
+                    [_c("i", { staticClass: "fa fa-thumbs-o-down disliked" })]
                   )
                 ])
               ]),
@@ -11144,57 +11201,57 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", {}, [
+    _c("div", { staticClass: "row fixed-search-box" }, [
+      _c("div", { staticClass: "col-8 py-0" }, [
+        _c("div", { staticClass: "operations" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search_key,
+                expression: "search_key"
+              }
+            ],
+            staticClass: "search-item",
+            attrs: { type: "text", placeholder: "جستجو..." },
+            domProps: { value: _vm.search_key },
+            on: {
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search_key = $event.target.value
+                },
+                _vm.searchBusiness
+              ]
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-4 py-1" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "btn btn-legendary btn-sm float-left",
+              attrs: { to: "/CreateBusiness" }
+            },
+            [_vm._v(" ثبت آگهی")]
+          )
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
     _c(
       "div",
-      { staticClass: "container", staticStyle: { "margin-top": "50px" } },
+      { staticClass: "container", staticStyle: { "margin-top": "80px" } },
       [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-8 py-0" }, [
-            _c("div", { staticClass: "operations" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.search_key,
-                    expression: "search_key"
-                  }
-                ],
-                staticClass: "search-item",
-                attrs: { type: "text", placeholder: "جستجو..." },
-                domProps: { value: _vm.search_key },
-                on: {
-                  input: [
-                    function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.search_key = $event.target.value
-                    },
-                    _vm.searchBusiness
-                  ]
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col-4 py-1" },
-            [
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-legendary btn-sm float-left",
-                  attrs: { to: "/CreateBusiness" }
-                },
-                [_vm._v(" ثبت آگهی")]
-              )
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
         _c(
           "div",
           { staticClass: "row p-2" },

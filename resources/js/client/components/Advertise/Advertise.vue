@@ -14,7 +14,7 @@
                         </div>
                     </div>       
                 </div>
-                <div v-else class="col-md-6 col-sm-12 cleavager">
+                <div v-else class="col-md-6 col-sm-12 cleavager ads-default-image">
                     <div class="row">
                         <div class="imagebox col-12">
                             <img :src="ImageUrl+advertise.default_image" alt="">
@@ -36,8 +36,8 @@
                             <p class="medium-text">{{ advertise.region.title }} <template v-if="advertise.type == 1 || advertise.type == 2 || advertise.type == 3">- {{ advertise.street }}</template></p>
                         </div>
                     </div>
-                    <hr v-show="advertise.pointer_price" class="custom-color">  
-                    <div v-show="advertise.pointer_price" v-if="advertise.type == 1 || advertise.type == 4" class="row ml-1 mt-0">
+                    <hr v-show="advertise.price" class="custom-color">  
+                    <div v-show="advertise.price" v-if="advertise.type == 1 || advertise.type == 4" class="row ml-1 mt-0">
                         <div class="col-1 ml-0 pl-0 text-center"><i class="fa fa-money item-icon"></i></div>
                         <div class="col-11 ml-0 pl-0">
                             <p class="medium-text mr-text"><template v-if="advertise.type == 4">حدود</template> قیمت : </p>

@@ -21,7 +21,7 @@ class UserAdvertiseController extends Controller
 {
     public function advertiseList(Request $request)
     {
-        $advertises = Advertise::latest()->whereConfirmed(1)->paginate(30);
+        $advertises = Advertise::latest()->with('region')->whereConfirmed(1)->paginate(30);
         foreach($advertises as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');

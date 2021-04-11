@@ -11,7 +11,6 @@
             </div>
         </div>
         <div class="container" style="margin-top:80px">
-
             <div class="row p-2">
                 <div v-for="(advertise , key) in advertises" :key="key" class="advertise-wrapper p-0 col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <router-link :to="{name:'Advertise' , params:{advertise_id:advertise.id}}" class="advertise-link">
@@ -20,7 +19,10 @@
                             <div class="col-6">
                                 <h6 class="advertise-title mt-1 ml-1">{{ advertise.title }}</h6>
                                 <hr>
-                                <small class="m-2 small"><i class="fa fa-map-marker text-secondary" style="font-size:18px;"></i> {{ advertise.street }}</small>
+                                <small class="m-2 small"><i class="fa fa-map-marker text-secondary" style="font-size:18px;"></i>
+                                 <template v-if="advertise.type == 1 || advertise.type == 2 || advertise.type == 3" >{{ advertise.street }}</template>
+                                 <template v-else>محدوده {{advertise.region.title}}</template>
+                                </small>
                                 <small v-if="advertise.area" class="m-2 small">متراژ : {{ advertise.area }} متر</small>
                                 <p v-if="advertise.type == 1" class="m-2 badge badge-success">فروش</p>
                                 <p v-else-if="advertise.type == 2" class="m-2 badge badge-danger">رهن کامل</p>

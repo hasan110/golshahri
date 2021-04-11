@@ -71,6 +71,7 @@ class AdvertiseController extends Controller
         $price = $request->price;
         $rent = $request->rent;
         $meed = $request->meed;
+        $street = $request->street;
 
         switch ($type) {
             case 1:
@@ -95,12 +96,14 @@ class AdvertiseController extends Controller
                 $rent = null;
                 $length_house = null;
                 $lane_width = null;
+                $street = null;
             break;
             case 5:
                 $skeleton_state = null;
                 $price = null;
                 $length_house = null;
                 $lane_width = null;
+                $street = null;
             break;
         }
 
@@ -120,7 +123,7 @@ class AdvertiseController extends Controller
             'type'=>$type,
             'status'=>$status,
             'region_id'=>$request->region_id,
-            'street'=>$request->street,
+            'street'=>$street,
             'is_in_lane'=>$is_in_lane,
             'lane_width'=>$lane_width,
             'area'=>$request->area,
@@ -198,6 +201,7 @@ class AdvertiseController extends Controller
         $price = $request->price;
         $rent = $request->rent;
         $meed = $request->meed;
+        $street = $request->street;
 
         switch ($type) {
             case 1:
@@ -222,12 +226,14 @@ class AdvertiseController extends Controller
                 $rent = null;
                 $length_house = null;
                 $lane_width = null;
+                $street = null;
             break;
             case 5:
                 $skeleton_state = null;
                 $price = null;
                 $length_house = null;
                 $lane_width = null;
+                $street = null;
             break;
         }
 
@@ -248,7 +254,7 @@ class AdvertiseController extends Controller
             'type'=>$type,
             'status'=>$status,
             'region_id'=>$request->region_id,
-            'street'=>$request->street,
+            'street'=>$street,
             'is_in_lane'=>$is_in_lane,
             'lane_width'=>$lane_width,
             'area'=>$request->area,

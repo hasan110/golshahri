@@ -518,7 +518,7 @@ select{
   top: 60px;
   background-color: #fff;
   width: 100%;
-  z-index: 99;
+  z-index: 9;
   height: 45px;
   padding-left:12px;
 }
@@ -543,6 +543,9 @@ select{
     height:650px;
     width: 650px;
     display: block;
+  }
+  .ads-default-image{
+    display: none;
   }
 }
 @media only screen and (max-width:768px){
