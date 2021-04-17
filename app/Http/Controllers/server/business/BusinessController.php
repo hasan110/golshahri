@@ -52,23 +52,8 @@ class BusinessController extends Controller
             'confirmed'=>1,
         ]);
 
-        if($request->hasFile('images')){
-            foreach($request->images as $key=>$item){
-                $image = $request->images[$key];
-                $file_name = 'ID'.$business->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
-                $image->move('uploads/businesses',$file_name);
-                $link = 'businesses/'.$file_name;
-
-                BusinessPicture::create([
-                    'business_id'=>$business->id,
-                    'link'=>$link,
-                    'status'=>1,
-                ]);
-            }
-        }
-
         return response()->json(
-            [$business , 'message'=>'ایجاد آگهی کسب و کار با موفقیت انجام شد'],
+            ['business'=>$business , 'message'=>'ایجاد آگهی کسب و کار با موفقیت انجام شد'],
             201
         );
     }
@@ -101,23 +86,8 @@ class BusinessController extends Controller
             'confirmed'=>1,
         ]);
 
-        if($request->hasFile('new_images')){
-            foreach($request->new_images as $key=>$item){
-                $image = $request->new_images[$key];
-                $file_name = 'ID'.$business->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
-                $image->move('uploads/businesses',$file_name);
-                $link = 'businesses/'.$file_name;
-
-                BusinessPicture::create([
-                    'business_id'=>$business->id,
-                    'link'=>$link,
-                    'status'=>1
-                ]);
-            }
-        }
-
-        if(!empty($request->image_delete)){
-            foreach(explode(',',$request->image_delete) as $key=>$image_id){
+        if(count($request->image_delete)){
+            foreach($request->image_delete as $key=>$image_id){
                 $image = BusinessPicture::find($image_id);
                 File::delete(public_path().'/uploads/'.$image->link);
                 $image->delete();
@@ -143,6 +113,29 @@ class BusinessController extends Controller
         }
         return response()->json(
             ['message'=>'حذف با موفقیت انجام شد'],
+            200
+        );
+    }
+    public function businessUploadFiles(Request $request)
+    {
+        $business_id = $request->id;
+        if($request->hasFile('images')){
+            foreach($request->images as $key=>$item){
+                $image = $request->images[$key];
+                $file_name = 'ID'.$business_id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
+                $image->move('uploads/businesses',$file_name);
+                $link = 'businesses/'.$file_name;
+
+                BusinessPicture::create([
+                    'business_id'=>$business_id,
+                    'link'=>$link,
+                    'status'=>1,
+                ]);
+            }
+        }
+        
+        return response()->json(
+            ['message'=>'آپلود تصاویر با موفقیت انجام شد'],
             200
         );
     }

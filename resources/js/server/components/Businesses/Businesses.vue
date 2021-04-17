@@ -126,7 +126,7 @@
             <div class="row">
               <div class="col-12">
                 <v-file-input
-                  v-model="formData.images"
+                  v-model="business_images"
                   color="grey darken-3"
                   counter
                   label="انتخاب تصاویر"
@@ -198,7 +198,7 @@
             <div class="row">
               <div class="col-12">
                 <v-file-input
-                  v-model="editFormData.new_images"
+                  v-model="business_images"
                   color="grey darken-3"
                   counter
                   label="انتخاب تصاویر"
@@ -299,9 +299,9 @@ export default {
         contact_number:'',
         instagram_id:'',
         telegram_id:'',
-        description:'',
-        images:null,
+        description:''
       },
+      business_images:null,
       editFormData:{},
       errorSnackbar: false,
       errorMessage: '',
@@ -328,26 +328,9 @@ export default {
       });
     },
     CreateBusiness(){
-      const data = new FormData();
-      data.append('title', this.formData.title);
-      data.append('category_id', this.formData.category_id);
-      data.append('contact_number', this.formData.contact_number);
-      data.append('instagram_id', this.formData.instagram_id);
-      data.append('telegram_id', this.formData.telegram_id);
-      data.append('description', this.formData.description);
-      if(this.formData.images !== null){
-        for(var i=0 ; i < this.formData.images.length ; i++){
-          let file = this.formData.images[i];
-          data.append('images['+ i +']', file);
-        }
-      }
-      Axios.post(`businesses/create` , data,
-      {
-        headers: {
-        'Content-Type': 'multipart/form-data'
-        }
-      })
+      Axios.post(`businesses/create` , this.formData)
       .then(res => {
+        this.uploadBusinessFiles(res.data.business.id);
         this.getBusinesses(1);
         this.createModal = false;
         this.formData = {
@@ -369,6 +352,30 @@ export default {
         }
       });
     },
+    uploadBusinessFiles(business_id){
+      if(this.business_images !== null){
+        const data = new FormData();
+        data.append('id', business_id);
+        for(var i=0 ; i < this.business_images.length ; i++){
+          let file = this.business_images[i];
+          data.append('images['+ i +']', file);
+        }
+        Axios.post(`businesses/uploadFiles` , data,
+        {
+          headers: {
+          'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          console.log(res.data)
+          this.business_images = null;
+        })
+        .catch(err => {
+          console.log(err.response)
+          this.business_images = null;
+        });
+      }
+    },
     getBusinessData(){
       Axios.get('businesses/business/'+this.array[0])
       .then(res => {
@@ -380,27 +387,10 @@ export default {
       });
     },
     EditBusiness(){
-      const editdata = new FormData();
-      editdata.append('id', this.editFormData.id);
-      editdata.append('title', this.editFormData.title);
-      editdata.append('category_id', this.editFormData.category_id);
-      editdata.append('contact_number', this.editFormData.contact_number);
-      editdata.append('instagram_id', this.editFormData.instagram_id);
-      editdata.append('telegram_id', this.editFormData.telegram_id);
-      editdata.append('description', this.editFormData.description);
-      editdata.append('image_delete', this.editFormData.image_delete);
-      for(var i=0 ; i < this.editFormData.new_images.length ; i++){
-        let file = this.editFormData.new_images[i];
-        editdata.append('new_images['+ i +']', file);
-      }
-      Axios.post(`businesses/edit` , editdata,
-      {
-        headers: {
-        'Content-Type': 'multipart/form-data'
-        }
-      })
+      Axios.post(`businesses/edit` , this.editFormData)
       .then(res => {
         this.array = [];
+        this.uploadBusinessFiles(this.editFormData.id);
         this.getBusinesses(1);
         this.editModal = false;
         this.successMessage = res.data.message;

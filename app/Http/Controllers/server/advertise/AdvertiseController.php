@@ -140,23 +140,8 @@ class AdvertiseController extends Controller
             'confirmed'=>1,
         ]);
 
-        if($request->hasFile('images')){
-            foreach($request->images as $key=>$item){
-                $image = $request->images[$key];
-                $file_name = 'ID'.$advertise->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
-                $image->move('uploads/advertises',$file_name);
-                $link = 'advertises/'.$file_name;
-
-                AdvertisePicture::create([
-                    'advertise_id'=>$advertise->id,
-                    'link'=>$link,
-                    'status'=>1,
-                ]);
-            }
-        }
-
         return response()->json(
-            [$advertise , 'message'=>'ایجاد آگهی با موفقیت انجام شد'],
+            ['advertise'=>$advertise , 'message'=>'ایجاد آگهی با موفقیت انجام شد'],
             201
         );
     }
@@ -270,23 +255,8 @@ class AdvertiseController extends Controller
             'note'=>$request->note,
         ]);
 
-        if($request->hasFile('new_images')){
-            foreach($request->new_images as $key=>$item){
-                $image = $request->new_images[$key];
-                $file_name = 'ID'.$advertise->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
-                $image->move('uploads/advertises',$file_name);
-                $link = 'advertises/'.$file_name;
-
-                AdvertisePicture::create([
-                    'advertise_id'=>$advertise->id,
-                    'link'=>$link,
-                    'status'=>1
-                ]);
-            }
-        }
-
-        if(!empty($request->image_delete)){
-            foreach(explode(',',$request->image_delete) as $key=>$image_id){
+        if(count($request->image_delete)){
+            foreach($request->image_delete as $key=>$image_id){
                 $image = AdvertisePicture::find($image_id);
                 File::delete(public_path().'/uploads/'.$image->link);
                 $image->delete();
@@ -312,6 +282,29 @@ class AdvertiseController extends Controller
         }
         return response()->json(
             ['message'=>'حذف با موفقیت انجام شد'],
+            200
+        );
+    }
+    public function advertiseUploadFiles(Request $request)
+    {
+        $advertise_id = $request->id;
+        if($request->hasFile('images')){
+            foreach($request->images as $key=>$item){
+                $image = $request->images[$key];
+                $file_name = 'ID'.$advertise_id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
+                $image->move('uploads/advertises',$file_name);
+                $link = 'advertises/'.$file_name;
+
+                AdvertisePicture::create([
+                    'advertise_id'=>$advertise_id,
+                    'link'=>$link,
+                    'status'=>1
+                ]);
+            }
+        }
+        
+        return response()->json(
+            ['message'=>'آپلود تصاویر با موفقیت انجام شد'],
             200
         );
     }

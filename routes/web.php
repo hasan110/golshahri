@@ -85,6 +85,7 @@ Route::prefix('/admin-area')->group(function(){
             Route::get('/advertise/{id}' , [AdvertiseController::class , 'advertiseData'])->name('advertiseData');
             Route::post('/edit' , [AdvertiseController::class , 'advertiseEdit'])->name('advertiseEdit');
             Route::post('/delete' , [AdvertiseController::class , 'advertiseDelete'])->name('advertiseDelete');
+            Route::post('/uploadFiles' , [AdvertiseController::class , 'advertiseUploadFiles'])->name('advertiseUploadFiles');
             Route::post('/changeStatus' , [AdvertiseController::class , 'advertiseChangeStatus'])->name('advertiseChangeStatus');
             Route::post('/search' , [AdvertiseController::class , 'advertiseSearch'])->name('advertiseSearch');
             Route::get('/regions' , [AdvertiseController::class , 'advertiseRegions'])->name('advertiseRegions');
@@ -97,6 +98,7 @@ Route::prefix('/admin-area')->group(function(){
             Route::get('/business/{id}' , [BusinessController::class , 'businessData'])->name('businessData');
             Route::post('/edit' , [BusinessController::class , 'businessEdit'])->name('businessEdit');
             Route::post('/delete' , [BusinessController::class , 'businessDelete'])->name('businessDelete');
+            Route::post('/uploadFiles' , [BusinessController::class , 'businessUploadFiles'])->name('businessUploadFiles');
             Route::post('/changeStatus' , [BusinessController::class , 'businessChangeStatus'])->name('businessChangeStatus');
             Route::post('/search' , [BusinessController::class , 'businessSearch'])->name('businessSearch');
             Route::get('/categories' , [BusinessController::class , 'businessCategories'])->name('businessCategories');

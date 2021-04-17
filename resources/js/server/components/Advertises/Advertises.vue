@@ -244,7 +244,7 @@
             <div class="row" v-show="formData.type == 1 || formData.type == 2 || formData.type == 3">
               <div class="col-12">
                 <v-file-input
-                  v-model="formData.images"
+                  v-model="advertise_images"
                   color="grey darken-3"
                   counter
                   label="انتخاب تصاویر"
@@ -417,7 +417,7 @@
             <div class="row" v-show="editFormData.type == 1 || editFormData.type == 2 || editFormData.type == 3">
               <div class="col-12">
                 <v-file-input
-                  v-model="editFormData.new_images"
+                  v-model="advertise_images"
                   color="grey darken-3"
                   counter
                   label="انتخاب تصاویر جدید"
@@ -545,8 +545,8 @@ export default {
         description:'',
         address:'',
         note:'',
-        images:null,
       },
+      advertise_images:null,
       editFormData:{},
       errorSnackbar: false,
       errorMessage: '',
@@ -588,38 +588,9 @@ export default {
       });
     },
     CreateAdvertise(){
-      const data = new FormData();
-      data.append('title', this.formData.title);
-      data.append('type', this.formData.type);
-      data.append('status', this.formData.status);
-      data.append('region_id', this.formData.region_id);
-      data.append('street', this.formData.street);
-      data.append('lifetime_state', this.formData.lifetime_state);
-      data.append('skeleton_state', this.formData.skeleton_state);
-      data.append('is_in_lane', this.formData.is_in_lane);
-      data.append('lane_width', this.formData.lane_width);
-      data.append('area', this.formData.area);
-      data.append('length_house', this.formData.length_house);
-      data.append('roof_number', this.formData.roof_number);
-      data.append('price', this.formData.price);
-      data.append('meed', this.formData.meed);
-      data.append('rent', this.formData.rent);
-      data.append('description', this.formData.description);
-      data.append('address', this.formData.address);
-      data.append('note', this.formData.note);
-      if(this.formData.images !== null){
-        for(var i=0 ; i < this.formData.images.length ; i++){
-          let file = this.formData.images[i];
-          data.append('images['+ i +']', file);
-        }
-      }
-      Axios.post(`advertises/create` , data,
-      {
-        headers: {
-        'Content-Type': 'multipart/form-data'
-        }
-      })
+      Axios.post(`advertises/create` , this.formData)
       .then(res => {
+        this.uploadAdvertiseFiles(res.data.advertise.id);
         this.getAdvertises(1);
         this.createModal = false;
         this.formData = {
@@ -641,7 +612,6 @@ export default {
           description:'',
           address:'',
           note:'',
-          images:null,
         };
         this.successMessage = res.data.message;
         this.successSnackbar = true;
@@ -653,6 +623,30 @@ export default {
           this.errorSnackbar = true;
         }
       });
+    },
+    uploadAdvertiseFiles(advertise_id){
+      if(this.advertise_images !== null){
+        const data = new FormData();
+        data.append('id', advertise_id);
+        for(var i=0 ; i < this.advertise_images.length ; i++){
+          let file = this.advertise_images[i];
+          data.append('images['+ i +']', file);
+        }
+        Axios.post(`advertises/uploadFiles` , data,
+        {
+          headers: {
+          'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          console.log(res.data)
+          this.advertise_images = null;
+        })
+        .catch(err => {
+          console.log(err.response)
+          this.advertise_images = null;
+        });
+      }
     },
     getAdvertiseData(){
       Axios.get('advertises/advertise/'+this.array[0])
@@ -666,39 +660,10 @@ export default {
       });
     },
     EditAdvertise(){
-      const editdata = new FormData();
-      editdata.append('id', this.editFormData.id);
-      editdata.append('title', this.editFormData.title);
-      editdata.append('type', this.editFormData.type);
-      editdata.append('status', this.editFormData.status);
-      editdata.append('region_id', this.editFormData.region_id);
-      editdata.append('street', this.editFormData.street);
-      editdata.append('lifetime_state', this.editFormData.lifetime_state);
-      editdata.append('skeleton_state', this.editFormData.skeleton_state);
-      editdata.append('is_in_lane', this.editFormData.is_in_lane);
-      editdata.append('lane_width', this.editFormData.lane_width);
-      editdata.append('area', this.editFormData.area);
-      editdata.append('length_house', this.editFormData.length_house);
-      editdata.append('roof_number', this.editFormData.roof_number);
-      editdata.append('price', this.editFormData.price);
-      editdata.append('meed', this.editFormData.meed);
-      editdata.append('rent', this.editFormData.rent);
-      editdata.append('description', this.editFormData.description);
-      editdata.append('address', this.editFormData.address);
-      editdata.append('note', this.editFormData.note);
-      editdata.append('image_delete', this.editFormData.image_delete);
-      for(var i=0 ; i < this.editFormData.new_images.length ; i++){
-        let file = this.editFormData.new_images[i];
-        editdata.append('new_images['+ i +']', file);
-      }
-      Axios.post(`advertises/edit` , editdata,
-      {
-        headers: {
-        'Content-Type': 'multipart/form-data'
-        }
-      })
+      Axios.post(`advertises/edit` , this.editFormData)
       .then(res => {
         this.array = [];
+        this.uploadAdvertiseFiles(this.editFormData.id);
         this.getAdvertises(1);
         this.editModal = false;
         this.successMessage = res.data.message;
