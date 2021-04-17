@@ -711,7 +711,7 @@ export default {
       });
     },
     deleteAdvertise(){
-      Axios.post('advertises/' , {array:this.array})
+      Axios.post('advertises/delete' , {array:this.array})
       .then(res => {
         this.array = [];
         this.getAdvertises(1);
@@ -720,7 +720,7 @@ export default {
         this.successSnackbar = true;
       })
       .catch(err => {
-          console.log(err)
+        console.log(err)
       });
     },
     changeAdvertiseStatus(advertise_id){

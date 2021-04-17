@@ -12598,7 +12598,7 @@ var render = function() {
                 _c("div", { staticClass: "card text-white bg-danger mb-3" }, [
                   _c("div", { staticClass: "card-body" }, [
                     _c("h5", { staticClass: "text-center" }, [
-                      _vm._v("معرفی کسب و کارها")
+                      _vm._v("کسب و کارها")
                     ])
                   ])
                 ])

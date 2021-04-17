@@ -19,7 +19,7 @@
                     <router-link :to="{name:'Businesses'}">
                         <div class="card text-white bg-danger mb-3" style="">
                             <!-- <div class="card-header"></div> -->
-                            <div class="card-body"><h5 class="text-center">معرفی کسب و کارها</h5>
+                            <div class="card-body"><h5 class="text-center">کسب و کارها</h5>
                                 <!-- <p class="card-text">
                                     چنانچه کسب وکاری دارید که احتیاج به معرفی و شناخت کاربران دارد در این قسمت میتوانید آن را معرفی کنید.
                                     درحال حاضر این امکان برای گلشهر مقدور می باشد.
