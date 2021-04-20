@@ -13,6 +13,9 @@
           <div class="card">
             <div class="card-header p-x-0 p-y-0">
               <div class="col-lg-6 col-md-6 col-xs-12 p-x-0 p-y-0">
+                <button @click="filterModal = true" class="btn btn-success m-y-1 m-l-1">
+                  <i class="fa fa-filter"></i>
+                </button>
                 <button @click="createModal = true" class="btn btn-primary m-y-1 m-l-1">
                   <i class="fa fa-plus"></i>
                 </button>
@@ -492,6 +495,44 @@
       </div>
     </v-dialog>
 
+    <v-dialog v-model="filterModal" scrollable max-width="400px">
+      <div>
+        <div class="card m-b-0">
+          <div class="card-header">
+            فیلتر
+          </div>
+          <div class="card-block">
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label for="status">نوع آگهی</label>
+                <select v-model="FilterFormData.type" id="status" class="form-control">
+                  <option value="0">انتخاب کنید</option>
+                  <option value="1">فروش</option>
+                  <option value="2">رهن کامل</option>
+                  <option value="3">رهن و اجاره</option>
+                  <option value="4">درخواست خرید</option>
+                  <option value="5">درخواست رهن و اجاره</option>
+                </select>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="status">نوع ملک</label>
+                <select v-model="FilterFormData.status" id="status" class="form-control">
+                  <option value="">انتخاب کنید</option>
+                  <option value="منزل">منزل</option>
+                  <option value="مغازه">مغازه</option>
+                  <option value="زمین">زمین</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button @click="FilterAdvertise" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> اعمال فیلتر</button>
+            <button  @click="filterModal = false" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> بستن</button>
+          </div>
+        </div>
+      </div>
+    </v-dialog>
+
     <v-snackbar color="red" :timeout="4000" v-model="errorSnackbar">
       <div>{{errorMessage}}</div>
     </v-snackbar>
@@ -504,6 +545,20 @@
         <img id="preview" :src="this.imagePreviewUrl" alt="">
       </div>
     </image-viewer>
+
+    
+    <div v-if="sending" class="send-data-loading-wrapper">
+      <div class="send-data-loading-inner">
+        <div class="send-data-loading">
+          در حال ارسال اطلاعات
+          <div class="spin-wrapper">
+            <div class="spin large">
+              <span class="spinner dark"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -521,11 +576,13 @@ export default {
       advertises:{},
       regions:{},
       loaded:false,
+      sending:false,
       current_page:1,
       last_page:1,
       createModal:false,
       editModal:false,
       deleteModal:false,
+      filterModal:false,
       formData:{
         title:'',
         type:1,
@@ -548,6 +605,10 @@ export default {
       },
       advertise_images:null,
       editFormData:{},
+      FilterFormData:{
+        type: 0,
+        status: ''
+      },
       errorSnackbar: false,
       errorMessage: '',
       successSnackbar: false,
@@ -588,11 +649,13 @@ export default {
       });
     },
     CreateAdvertise(){
+      this.sending = true;
       Axios.post(`advertises/create` , this.formData)
       .then(res => {
         this.uploadAdvertiseFiles(res.data.advertise.id);
         this.getAdvertises(1);
         this.createModal = false;
+        this.sending = false;
         this.formData = {
           title:'',
           type:1,
@@ -621,6 +684,7 @@ export default {
         if(err.response.data.status == 'failed'){
           this.errorMessage = err.response.data.message;
           this.errorSnackbar = true;
+          this.sending = false;
         }
       });
     },
@@ -660,12 +724,14 @@ export default {
       });
     },
     EditAdvertise(){
+      this.sending = true;
       Axios.post(`advertises/edit` , this.editFormData)
       .then(res => {
         this.array = [];
         this.uploadAdvertiseFiles(this.editFormData.id);
         this.getAdvertises(1);
         this.editModal = false;
+        this.sending = false;
         this.successMessage = res.data.message;
         this.successSnackbar = true;
         this.editFormData = {};
@@ -673,6 +739,7 @@ export default {
       .catch(err => {
         this.errors = err.response.data.errors;
         this.errorSnackbar = true;
+        this.sending = false;
       });
     },
     deleteAdvertise(){
@@ -711,6 +778,20 @@ export default {
       })
       .catch(err => {
         console.log(err)
+      });
+    },
+    FilterAdvertise(){
+      this.loaded = false;
+      Axios.post('advertises/filter' , this.FilterFormData)
+      .then(res => {
+        this.advertises = res.data.data;
+        this.last_page = res.data.last_page;
+        this.loaded = true;
+        this.array = [];
+      })
+      .catch(err => {
+        console.log(err)
+        this.loaded = true;
       });
     },
     InsertJustNumber(e){

@@ -19,9 +19,9 @@ class AdvertiseController extends Controller
     public function advertiseList(Request $request)
     {
         if(auth()->user()->hasRole('super_admin')){
-            $advertises = Advertise::latest()->with('user')->with('admin')->with('region')->with('images')->paginate(50);
+            $advertises = Advertise::latest()->with('user','admin','region','images')->paginate(50);
         }else{
-            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user')->with('region')->with('admin')->with('images')->paginate(50);
+            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','images')->paginate(50);
         }
         
         foreach($advertises as $key=>$item){
@@ -323,7 +323,7 @@ class AdvertiseController extends Controller
     {
         $key = $request->key;
         if(auth()->user()->hasRole('super_admin')){
-            $advertises = Advertise::latest()->with('user')->with('admin')->with('region')->with('images')
+            $advertises = Advertise::latest()->with('user','admin','region','images')
             ->where('title' , 'LIKE', '%'.$key.'%')
             ->orWhere('street' , 'LIKE', '%'.$key.'%')
             ->orWhere('area' , 'LIKE', '%'.$key.'%')
@@ -331,7 +331,7 @@ class AdvertiseController extends Controller
             ->orWhere('description' , 'LIKE', '%'.$key.'%')
             ->paginate(50);
         }else{
-            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user')->with('region')->with('admin')->with('images')
+            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','images')
             ->where(function ($query) use ($key) {
                 $query->where('title','LIKE', '%'.$key.'%')
                 ->orWhere('street','LIKE', '%'.$key.'%')
@@ -340,6 +340,33 @@ class AdvertiseController extends Controller
                 ->orWhere('description' , 'LIKE', '%'.$key.'%');
             })
             ->paginate(50);
+        }
+        foreach($advertises as $key=>$item){
+            $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%Y/%m/%d- H:i');
+            $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%Y/%m/%d- H:i');
+        }
+        return response()->json($advertises,200);
+    }
+    public function advertiseFilter(Request $request)
+    {
+        if(auth()->user()->hasRole('super_admin')){
+            $advertises = Advertise::with('user','admin','region','images');
+            if($request->type !== 0){
+                $advertises = $advertises->where('type' , $request->type);
+            }
+            if($request->status){
+                $advertises = $advertises->where('status' , $request->status);
+            }
+            $advertises = $advertises->paginate(500);
+        }else{
+            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','images');
+            if($request->type !== 0){
+                $advertises = $advertises->where('type' , $request->type);
+            }
+            if($request->status){
+                $advertises = $advertises->where('status' , $request->status);
+            }
+            $advertises = $advertises->paginate(500);
         }
         foreach($advertises as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%Y/%m/%d- H:i');

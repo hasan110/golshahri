@@ -88,6 +88,7 @@ Route::prefix('/admin-area')->group(function(){
             Route::post('/uploadFiles' , [AdvertiseController::class , 'advertiseUploadFiles'])->name('advertiseUploadFiles');
             Route::post('/changeStatus' , [AdvertiseController::class , 'advertiseChangeStatus'])->name('advertiseChangeStatus');
             Route::post('/search' , [AdvertiseController::class , 'advertiseSearch'])->name('advertiseSearch');
+            Route::post('/filter' , [AdvertiseController::class , 'advertiseFilter'])->name('advertiseFilter');
             Route::get('/regions' , [AdvertiseController::class , 'advertiseRegions'])->name('advertiseRegions');
         });
 

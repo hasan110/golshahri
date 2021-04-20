@@ -271,6 +271,19 @@
         <img id="preview" :src="this.imagePreviewUrl" alt="">
       </div>
     </image-viewer>
+    
+    <div v-if="sending" class="send-data-loading-wrapper">
+      <div class="send-data-loading-inner">
+        <div class="send-data-loading">
+          در حال ارسال اطلاعات
+          <div class="spin-wrapper">
+            <div class="spin large">
+              <span class="spinner dark"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -288,6 +301,7 @@ export default {
       businesses:{},
       categories:{},
       loaded:false,
+      sending:false,
       current_page:1,
       last_page:1,
       createModal:false,
@@ -328,11 +342,13 @@ export default {
       });
     },
     CreateBusiness(){
+      this.sending = true;
       Axios.post(`businesses/create` , this.formData)
       .then(res => {
         this.uploadBusinessFiles(res.data.business.id);
         this.getBusinesses(1);
         this.createModal = false;
+        this.sending = false;
         this.formData = {
           title:'',
           category_id:'',
@@ -349,6 +365,7 @@ export default {
         if(err.response.data.status == 'failed'){
           this.errorMessage = err.response.data.message;
           this.errorSnackbar = true;
+          this.sending = false;
         }
       });
     },
@@ -387,12 +404,14 @@ export default {
       });
     },
     EditBusiness(){
+      this.sending = true;
       Axios.post(`businesses/edit` , this.editFormData)
       .then(res => {
         this.array = [];
         this.uploadBusinessFiles(this.editFormData.id);
         this.getBusinesses(1);
         this.editModal = false;
+        this.sending = false;
         this.successMessage = res.data.message;
         this.successSnackbar = true;
         this.editFormData = {};
@@ -400,6 +419,7 @@ export default {
       .catch(err => {
         this.errors = err.response.data.errors;
         this.errorSnackbar = true;
+        this.sending = false;
       });
     },
     deleteBusiness(){
