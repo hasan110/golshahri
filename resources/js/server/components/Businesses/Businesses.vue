@@ -71,8 +71,8 @@
                       </td>
                       <td>{{ business.shamsi_created_at }}</td>
                       <td>
-                        <template v-if="business.images.length">
-                          <img class="icon" :src="ImageUrl+business.images[0].link" alt="">
+                        <template v-if="business.pictures.length">
+                          <img class="icon" :src="ImageUrl+business.pictures[0].link" alt="">
                         </template>
                         <template v-else>ندارد</template>
                       </td>

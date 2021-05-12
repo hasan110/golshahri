@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Business\Business;
 use App\Models\Business\BusinessPicture;
-use App\Models\Business\BusinessComment;
-use App\Models\Business\Vote;
-use App\Models\Category\Category;
+use App\Models\AppModels\Picture;
+use App\Models\AppModels\Vote;
+use App\Models\AppModels\Category;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
 use Illuminate\Support\Facades\Notification;
@@ -29,16 +29,14 @@ class UserBusinessController extends Controller
         foreach($businesses as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
-            if($item->images->count() > 0){
-                $item['image'] = $item->images[0]->link;
+            if($item->pictures()->count() > 0){
+                $item['image'] = $item->pictures[0]->link;
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;
             }
             $item['view_count'] = $item->views->count();
             $item['days_ago'] = $now->diffInDays($item->created_at);
         }
-
-        $this->recordView($request , 'businesses' , null , null);
 
         return response()->json($businesses,200);
     }
@@ -77,10 +75,9 @@ class UserBusinessController extends Controller
                 $image->move('uploads/businesses',$file_name);
                 $link = 'businesses/'.$file_name;
 
-                BusinessPicture::create([
-                    'business_id'=>$business->id,
+                $business->pictures()->create([
                     'link'=>$link,
-                    'status'=>1,
+                    'status'=>1
                 ]);
             }
         }
@@ -101,14 +98,13 @@ class UserBusinessController extends Controller
             return response()->json(['status'=>404],404);
         }
         $business['new_images'] = [];
-        $business['new_icon'] = null;
         $business['image_delete'] = [];
-        $business['images_count'] = $business->images->count();
+        $business['images_count'] = $business->pictures()->count();
         $business['default_image'] = Setting::find(1)->advertise_default_image;
-        $images = $business->images;
-
-        $like_count = Vote::where('business_id', $request->id)->where('type' , 'like')->count();
-        $dislike_count = Vote::where('business_id', $request->id)->where('type' , 'dislike')->count();
+        $business['images'] = $business->pictures;
+        
+        $like_count = $business->votes()->where('type' , 'like')->count();
+        $dislike_count = $business->votes()->where('type' , 'dislike')->count();
         $sum_like = $like_count + $dislike_count;
         if($sum_like){
             $number = 100 / $sum_like;
@@ -117,9 +113,9 @@ class UserBusinessController extends Controller
         }
         $percent = $like_count * $number;
         $business['percent'] = floor($percent);
-        $business['all_votes'] = Vote::where('business_id', $request->id)->count();
+        $business['all_votes'] = $business->votes()->count();
         
-        $this->recordView($request , 'business' , null , $business->id);
+        $this->recordView($request , $business);
 
         return response()->json($business,200);
     }
@@ -149,8 +145,7 @@ class UserBusinessController extends Controller
                 $image->move('uploads/businesses',$file_name);
                 $link = 'businesses/'.$file_name;
 
-                BusinessPicture::create([
-                    'business_id'=>$business->id,
+                $business->pictures()->create([
                     'link'=>$link,
                     'status'=>1
                 ]);
@@ -159,7 +154,7 @@ class UserBusinessController extends Controller
 
         if(!empty($request->image_delete)){
             foreach(explode(',',$request->image_delete) as $key=>$image_id){
-                $image = BusinessPicture::find($image_id);
+                $image = Picture::find($image_id);
                 File::delete(public_path().'/uploads/'.$image->link);
                 $image->delete();
             }
@@ -178,7 +173,7 @@ class UserBusinessController extends Controller
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
             if($item->images->count() > 0){
-                $item['image'] = $item->images[0]->link;
+                $item['image'] = $item->pictures[0]->link;
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;
             }
@@ -205,7 +200,7 @@ class UserBusinessController extends Controller
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
             if($item->images->count() > 0){
-                $item['image'] = $item->images[0]->link;
+                $item['image'] = $item->pictures[0]->link;
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;
             }
@@ -221,6 +216,8 @@ class UserBusinessController extends Controller
             'type'=>['required'],
         ]);
 
+        $business = Business::find($request->business_id);
+
         $ipAddress = $request->ip();
         
         if($request->has('auth_token')){
@@ -235,11 +232,10 @@ class UserBusinessController extends Controller
         }
 
         if($user_id){
-            $vote_count = Vote::where('business_id' , $request->business_id)->where('user_id' , $user_id)->count();
+            $vote_count = $business->votes()->where('user_id' , $user_id)->count();
             if($vote_count == 0 ){
-                $vote = Vote::create([
+                $vote = $business->votes()->create([
                     'user_id' => $user_id,
-                    'business_id' => $request->business_id,
                     'user_ip' => $ipAddress,
                     'type' => $request->type,
                 ]);
@@ -250,11 +246,10 @@ class UserBusinessController extends Controller
                 ],400);
             }
         }else{
-            $vote_count = Vote::where('business_id' , $request->business_id)->where('user_ip' , $ipAddress)->count();
+            $vote_count = $business->votes()->where('user_ip' , $ipAddress)->count();
             if($vote_count == 0 ){
-                $vote = Vote::create([
+                $vote = $business->votes()->create([
                     'user_id' => $user_id,
-                    'business_id' => $request->business_id,
                     'user_ip' => $ipAddress,
                     'type' => $request->type,
                 ]);
@@ -272,41 +267,41 @@ class UserBusinessController extends Controller
             'vote' => $vote,
         ],200);
     }
-    public function businessComment(Request $request)
-    {
-        $request->validate([
-            'business_id'=>['required'],
-            'comment'=>['required'],
-        ]);
+    // public function businessComment(Request $request)
+    // {
+    //     $request->validate([
+    //         'business_id'=>['required'],
+    //         'comment'=>['required'],
+    //     ]);
 
-        $ipAddress = $request->ip();
+    //     $ipAddress = $request->ip();
 
-        if($request->has('auth_token')){
-            $user = User::where('auth_token',$request->auth_token)->first();
-            if($user){
-                $user_id = $user->id;
-            }else{
-                $user_id = null;
-            }
-        }else{
-            $user_id = null;
-        }
+    //     if($request->has('auth_token')){
+    //         $user = User::where('auth_token',$request->auth_token)->first();
+    //         if($user){
+    //             $user_id = $user->id;
+    //         }else{
+    //             $user_id = null;
+    //         }
+    //     }else{
+    //         $user_id = null;
+    //     }
 
-        $businessComment = businessComment::create([
-            'user_id' => $user_id,
-            'business_id' =>  $request->business_id,
-            'user_ip' => $ipAddress,
-            'status' => 1,
-            'comment' => $request->comment
-        ]);
+    //     $businessComment = businessComment::create([
+    //         'user_id' => $user_id,
+    //         'business_id' =>  $request->business_id,
+    //         'user_ip' => $ipAddress,
+    //         'status' => 1,
+    //         'comment' => $request->comment
+    //     ]);
 
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'نظر شما ثبت شد!',
-            'businessComment' => $businessComment,
-        ],200);
-    }
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => 'نظر شما ثبت شد!',
+    //         'businessComment' => $businessComment,
+    //     ],200);
+    // }
     public function businessCategories(Request $request)
     {
         $categories = Category::latest()->where('type' , 'business')->get();

@@ -60,7 +60,7 @@
                         </div>
                     </div>
 
-                    <div class="row ml-1">
+                    <!-- <div class="row ml-1">
                         <div class="col-6">
                             <h3 @click="vote('like')" class="vote-icon like">
                                 <i class="fa fa-thumbs-o-up liked"></i>
@@ -81,7 +81,7 @@
                         <div class="col-12 pt-0">
                             <progress min="0" max="100" :value="business.percent" style="width:100%"></progress>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <br><br>

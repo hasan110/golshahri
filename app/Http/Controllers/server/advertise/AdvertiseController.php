@@ -8,7 +8,8 @@ use App\Models\Advertise\Advertise;
 use App\Models\Advertise\AdvertisePicture;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
-use App\Models\Region\Region;
+use App\Models\AppModels\Region;
+use App\Models\AppModels\Picture;
 use Auth;
 use Morilog\Jalali\Jalalian;
 use Illuminate\Support\Facades\Notification;
@@ -19,9 +20,9 @@ class AdvertiseController extends Controller
     public function advertiseList(Request $request)
     {
         if(auth()->user()->hasRole('super_admin')){
-            $advertises = Advertise::latest()->with('user','admin','region','images')->paginate(50);
+            $advertises = Advertise::latest()->with('user','admin','region','pictures')->paginate(50);
         }else{
-            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','images')->paginate(50);
+            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','pictures')->paginate(50);
         }
         
         foreach($advertises as $key=>$item){
@@ -147,7 +148,7 @@ class AdvertiseController extends Controller
     }
     public function advertiseData(Request $request)
     {
-        $advertise = Advertise::find($request->id)->load('images')->load('region');
+        $advertise = Advertise::find($request->id)->load('pictures')->load('region');
         $advertise['new_images'] = [];
         $advertise['image_delete'] = [];
         return response()->json($advertise,200);
@@ -257,7 +258,7 @@ class AdvertiseController extends Controller
 
         if(count($request->image_delete)){
             foreach($request->image_delete as $key=>$image_id){
-                $image = AdvertisePicture::find($image_id);
+                $image = Picture::find($image_id);
                 File::delete(public_path().'/uploads/'.$image->link);
                 $image->delete();
             }
@@ -272,8 +273,8 @@ class AdvertiseController extends Controller
     {
         foreach($request->array as $id){
             $advertise = Advertise::find($id);
-            if(!is_null($advertise->images)){
-                foreach($advertise->images as $image){
+            if(!is_null($advertise->pictures)){
+                foreach($advertise->pictures as $image){
                     File::delete(public_path('uploads/'.$image->link));
                     $image->delete();
                 }
@@ -287,7 +288,7 @@ class AdvertiseController extends Controller
     }
     public function advertiseUploadFiles(Request $request)
     {
-        $advertise_id = $request->id;
+        $advertise = Advertise::find($request->id);
         if($request->hasFile('images')){
             foreach($request->images as $key=>$item){
                 $image = $request->images[$key];
@@ -295,8 +296,7 @@ class AdvertiseController extends Controller
                 $image->move('uploads/advertises',$file_name);
                 $link = 'advertises/'.$file_name;
 
-                AdvertisePicture::create([
-                    'advertise_id'=>$advertise_id,
+                $advertise->pictures()->create([
                     'link'=>$link,
                     'status'=>1
                 ]);
@@ -323,7 +323,7 @@ class AdvertiseController extends Controller
     {
         $key = $request->key;
         if(auth()->user()->hasRole('super_admin')){
-            $advertises = Advertise::latest()->with('user','admin','region','images')
+            $advertises = Advertise::latest()->with('user','admin','region','pictures')
             ->where('title' , 'LIKE', '%'.$key.'%')
             ->orWhere('street' , 'LIKE', '%'.$key.'%')
             ->orWhere('area' , 'LIKE', '%'.$key.'%')
@@ -331,7 +331,7 @@ class AdvertiseController extends Controller
             ->orWhere('description' , 'LIKE', '%'.$key.'%')
             ->paginate(50);
         }else{
-            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','images')
+            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','pictures')
             ->where(function ($query) use ($key) {
                 $query->where('title','LIKE', '%'.$key.'%')
                 ->orWhere('street','LIKE', '%'.$key.'%')
@@ -350,7 +350,7 @@ class AdvertiseController extends Controller
     public function advertiseFilter(Request $request)
     {
         if(auth()->user()->hasRole('super_admin')){
-            $advertises = Advertise::with('user','admin','region','images');
+            $advertises = Advertise::with('user','admin','region','pictures');
             if($request->type !== 0){
                 $advertises = $advertises->where('type' , $request->type);
             }
@@ -359,7 +359,7 @@ class AdvertiseController extends Controller
             }
             $advertises = $advertises->paginate(500);
         }else{
-            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','images');
+            $advertises = Advertise::latest()->where('admin_id' , auth()->user()->id)->with('user','admin','region','pictures');
             if($request->type !== 0){
                 $advertises = $advertises->where('type' , $request->type);
             }

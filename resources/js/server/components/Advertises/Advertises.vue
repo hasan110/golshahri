@@ -106,8 +106,8 @@
                         </v-tooltip>
                       </td>
                       <td>
-                        <template v-if="advertise.images.length">
-                          <img class="icon" :src="ImageUrl+advertise.images[0].link" alt="">
+                        <template v-if="advertise.pictures.length">
+                          <img class="icon" :src="ImageUrl+advertise.pictures[0].link" alt="">
                         </template>
                         <template v-else>ندارد</template>
                       </td>

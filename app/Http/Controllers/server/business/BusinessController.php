@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Business\Business;
 use App\Models\Business\BusinessPicture;
-use App\Models\Category\Category;
+use App\Models\AppModels\Category;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
 use Auth;
@@ -18,7 +18,7 @@ class BusinessController extends Controller
 {
     public function businessList(Request $request)
     {
-        $businesses = Business::latest()->with('user')->with('images')->paginate(50);
+        $businesses = Business::latest()->with('user')->with('pictures')->paginate(50);
         
         foreach($businesses as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%Y/%m/%d- H:i');
@@ -62,7 +62,7 @@ class BusinessController extends Controller
         $business = Business::find($request->id);
         $business['new_images'] = [];
         $business['image_delete'] = [];
-        $images = $business->images;
+        $business['images'] = $business->pictures;;
         return response()->json($business,200);
     }
     public function businessEdit(Request $request)
@@ -88,7 +88,7 @@ class BusinessController extends Controller
 
         if(count($request->image_delete)){
             foreach($request->image_delete as $key=>$image_id){
-                $image = BusinessPicture::find($image_id);
+                $image = Picture::find($image_id);
                 File::delete(public_path().'/uploads/'.$image->link);
                 $image->delete();
             }
@@ -103,8 +103,8 @@ class BusinessController extends Controller
     {
         foreach($request->array as $id){
             $business = Business::find($id);
-            if(!is_null($business->images)){
-                foreach($business->images as $image){
+            if(!is_null($business->pictures)){
+                foreach($business->pictures as $image){
                     File::delete(public_path('uploads/'.$image->link));
                     $image->delete();
                 }
@@ -118,7 +118,7 @@ class BusinessController extends Controller
     }
     public function businessUploadFiles(Request $request)
     {
-        $business_id = $request->id;
+        $business = Business::find($request->id);
         if($request->hasFile('images')){
             foreach($request->images as $key=>$item){
                 $image = $request->images[$key];
@@ -126,8 +126,7 @@ class BusinessController extends Controller
                 $image->move('uploads/businesses',$file_name);
                 $link = 'businesses/'.$file_name;
 
-                BusinessPicture::create([
-                    'business_id'=>$business_id,
+                $business->images()->create([
                     'link'=>$link,
                     'status'=>1,
                 ]);
@@ -153,7 +152,7 @@ class BusinessController extends Controller
     public function businessSearch(Request $request)
     {
         $key = $request->key;
-        $businesses = Business::latest()->with('user')->with('images')
+        $businesses = Business::latest()->with('user')->with('pictures')
         ->where('title' , 'LIKE', '%'.$key.'%')
         ->orWhere('description' , 'LIKE', '%'.$key.'%')
         ->paginate(50);

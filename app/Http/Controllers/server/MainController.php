@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Admin;
 use App\Models\User\User;
 use App\Models\Advertise\Advertise;
+use App\Models\Advertise\AdvertisePicture;
 use App\Models\Business\Business;
+use App\Models\Business\BusinessPicture;
 use Illuminate\Support\Facades\Notification;
 use App\Models\AppModels\View;
 use Carbon\Carbon;
@@ -57,5 +59,21 @@ class MainController extends Controller
         'status'=>'ok',
         'message'=>'اعلانیه با موفقیت حذف شد .'
       ] , 200);
+    }
+
+    public function asdf(){
+      foreach(AdvertisePicture::all() as $pic){
+        Advertise::find($pic->advertise_id)->pictures()->create([
+          'link'=>$pic->link,
+          'status'=>1
+        ]);
+      }
+      foreach(BusinessPicture::all() as $pic){
+        Business::find($pic->business_id)->pictures()->create([
+          'link'=>$pic->link,
+          'status'=>1
+        ]);
+      }
+      return 'ok';
     }
 }

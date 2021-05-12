@@ -8,7 +8,7 @@ use App\Models\Advertise\Advertise;
 use App\Models\Advertise\AdvertisePicture;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
-use App\Models\Region\Region;
+use App\Models\AppModels\Region;
 use Illuminate\Support\Facades\Notification;
 use Auth;
 use Morilog\Jalali\Jalalian;
@@ -16,6 +16,7 @@ use App\Notifications\NewAdvertiseCreated;
 use Illuminate\Support\Facades\File;
 use App\Models\AppModels\Setting;
 use App\Models\AppModels\View;
+use App\Models\AppModels\Picture;
 
 class UserAdvertiseController extends Controller
 {
@@ -25,14 +26,12 @@ class UserAdvertiseController extends Controller
         foreach($advertises as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
-            if($item->images->count() > 0){
-                $item['image'] = $item->images[0]->link;
+            if($item->pictures->count() > 0){
+                $item['image'] = $item->pictures[0]->link;
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;
             }
         }
-
-        $this->recordView($request , 'advertises' , null , null);
 
         return response()->json($advertises,200);
     }
@@ -151,10 +150,9 @@ class UserAdvertiseController extends Controller
                 $image->move('uploads/advertises',$file_name);
                 $link = 'advertises/'.$file_name;
 
-                AdvertisePicture::create([
-                    'advertise_id'=>$advertise->id,
+                $advertise->pictures()->create([
                     'link'=>$link,
-                    'status'=>1,
+                    'status'=>1
                 ]);
             }
         }
@@ -190,12 +188,12 @@ class UserAdvertiseController extends Controller
         $advertise['pointer_meed'] = number_format($advertise->meed);
         $advertise['new_images'] = [];
         $advertise['image_delete'] = [];
-        $advertise['images_count'] = $advertise->images->count();
+        $advertise['images_count'] = $advertise->pictures()->count();
         $advertise['default_image'] = Setting::find(1)->advertise_default_image;
-        $images = $advertise->images;
+        $advertise['images'] = $advertise->pictures;
         $region = $advertise->region;
 
-        $this->recordView($request , 'advertise' , $advertise->id , null);
+        $this->recordView($request , $advertise);
 
         return response()->json($advertise,200);
     }
@@ -305,8 +303,7 @@ class UserAdvertiseController extends Controller
                 $image->move('uploads/advertises',$file_name);
                 $link = 'advertises/'.$file_name;
 
-                AdvertisePicture::create([
-                    'advertise_id'=>$advertise->id,
+                $advertise->pictures()->create([
                     'link'=>$link,
                     'status'=>1
                 ]);
@@ -315,7 +312,7 @@ class UserAdvertiseController extends Controller
 
         if(!empty($request->image_delete)){
             foreach(explode(',',$request->image_delete) as $key=>$image_id){
-                $image = AdvertisePicture::find($image_id);
+                $image = Picture::find($image_id);
                 File::delete(public_path().'/uploads/'.$image->link);
                 $image->delete();
             }
@@ -330,9 +327,9 @@ class UserAdvertiseController extends Controller
     {
         foreach($request->array as $id){
             $advertise = Advertise::find($id);
-            if(!is_null($advertise->images)){
-                File::deleteDirectory(public_path().'/uploads/'.$advertise->id);
-                foreach($advertise->images as $image){
+            if(!is_null($advertise->pictures())){
+                foreach($advertise->pictures() as $image){
+                    File::delete(public_path().'/uploads/'.$image->link);
                     $image->delete();
                 }
             }
@@ -362,7 +359,7 @@ class UserAdvertiseController extends Controller
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
             if($item->images->count() > 0){
-                $item['image'] = $item->images[0]->link;
+                $item['image'] = $item->pictures[0]->link;
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;
             }
@@ -391,7 +388,7 @@ class UserAdvertiseController extends Controller
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
             if($item->images->count() > 0){
-                $item['image'] = $item->images[0]->link;
+                $item['image'] = $item->pictures[0]->link;
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;
             }

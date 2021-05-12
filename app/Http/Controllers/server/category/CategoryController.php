@@ -4,7 +4,7 @@ namespace App\Http\Controllers\server\category;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category\Category;
+use App\Models\AppModels\Category;
 use Morilog\Jalali\Jalalian;
 
 class CategoryController extends Controller

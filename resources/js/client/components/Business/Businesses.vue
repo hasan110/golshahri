@@ -19,11 +19,11 @@
                             <div class="col-6">
                                 <h6  style="font-size:14px" class="advertise-title mt-1 ml-1">{{ business.title }}</h6>
                                 <hr>
-                                <small class="m-2 small nowrap" style="font-size:12px"><i class="fa fa-eye" style="color:#444"></i> بازدید {{ business.view_count }} نفر</small>
+                                <!-- <small class="m-2 small nowrap" style="font-size:12px"><i class="fa fa-eye" style="color:#444"></i> بازدید {{ business.view_count }} نفر</small>
                                 <small class="m-2 small nowrap" style="font-size:12px"><i class="fa fa-hourglass-end" style="color:#444"></i>
                                 <template v-if="business.days_ago">{{ business.days_ago }} روز قبل</template>
                                 <template v-else>لحظاتی پیش</template>
-                                </small>
+                                </small> -->
                             </div>
                             <div class="col-6 pr-0 pt-0">
                                 <div class="card-image-wrapper">

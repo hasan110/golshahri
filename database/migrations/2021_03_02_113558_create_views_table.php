@@ -17,9 +17,8 @@ class CreateViewsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id')->nullable();
             $table->string('user_ip')->nullable();
-            $table->string('type');
-            $table->integer('advertise_id')->nullable();
-            $table->integer('business_id')->nullable();
+            $table->integer('viewable_id');
+            $table->string('viewable_type');
             $table->timestamps();
         });
     }
