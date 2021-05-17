@@ -358,7 +358,7 @@ class UserAdvertiseController extends Controller
         foreach($advertises as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
-            if($item->images->count() > 0){
+            if($item->pictures->count() > 0){
                 $item['image'] = $item->pictures[0]->link;
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;
@@ -387,7 +387,7 @@ class UserAdvertiseController extends Controller
         foreach($advertises as $key=>$item){
             $item['shamsi_created_at'] = Jalalian::forge($item->created_at)->format('%m/%d');
             $item['shamsi_updated_at'] = Jalalian::forge($item->updated_at)->format('%m/%d');
-            if($item->images->count() > 0){
+            if($item->pictures->count() > 0){
                 $item['image'] = $item->pictures[0]->link;
             }else{
                 $item['image'] = Setting::find(1)->advertise_default_image;

@@ -292,7 +292,7 @@ class AdvertiseController extends Controller
         if($request->hasFile('images')){
             foreach($request->images as $key=>$item){
                 $image = $request->images[$key];
-                $file_name = 'ID'.$advertise_id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
+                $file_name = 'ID'.$advertise->id.'-IMG'. ($key+1) .'-'.time().'.'.$image->getClientOriginalExtension();
                 $image->move('uploads/advertises',$file_name);
                 $link = 'advertises/'.$file_name;
 
